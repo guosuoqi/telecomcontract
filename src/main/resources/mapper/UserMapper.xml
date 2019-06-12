@@ -19,7 +19,7 @@
         id, login_number,password,user_name, mobile,email, user_state, create_time,org_code,operator,wechat_user_id
     </sql>
 
-    <select id="getUserInfoByLoginNumber"  resultType="com.dx.model.user.UserMain">
+    <select id="getUserInfoByLoginNumber"  resultType="UserMain">
          select
          <include refid="Base_Column_List"/>
          from sys_user
