@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dx.mapper.nav.NavMapper">
+
+    <select id="navTreeNode" parameterType="int" resultType="com.dx.model.nav.NavTree">
+		select id,name as text,url as href,pid from t_nav where pid = #{value}
+	</select>
+
+
+
+</mapper>

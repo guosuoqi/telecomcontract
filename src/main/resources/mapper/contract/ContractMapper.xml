@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dx.mapper.contract.ContractMapper">
+
+
+	<sql id="Base_Column_List">
+        contract_id,contract_name,city,county,year_rental,sun_rental,contract_num,contract_first,payee,plan_year,start_time,end_time,pay_end_time,s.code_name as room_type,sy.code_name as tower_type,sys.code_name as contract_type
+    </sql>
+    <select id="navTreeNode" parameterType="int" resultType="com.dx.model.contract.Contract">
+		select
+		<include refid="Base_Column_List"/>
+		from contract_manage c
+		LEFT JOIN sys_code s on c.room_type=s.code_id and s.code_type="room"
+		LEFT JOIN  sys_code sy on c.tower_type=sy.code_id and sy.code_desc="tower"
+		LEFT JOIN  sys_code sys on c.contract_type=sys.code_id and sys.code_desc="contract"
+
+	</select>
+
+
+
+</mapper>

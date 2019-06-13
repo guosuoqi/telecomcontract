@@ -2,7 +2,7 @@ package com.dx.controller.user;
 
 
 import com.dx.model.user.UserMain;
-import com.dx.service.UserService;
+import com.dx.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,4 +68,6 @@ public class UserController {
         }
         return "login";
     }
+
+
 }
