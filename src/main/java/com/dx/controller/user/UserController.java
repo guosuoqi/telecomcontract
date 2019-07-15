@@ -1,8 +1,12 @@
 package com.dx.controller.user;
 
 
+import com.dx.model.contract.Contract;
+import com.dx.model.nav.RoleBean;
+import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.service.user.UserService;
+import com.dx.util.PageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("user")
@@ -69,5 +74,50 @@ public class UserController {
         return "login";
     }
 
+    @RequestMapping(value = "queryUser")
+    @ResponseBody
+    public PageResult queryUser(Integer page, Integer rows, UserMain userMain) {
+        PageResult pageResult = userService.queryUser(page, rows, userMain);
+        return pageResult;
+    }
+
+    @RequestMapping(value = "queryRole")
+    @ResponseBody
+    public List<RoleBean> queryRole() {
+        List<RoleBean> roleBeans = userService.queryRole();
+        return roleBeans;
+    }
+    @RequestMapping(value = "queryRoleByUserId")
+    @ResponseBody
+    public  String []  queryRoleByUserId(String userId) {
+        List<UserRoleBean> roleBeans = userService.queryRoleByUserId(userId);
+        String [] ids =new String[roleBeans.size()];
+        for (int i = 0; i <roleBeans.size() ; i++) {
+            ids[i]= roleBeans.get(i).getRoleId();
+        }
+        return ids;
+    }
+
+/*    //更改指定人
+    @RequestMapping("updateRoleById")
+    @ResponseBody
+    public void updateRoleById(RoleBean roleBean){
+
+        dealReportService.updateRoleById(roleBean);
+    }*/
+
+    //查询合同管理页面
+    @RequestMapping(value = "queryRoleAll", method = RequestMethod.POST)
+    @ResponseBody
+    public PageResult queryRoleAll(Integer page, Integer rows, RoleBean roleBean) {
+        PageResult pageResult = userService.queryRoleAll(page, rows, roleBean);
+        return pageResult;
+    }
+    //修改用户角色
+    @RequestMapping(value = "saveUserRole", method = RequestMethod.POST)
+    @ResponseBody
+    public int saveUserRole(Integer userId,String ids) {
+        return userService.saveUserRole(userId,ids);
+    }
 
 }

@@ -124,7 +124,7 @@
                     towerTypeName:$('#towerType1').text(),
                     contractTypeName:$('#contractType1').text(),
                     roomTypeName:$('#contractType1').text(),
-                    extenxionStatus:1
+                    renewStatus:1
                 }
             },
             columns:[
@@ -132,7 +132,7 @@
                 {field:'contractId',title:'合同id'},
                 {field:'contractName',title:'合同名字'},
                 {field:'yearRental',title:'年租金'},
-                {field:'payEndTime',title:'续费截止日期'},
+                {field:'endTime',title:'续约截止日期'},
                 {field:'extenxionOperator',title:'经办人'},
                 {field:'remark',title:'备注'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
@@ -159,7 +159,7 @@
         bootbox.dialog({
             size:"big",
             title:"修改合同信息",
-            message:createAddContent("/page/toUpdateContractExtension?contractId="+contractId),
+            message:createAddContent("/page/toUpdateContractDue?contractId="+contractId),
             closeButton:true,
             buttons:{
                 'success':{

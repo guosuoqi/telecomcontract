@@ -58,7 +58,7 @@
         </div>
 
     </div>
-</nav>information
+</nav>
 <!-- 内容布局容器 -->
 <div class="container-fluid" style="margin-top: 59px;">
     <div class="row">

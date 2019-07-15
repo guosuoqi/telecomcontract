@@ -2,13 +2,13 @@ package com.dx.model.contract;
 
 public class Contract {
 
-    private String contractId;//合同id
+    private Integer contractId;//合同id
 
     private String contractName;//合同名字
 
-    private String city;//省
+    private String city;//市
 
-    private String county;//市
+    private String county;//县
 
     private String yearRental;//年租金
 
@@ -28,24 +28,42 @@ public class Contract {
 
     private String payEndTime;//付费截止日期
 
-    private String roomType;//机房类型
+    private Integer roomType;//机房类型
 
-    private String roomTypeName;//机房类型业务字段
+    private String roomTypeName;//机房类型名称
 
-    private String towerType;//塔栀类型
+    private Integer towerType;//塔栀类型
 
-    private String towerTypeName;//塔栀类型业务字段
+    private String towerTypeName;//塔栀类型名称
 
-    private String contractType;//合同类型
+    private Integer contractType;//合同类型
 
-    private String contractTypeName;//合同类型业务字段
+    private String extenxionOperator;//续约经办人
+
+    private String renewOperator;//续费经办人
+
+    private String remark;//备注
+
+    private String contractTypeName;//合同类型名称
+
+    private Integer extenxionStatus;//续约状态
+
+    private Integer renewStatus;//续费状态
 
 
-    public String getContractId() {
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Integer getContractId() {
         return contractId;
     }
 
-    public void setContractId(String contractId) {
+    public void setContractId(Integer contractId) {
         this.contractId = contractId;
     }
 
@@ -145,11 +163,11 @@ public class Contract {
         this.payEndTime = payEndTime;
     }
 
-    public String getRoomType() {
+    public Integer getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String roomType) {
+    public void setRoomType(Integer roomType) {
         this.roomType = roomType;
     }
 
@@ -161,11 +179,11 @@ public class Contract {
         this.roomTypeName = roomTypeName;
     }
 
-    public String getTowerType() {
+    public Integer getTowerType() {
         return towerType;
     }
 
-    public void setTowerType(String towerType) {
+    public void setTowerType(Integer towerType) {
         this.towerType = towerType;
     }
 
@@ -177,11 +195,11 @@ public class Contract {
         this.towerTypeName = towerTypeName;
     }
 
-    public String getContractType() {
+    public Integer getContractType() {
         return contractType;
     }
 
-    public void setContractType(String contractType) {
+    public void setContractType(Integer contractType) {
         this.contractType = contractType;
     }
 
@@ -192,4 +210,37 @@ public class Contract {
     public void setContractTypeName(String contractTypeName) {
         this.contractTypeName = contractTypeName;
     }
+
+    public Integer getExtenxionStatus() {
+        return extenxionStatus;
+    }
+
+    public void setExtenxionStatus(Integer extenxionStatus) {
+        this.extenxionStatus = extenxionStatus;
+    }
+
+    public String getExtenxionOperator() {
+        return extenxionOperator;
+    }
+
+    public void setExtenxionOperator(String extenxionOperator) {
+        this.extenxionOperator = extenxionOperator;
+    }
+
+    public String getRenewOperator() {
+        return renewOperator;
+    }
+
+    public void setRenewOperator(String renewOperator) {
+        this.renewOperator = renewOperator;
+    }
+
+    public Integer getRenewStatus() {
+        return renewStatus;
+    }
+
+    public void setRenewStatus(Integer renewStatus) {
+        this.renewStatus = renewStatus;
+    }
+
 }

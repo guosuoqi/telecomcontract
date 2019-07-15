@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 	}
 
-	/*@Override
+	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		HttpSession session = request.getSession();
 		Object token = session.getAttribute(session.getId());
@@ -36,6 +36,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		
-	}*/
+	}
 
 }

@@ -23,7 +23,7 @@
     <script src="/static/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <link rel="stylesheet" href="/static/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
     <script src="/static/bootstrap/bootstrap-bootbox/bootbox.js"></script>
-    <title>信息管理</title>
+    <title>合同续约</title>
 </head>
 
 <body>
@@ -61,53 +61,27 @@
                         </div>
                     </div>
 
-                </div>
-                <div class="col-sm-12 "> <%--<td>--%>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占3格--%>
-                            <label for="roomTypeName">机房类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占9格，充满--%>
-                            <select id="roomTypeName"name="roomTypeName" class="selectpicker form-control" data-live-search="true"></select>
-                        </div>
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary btn-w-m" onclick="initExtension()" id="queryBtn" style="float: right;margin-right:20px;">
+                            <span class="glyphicon glyphicon-search"></span> 搜索
+                        </button>
                     </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="towerTypeName">铁栀类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <select id="towerTypeName" class="form-control" ></select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractTypeName">合同类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <select id="contractTypeName" class="form-control"></select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12">
-                    <button type="button" class="btn btn-primary btn-w-m" onclick="initTable()" id="queryBtn" style="float: right;margin-right:20px;">
-                        <span class="glyphicon glyphicon-search"></span> 搜索
-                    </button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
-<button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+<button type="button" onclick="openAddDialogExtension()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<button type="button" onclick="delContractExtension()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+
 </div>
 <table id="myTable"></table>
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function(){
-        initIncidentQuery();
+        initContract();
     })
     //事件转中文
     $('.date').datetimepicker({
@@ -119,7 +93,8 @@
         todayBtn: true//显示今日按钮
     });
 
-    function initIncidentQuery(){
+    function initContract(){
+        $('#myTable').bootstrapTable('destroy');
         $("#myTable").bootstrapTable({
             url:'/contract/queryContract',//获取数据地址
             method: 'post',
@@ -139,31 +114,33 @@
             clickToSelect: true, //是否启用点击选中行
             sidePagination:'server',//分页方式：client客户端分页，server服务端分页（*
             striped:true,
+            queryParams:function(){
+                return {
+                    page: this.pageNumber,
+                    rows: this.pageSize,
+                    contractName:$('#contractName1').val(),
+                    startTime:$('#startTime').val(),
+                    endTime:$('#endTime1').val(),
+                    towerTypeName:$('#towerType1').text(),
+                    contractTypeName:$('#contractType1').text(),
+                    roomTypeName:$('#contractType1').text(),
+                    extenxionStatus:1
+                }
+            },
             columns:[
-                {field:'333',checkbox:true},
+                {field:'111',checkbox:true},
                 {field:'contractId',title:'合同id'},
                 {field:'contractName',title:'合同名字'},
-                {field:'city',title:'省'},
-                {field:'county',title:'市'},
                 {field:'yearRental',title:'年租金'},
-                {field:'sunRental',title:'总租金'},
-                {field:'contractNum',title:'合同编号'},
-                {field:'contractFirst',title:'合同甲方'},
-                {field:'payee',title:'收款人'},
-                {field:'planYear',title:'拟租年份'},
-                {field:'startTime',title:'开始时间'},
-                {field:'endTime',title:'结束时间'},
-                {field:'payEndTime',title:'付费截止日期'},
-                {field:'roomTypeName',title:'机房类型'},
-                {field:'towerTypeName',title:'塔栀类型'},
-                {field:'contractTypeName',title:'合同类型'},
-                {field:'111',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editUser('+row.id+');">修改</a>  ';
+                {field:'payEndTime',title:'续费截止日期'},
+                {field:'extenxionOperator',title:'经办人'},
+                {field:'remark',title:'备注'},
+                {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
+                        return  ' <a href="javascript:editContractExtendion('+row.contractId+');">修改</a>  ';
                     }}
             ]
         })
     }
-
     var res;
     function createAddContent(url){
         $.ajax({
@@ -176,11 +153,13 @@
         return res;
     }
 
-    function openAddDialog(){
+    //打开修改的弹框
+    function editContractExtendion(contractId){
+        alert(contractId)
         bootbox.dialog({
             size:"big",
-            title:"添加合同",
-            message:createAddContent("/page/toAddContract"),
+            title:"修改合同信息",
+            message:createAddContent("/page/toUpdateContractExtension?contractId="+contractId),
             closeButton:true,
             buttons:{
                 'success':{
@@ -188,17 +167,17 @@
                     "className" : "btn-sm btn-success",
                     "callback" : function() {
                         $.ajax({
-                            url:'/contract/addContract',
+                            url:'/contract/updateContract',
                             type:'post',
-                            data:$("#contractForm").serialize(),
+                            data:$("#contractFormExtension").serialize(),
                             dataType:'json',
                             success:function(data){
                                 bootbox.alert({
                                     size:"small",
                                     title:"提示",
-                                    message:"新增成功！"
-                                })
-                                $('#myTable').bootstrapTable('refresh');
+                                    message:"修改成功！"
+                                }),
+                                    $('#contractExtension').bootstrapTable('refresh');
                             }
                         })
                     }
@@ -211,10 +190,9 @@
         })
     }
 
-
     //批量删除
-    function delContract(){
-        var arr = $('#myTable').bootstrapTable('getSelections');
+    function delContractExtension(){
+        var arr = $('#contractExtension').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -250,21 +228,17 @@
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#myTable').bootstrapTable('refresh');
+                                $('#contractExtension').bootstrapTable('refresh');
                             }
 
                         },
                         error:function(data){
                             alert("检查后台代码")
                         }
-
                     })
-
-
                 }
             }
         })
-
     }
 </script>
 </html>

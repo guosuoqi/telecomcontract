@@ -1,3 +1,5 @@
+package com.dx.util;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,9 +15,9 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  * 导出Excel公共方法
@@ -112,7 +114,7 @@ public class ExportExcel{
                     } else {
                         currentRow = sheet.getRow(rowNum);
                     }
-                    if (currentRow.getCell(colNum) != null) {
+                    /*if (currentRow.getCell(colNum) != null) {
                         HSSFCell currentCell = currentRow.getCell(colNum);
                         if (currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
                             int length = currentCell.getStringCellValue().getBytes().length;
@@ -120,7 +122,7 @@ public class ExportExcel{
                                 columnWidth = length;
                             }
                         }
-                    }
+                    }*/
                 }
                 if(colNum == 0){
                     sheet.setColumnWidth(colNum, (columnWidth-2) * 128);
@@ -141,7 +143,7 @@ public class ExportExcel{
 //                    response.setHeader("Content-Disposition", headStr);
 //                    OutputStream out = response.getOutputStream();
 //                    workbook.write(out);
-                    FileOutputStream out = new FileOutputStream("D:/data/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()).toString() +".xls");
+                    FileOutputStream out = new FileOutputStream("D:/data/" + DateUtils.getDate() +".xls");
                     workbook.write(out);
                     out.close();
                 }

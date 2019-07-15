@@ -50,11 +50,11 @@ public class MyConfing implements WebMvcConfigurer {
 
     }
 
-   /* @Override
+    @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**");
 
-    }*/
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {

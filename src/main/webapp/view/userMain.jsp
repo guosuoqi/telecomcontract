@@ -23,13 +23,10 @@
     <link rel="stylesheet" href="/static/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
     <script src="/static/bootstrap/bootstrap-bootbox/bootbox.js"></script>
     <script src="/static/js/select.js"></script>
-    <title>信息管理</title>
+    <title>用户管理</title>
 </head>
 
 <body>
-<input type="hidden" id="typeHidIdOne">
-<input type="hidden" id="typeHidIdTwo">
-<input type="hidden" id="typeHidIdThree">
 <style type="text/css">
     table {
         table-layout:auto;
@@ -43,59 +40,12 @@
                 <div class="col-sm-12 "> <%--<td>--%>
                     <div class="col-sm-4 "> <%--<td>--%>
                         <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractName1">合同名称</label>
+                            <label for="userName">用户名称</label>
                         </div>
                         <div class="col-sm-9"> <%--占8格，充满--%>
-                            <input type="text" name="contractName" id="contractName1"  class="form-control" placeholder="请输入合同名称">
+                            <input type="text" name="userName" id="userName"  class="form-control" placeholder="请输入合同名称">
                         </div>
-                    </div>
 
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="startTime">开始时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="startTime"></label>
-                            <input type="text" class="form-control date" id="startTime" placeholder="请输入开始时间">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="endTime">结束时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="endTime"></label>
-                            <input type="text" class="form-control date" id="endTime" placeholder="请输入结束时间">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-sm-12 "> <%--<td>--%>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占3格--%>
-                            <label for="roomType">机房类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占9格，充满--%>
-                            <select id="roomType"name="roomType" class="selectpicker form-control"   data-live-search="true" ></select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="towerType">铁栀类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <select id="towerType" class="selectpicker form-control"   data-live-search="true" ></select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractType">合同类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <select id="contractType" class="selectpicker form-control"   data-live-search="true"></select>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-xs-12">
                     <button type="button" class="btn btn-primary btn-w-m" onclick="initExtension()" id="queryBtn" style="float: right;margin-right:20px;">
@@ -107,17 +57,54 @@
     </div>
 </div>
 
+
+<!-- 按钮触发模态框 -->
+<%--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    开始演示模态框
+</button>--%>
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    请更改角色
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input id="hiddenUserId" type="hidden">
+                <label for="role">角色分类</label>
+                <select id="role" class="selectpicker form-control" multiple  data-live-search="true"  >
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="submitRole()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" onclick="RoleManger()" class="btn btn-danger glyphicon">角色查询页面</button>
 </div>
 <table id="myTable"></table>
+<table id="myRole"></table>
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function(){
-        initCodeType(1);
-        initContract();
+        initUser();
+        queryRole();
     })
     //事件转中文
     $('.date').datetimepicker({
@@ -128,11 +115,11 @@
         autoclose: true,//选中自动关闭
         todayBtn: true//显示今日按钮
     });
-
-    function initContract(){
+     //打开用户管理页面
+    function initUser(){
         $('#myTable').bootstrapTable('destroy');
         $("#myTable").bootstrapTable({
-            url:'/contract/queryContract',//获取数据地址
+            url:'/user/queryUser',//获取数据地址
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
@@ -154,40 +141,134 @@
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
-                    contractName:$('#contractName1').val(),
-                    startTime:$('#startTime').val(),
-                    endTime:$('#endTime1').val(),
-                    towerTypeName:$('#towerType1').text(),
-                    contractTypeName:$('#contractType1').text(),
-                    roomTypeName:$('#contractType1').text()
+                    userName:$('#userName').val(),
                 }
             },
 
             columns:[
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
-                {field:'contractId',title:'合同id',align: 'center',width:"40px",valign: 'middle'},
-                {field:'contractName',title:'合同名字',align: 'center',valign: 'middle'},
-                {field:'city',title:'--省--',align: 'center',valign: 'middle'},
-                {field:'county',title:'--市--',align: 'center',valign: 'middle'},
-                {field:'yearRental',title:'年租金',align: 'center',valign: 'middle'},
-                {field:'sunRental',title:'总租金',align: 'center',valign: 'middle'},
-                {field:'contractNum',title:'合同编号',align: 'center',valign: 'middle'},
-                {field:'contractFirst',title:'合同甲方',align: 'center',valign: 'middle'},
-                {field:'payee',title:'收款人',align: 'center',valign: 'middle'},
-                {field:'planYear',title:'拟租年份',align: 'center',valign: 'middle'},
-                {field:'startTime',title:'合同开始时间',align: 'center',valign: 'middle'},
-                {field:'endTime',title:'合同结束时间',align: 'center',valign: 'middle'},
-                {field:'payEndTime',title:'付费截止日期',align: 'center',valign: 'middle'},
-                {field:'roomTypeName',title:'机房类型',align: 'center',valign: 'middle'},
-                {field:'towerTypeName',title:'塔栀类型',align: 'center',valign: 'middle'},
-                {field:'contractTypeName',title:'合同类型',align: 'center',valign: 'middle'},
+                {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle'},
+                {field:'loginNumber',title:'用户账号',align: 'center',valign: 'middle'},
+                {field:'password',title:'用户密码',align: 'center',valign: 'middle'},
+                {field:'userName',title:'用户名称',align: 'center',valign: 'middle'},
+                {field:'mobile',title:'手机号',align: 'center',valign: 'middle'},
+                {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
+                {field:'userstate',title:'用户状态',align: 'center',valign: 'middle'},
                 {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\')">修改</a>  ';
+                        return   ' <a href="javascript:editRole('+row.id+');">修改</a>  ';
                     }}
             ]
         })
     }
+  /*  //打开角色管理页面
+    function initRole(){
+        $('#myRole').bootstrapTable('destroy');
+        $("#myRole").bootstrapTable({
+            url:'/user/queryRole',//获取数据地址
+            method: 'post',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            pagination:true, //是否展示分页
+            pageList:[5, 10, 20, 50],//分页组件
+            pageNumber:1,
+            pageSize:5,//默认每页条数
+            //search:true,//是否显示搜索框
+            //searchText:'试试',//初始化搜索文字
+            showColumns:false,//是否显示 内容列下拉框
+            showToggle:false,//是否显示 切换试图（table/card）按钮
+            showPaginationSwitch:false,//是否显示 数据条数选择框
+            showRefresh:false,//是否显示刷新按钮
+            detailView:false,//设置为 true 可以显示详细页面模式。
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行
+            sidePagination:'server',//分页方式：client客户端分页，server服务端分页（*
+            striped:true,
+            queryParams:function(){
+                return {
+                    page: this.pageNumber,
+                    rows: this.pageSize,
+                    userName:$('#userName').val(),
+                }
+            },
 
+            columns:[
+                {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
+                {field:'id',title:'角色编号',align: 'center',width:"40px",valign: 'middle'},
+                {field:'name',title:'角色',align: 'center',valign: 'middle'},
+                {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
+                        return   ' <a href="javascript:editRole('+row.id+');">绑定权限</a>  ';
+                    }}
+            ]
+        })
+    }*/
+//打开角色模态框
+    function editRole(id){
+        $.ajax({
+            url: '/user/queryRoleByUserId',
+            type: "get",
+            data : {
+                userId:id
+            },
+            success:function (data){
+                $('#myModal').modal();
+                $('#role').selectpicker('val',data);
+                $('#hiddenUserId').val(id);
+
+            }
+        })
+
+
+
+    }
+//初始化角色
+    function queryRole(){
+
+        $(".selectpicker").selectpicker({
+            noneSelectedText: '--请选择--' //默认显示内容  
+        });
+        $.ajax({
+            url: '/user/queryRole',
+            data : "",
+            success:function (data){
+                var typeHtml = '<option value="-1">--请选择--</option>';
+                for ( var i = 0; i < data.length; i++) {
+                    typeHtml+='<option value="'+data[i].id+'" data="'+data[i].name+'">'+data[i].name+'</option>';
+                }
+                $("#role").html(typeHtml);
+                $('#role').selectpicker('refresh');
+
+                $('#role').selectpicker('render');
+            },
+            error:function (){
+                alert("指定人员下拉有误,请调试 ！！！");
+            }
+        })
+    }
+
+    //提交指定角色
+    function submitRole(){
+        $.ajax({
+            url: '/user/saveUserRole',
+            type: "post",
+            data : {
+                ids:$("#role").val(),
+                userId:$("#hiddenUserId").val()
+            },
+            success:function (data){
+                if(data==1){
+                    initTable();
+                    $("[data-dismiss='modal']").click();
+                    alert("更改指定人成功")
+                }else {
+                    alert("指定人员下拉有误,请调试 ！！！");
+                }
+            }
+        })
+
+    }
+
+
+
+    //新增修改路径
     var res;
     function createAddContent(url){
         $.ajax({

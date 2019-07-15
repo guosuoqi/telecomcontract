@@ -2,7 +2,7 @@ package com.dx.model.user;
 
 public class UserMain {
 
-    private String id; //id
+    private Integer id; //id
 
     private String loginNumber; //账号
 
@@ -20,15 +20,17 @@ public class UserMain {
 
     private String orgCode;//管理机构
 
+    private String roleNames;//管理机构
+
     private String operator;//操作人
 
     private String wechatUserId;//对应微信id
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -108,6 +110,10 @@ public class UserMain {
         return orgCode;
     }
 
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
+
     public void setOrgCode(String orgCode) {
         this.orgCode = orgCode;
     }
@@ -119,4 +125,6 @@ public class UserMain {
     public void setWechatUserId(String wechatUserId) {
         this.wechatUserId = wechatUserId;
     }
+
+
 }

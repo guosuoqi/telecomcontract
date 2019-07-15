@@ -7,7 +7,12 @@
  */  
 package com.dx.controller.page;
 
+import com.dx.model.contract.Contract;
+import com.dx.model.contract.ContractExtension;
+import com.dx.service.contract.ContractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /** 
@@ -15,30 +20,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 类名称：PageController    
  * 类描述：    
  * 创建人：张小雪
- * 创建时间：2018年10月27日 上午11:05:46    
- * 修改人：刘东晔      
- * 修改时间：2018年10月27日 上午11:05:46    
+ * 创建时间：2019年6月17日 上午11:05:46
+ * 修改人：张小雪
+ * 修改时间：2019年6月17日 上午11:05:46
  * 修改备注：       
  * @version </pre>    
  */
 @Controller
 @RequestMapping("page")
 public class PageController {
-	@RequestMapping("toShowMain")
-	public String toShowMain() {
+
+	@Autowired
+	private ContractService contractService;
+	//去新增合同管理的页面
+	@RequestMapping("toAddContract")
+	public String toAddContract() {
 		
-		return "WEB-INF/view/showMain";
+		return "/view/addContract";
 	}
-	
-	@RequestMapping("toShowCar")
-	public String toShowCar() {
-		
-		return "WEB-INF/view/showCar";
+//去新增合同续约的页面
+	@RequestMapping("toAddContractExtension")
+	public String toAddContractExtension() {
+
+		return "/view/addContractExtension";
 	}
-	
-	@RequestMapping("toAddCar")
-	public String toAddCar() {
-		
-		return "WEB-INF/view/addCar";
+
+	//去修改合同管理页面
+	@RequestMapping("toUpdateContract")
+	public String toUpdateContract(Integer contractId, ModelMap modelMap) {
+		Contract contract = contractService.queryContractById(contractId);
+		modelMap.put("contract", contract);
+		return "view/updateContract";
+	}
+
+	//去修改合同续费页面
+		@RequestMapping("toUpdateContractExtension")
+		public String toUpdateContractExtension(Integer contractId, ModelMap modelMap) {
+			Contract contract = contractService.queryContractById(contractId);
+			modelMap.put("contract", contract);
+			return "view/updateContractExtension";
+	}
+	//去修改合同续约页面
+	@RequestMapping("toUpdateContractDue")
+	public String toUpdateContractDue(Integer contractId, ModelMap modelMap) {
+		Contract contract = contractService.queryContractById(contractId);
+		modelMap.put("contract", contract);
+		return "view/updateContractDue";
 	}
 }

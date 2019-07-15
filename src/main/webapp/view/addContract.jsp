@@ -28,52 +28,103 @@
 
 <body>
 
-
-
 <div class="container-fluid">
-    <form id="contractFormExtension" class="form-horizontal">
+    <form id="contractForm" class="form-horizontal">
         <div class="row">
             <div class="col-xs-2">合同名称:</div>
             <div class="col-xs-4">
-                <input class="form-control" name="contractId" value="${contract.contractId}" id="contractId" type="hidden"/>
-                <input class="form-control" name="renewStatus" value="${contract.renewStatus}" id="renewStatus" type="hidden"/>
-                <input class="form-control" name="contractName" value="${contract.contractName}" id="contractName" type="text"/>
+                <input class="form-control" name="contractName" id="contractName" type="text"/>
             </div>
-            <div class="col-xs-2">续费截止日期:</div>
+            <div class="col-xs-2">合同编号:</div>
             <div class="col-xs-4">
-                <input class="form-control date" name="payEndTime" value="${contract.payEndTime}" id="payEndTime" type="text"/>
+                <input class="form-control" name="contractNum" id="contractNum" type="text"/>
             </div>
         </div>
 
         <div class="row">
-
-            <div class="col-xs-2">经办人:</div>
+            <div class="col-xs-2">年租金:</div>
             <div class="col-xs-4">
-                <input class="form-control" name="renewOperator" value="${contract.renewOperator}" id="renewOperator" type="text"/>
+                <input class="form-control" name="yearRental" id="yearRental" type="text"/>
             </div>
-            <div class="col-xs-2">备注:</div>
+            <div class="col-xs-2">总租金:</div>
             <div class="col-xs-4">
-                <input class="form-control" name="remark" value="${contract.remark}" id="remark" type="text"/>
+                <input class="form-control" name="sunRental"id="sunRental" type="text"/>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-xs-2">合同甲方:</div>
+            <div class="col-xs-4">
+                <input class="form-control" name="contractFirst" id="contractFirst" type="text"/>
+            </div>
+            <div class="col-xs-2">收款人:</div>
+            <div class="col-xs-4">
+                <input class="form-control"  name="payee" id="payee" type="text"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-2">拟租年份:</div>
+            <div class="col-xs-4">
+                <input class="form-control date" name="planYear" id="planYear" type="text"/>
+            </div>
+            <div class="col-xs-2">付费截止日期:</div>
+            <div class="col-xs-4">
+                <input class="form-control date" name="payEndTime" id="payEndTime" type="text"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-2">开始时间:</div>
+            <div class="col-xs-4">
+                <input class="form-control date" name="startTime" id="startTime" type="text"/>
+            </div>
+            <div class="col-xs-2">结束时间:</div>
+            <div class="col-xs-4">
+                <input class="form-control date" name="endTime" id="endTime" type="text"/>
+            </div>
+        </div>
+
+        <div class="row">
+        <div class="col-xs-2">合同类型:</div>
+        <div class="col-xs-4">
+            <select id="contract" name="contractType" class="form-control">
+            </select>
+        </div>
+            <div class="col-xs-2">铁栀类型:</div>
+            <div class="col-xs-4">
+                <select id="tower" name="towerType" class="form-control">
+                </select>
+            </div>
+    </div>
+        <div class="row">
+            <div class="col-xs-2">机房类型:</div>
+            <div class="col-xs-4">
+                <select id="room" name="roomType" class="form-control">
+                </select>
+            </div>
+
+        </div>
+
     </form>
 </div>
 
 </body>
 <script type="text/javascript">
-
-    $(function(){
-        initCodeType(3);
-
-    })
-
     $('#planYear').datetimepicker({
         minView: "month",
         format: "yyyy",
         language: 'zh-CN',
         autoclose:true
     });
+    $(function(){
+        initCodeType(2);
+    })
 
+    function testone(id){
+       // alert($("#tower").selected().val());
+        alert(id);
+    }
     //事件转中文
     $('.date').datetimepicker({
         language: 'zh-CN',//显示中文

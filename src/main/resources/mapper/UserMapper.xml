@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dx.mapper.user.UserMapper">
+
+
+    <sql id="Base_Column_List">
+        id, login_number,password,user_name, mobile,email, user_state
+    </sql>
+
+    <select id="getUserInfoByLoginNumber"  resultType="com.dx.model.user.UserMain">
+         select
+         <include refid="Base_Column_List"/>
+         from sys_user
+         where login_Number=#{loginNumber}
+    </select>
+
+    <select id="queryUserCount"  resultType="int">
+        select * from sys_user
+        <where>
+            <if test="userMain.userName != null and userMain.userName != ''">
+                and user_name =#{userMain.userName}
+            </if>
+        </where>
+    </select>
+<!--查询用户管理列表-->
+    <select id="queryUser"  resultType="com.dx.model.user.UserMain">
+        select * from sys_user
+        <where>
+            <if test="userMain.userName != null and userMain.userName != ''">
+                and user_name =#{userMain.userName}
+            </if>
+        </where>
+    </select>
+    <!--修改用户信息-->
+    <update id="updateUserByUserId">
+        update sys_user
+            <set>
+                <if test="password != null and password != ''">
+                    and password =#{password},
+                </if>
+                <if test="role != null and role != ''">
+                    and role =#{role},
+                </if>
+            </set>
+            where id=#{id}
+    </update>
+    <!--查询角色下拉-->
+    <select id="queryRole"  resultType="com.dx.model.nav.RoleBean">
+        select * from sys_role
+    </select>
+    <!--根据ids查询角色-->
+    <select id="queryRoleByIds"  resultType="com.dx.model.nav.RoleBean">
+        select * from sys_role where id in (#{ids});
+    </select>
+    <!--删除用户角色表信息-->
+    <delete id="deleteUserRole">
+       DELETE FROM sys_user_role WHERE user_id=#{userId}
+    </delete>
+    <!--新增用户角色表信息-->
+    <insert id="insertUserRole">
+        insert into t_role_nav(user_id,role_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+
+    <insert id="saveRolePower">
+        insert into t_role_nav(id,roleId,navId) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.roleId},#{item.navId})
+        </foreach>
+    </insert>
+
+    <!--查询角色总个数-->
+    <select id="queryRoleAllCount"  resultType="int">
+        select count(1) from sys_role
+
+    </select>
+    <!--查询角色总个数-->
+    <select id="queryRoleAll"  resultType="com.dx.model.nav.RoleBean">
+        select * from sys_role
+    </select>
+   <!--根据用户查询角色id-->
+    <select id="queryRoleByUserId"  resultType="com.dx.model.nav.UserRoleBean">
+        select role_id from sys_user_role where user_id=#{userId}
+    </select>
+
+</mapper>
