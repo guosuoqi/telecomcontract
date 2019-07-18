@@ -8,7 +8,9 @@ import com.dx.model.user.UserMain;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,7 +66,9 @@ public class UserServiceImpl implements UserService {
     public List<UserRoleBean>queryRoleByUserId(String userId){
         return userMapper.queryRoleByUserId(userId);
     }
+
     @Override
+    @Transactional(noRollbackFor=Exception.class)
     public int saveUserRole(Integer userId,String ids){
         try {
             List<RoleBean> list = userMapper.queryRoleByIds(ids);
@@ -92,6 +96,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public UserMain queryUserByName(String userName){
+       return userMapper.queryUserByName(userName);
+    }
 
 
 }

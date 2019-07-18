@@ -1,12 +1,11 @@
 package com.dx.controller.user;
 
-
-import com.dx.model.contract.Contract;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.service.user.UserService;
 import com.dx.util.PageResult;
+import com.dx.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
     @RequestMapping("toIndex")
@@ -51,8 +51,7 @@ public class UserController {
             logger.info(this.getClass() + "，用户名错误！");
             return result;
         }
-
-        if (!userInfo.getPassword().equals(user.getPassword())){
+        if (!userInfo.getPassword().equals(StringUtils.getMD5String(user.getPassword()))){
             result.put("code", "2");
             result.put("msg", "用户名或密码错误");
             logger.info(this.getClass() + "，用户名或密码错误！");

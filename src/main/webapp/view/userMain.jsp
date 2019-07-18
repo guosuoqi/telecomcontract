@@ -270,7 +270,7 @@
 
     //新增修改路径
     var res;
-    function createAddContent(url){
+    function createAddUser(url){
         $.ajax({
             url:url,
             async:false,
@@ -280,25 +280,23 @@
         });
         return res;
     }
-//打开新增合同的弹框
+//打开新增用户的弹框
     function openAddDialog(){
         bootbox.dialog({
             size:"big",
             title:"添加合同",
-            message:createAddContent("/page/toAddContract"),
+            message:createAddUser("/page/toAddUser"),
             closeButton:true,
             buttons:{
                 'success':{
                     "label" : "<i class='icon-ok'></i> 保存",
                     "className" : "btn-sm btn-success",
                     "callback" : function() {
-                        var str = "&towerTypeName="+$("#tower option:selected").text()+
-                            "&contractTypeName="+$("#contract option:selected").text()+
-                            "&roomTypeName="+$("#room option:selected").text();
+                        var str = $("#role").val();
                         $.ajax({
                             url:'/contract/addContract',
                             type:'post',
-                            data: $("#contractForm").serialize()+str,
+                            data: $("#userForm").serialize()+str,
                             dataType:'json',
                             success:function(data){
                                 bootbox.alert({

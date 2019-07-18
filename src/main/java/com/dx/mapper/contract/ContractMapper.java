@@ -38,4 +38,6 @@ public interface ContractMapper {
     void updateContractExtension(@Param("contractExtension")ContractExtension contractExtension);
 
     void updateContractStatus(Contract contract);
+
+    List<Contract> queryContractByStatus(Contract contract);
 }

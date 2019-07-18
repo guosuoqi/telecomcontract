@@ -33,4 +33,6 @@ public interface UserMapper {
     void insertUserRole(@Param("list") List<UserRoleBean> list);
 
     void updateUserByUserId(UserMain user);
+
+    UserMain queryUserByName(@Param("userName")String userName);
 }

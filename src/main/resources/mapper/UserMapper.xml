@@ -15,12 +15,16 @@
     </select>
 
     <select id="queryUserCount"  resultType="int">
-        select * from sys_user
+        select count(0) from sys_user
         <where>
             <if test="userMain.userName != null and userMain.userName != ''">
                 and user_name =#{userMain.userName}
             </if>
         </where>
+    </select>
+    <select id="queryUserByName"  resultType="com.dx.model.user.UserMain">
+        select * from sys_user
+        where user_name =#{userName}
     </select>
 <!--查询用户管理列表-->
     <select id="queryUser"  resultType="com.dx.model.user.UserMain">

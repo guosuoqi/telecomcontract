@@ -9,11 +9,16 @@ package com.dx.controller.page;
 
 import com.dx.model.contract.Contract;
 import com.dx.model.contract.ContractExtension;
+import com.dx.model.nav.RoleBean;
 import com.dx.service.contract.ContractService;
+import com.dx.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /** 
  * <pre>项目名称：stu_bootcar    
@@ -32,11 +37,19 @@ public class PageController {
 
 	@Autowired
 	private ContractService contractService;
+	@Autowired
+	private UserService userService;
 	//去新增合同管理的页面
 	@RequestMapping("toAddContract")
 	public String toAddContract() {
-		
 		return "/view/addContract";
+	}
+	//去新增用户的页面
+	@RequestMapping("toAddUser")
+	public String toAddUser(Model model) {
+        List<RoleBean> role = userService.queryRole();
+        model.addAttribute("roleList",role);
+        return "/view/addUser";
 	}
 //去新增合同续约的页面
 	@RequestMapping("toAddContractExtension")

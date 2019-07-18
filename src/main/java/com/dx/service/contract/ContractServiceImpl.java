@@ -1,22 +1,26 @@
 package com.dx.service.contract;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dx.mapper.contract.ContractMapper;
+import com.dx.mapper.task.TaskMapper;
+import com.dx.mapper.user.UserMapper;
+import com.dx.model.Task.TaskModel;
+import com.dx.model.common.TaskEnum;
 import com.dx.model.contract.Contract;
 import com.dx.model.contract.ContractExtension;
 import com.dx.model.contract.SysCode;
+import com.dx.model.user.UserMain;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
-import com.sun.xml.internal.ws.handler.HandlerException;
+import org.apache.catalina.mbeans.UserMBean;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +28,8 @@ import java.util.List;
 public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractMapper contractMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     //查询合同管理页面
     @Override
@@ -281,7 +287,55 @@ public class ContractServiceImpl implements ContractService {
         contract = new Contract();
         contract.setPayEndTime(pastDate);
         contractMapper.updateContractStatus(contract);
+    }
+    public void sendContractTaskToEmail() {
+        TaskModel model;
+        Contract contract = new Contract();
+        contract.setExtenxionStatus(1);
+        List<Contract>list=contractMapper.queryContractByStatus(contract);
+        if(list!=null && !list.isEmpty()){
 
+        }
+    }
+    public void sendTaskToEmail(List<Contract>list){
+        UserMain user=null;
+        TaskModel taskModel=null;
+        JSONObject body=null;
+        for (Contract con:list) {
+            if(con.getNumber()==0){
+                continue;
+            }
+            if(!con.getRenewOperator().isEmpty()){
+                user=userMapper.queryUserByName(con.getRenewOperator());
+                body= getCommJson(user,1,con.getNumber());
+            }else if(!con.getExtenxionOperator().isEmpty()){
+                user=userMapper.queryUserByName(con.getExtenxionOperator());
+                body= getCommJson(user,2,con.getNumber());
+            }
+            if(user==null){
+                continue;
+            }
+            taskModel.setStatus(0);
+            taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
+            taskModel.setUser(user.getUserName());
+            taskModel.setContent(body.toJSONString());
+
+        }
+    }
+
+    private JSONObject getCommJson(UserMain user, int type,Integer number) {
+        JSONObject body =new JSONObject();
+        body.put("userEmail",user.getEmail());
+        if(type==1){
+            body.put("subject","续费待处理通知");
+            body.put("content",user.getUserName()+"您好：有"+number+"笔合同已进入续费阶段，请尽快进行处理！！！\n \n \n  本条信息为系统信息，请勿回复！");
+
+        }else {
+            body.put("subject","续约待处理通知");
+            body.put("subject",user.getUserName()+"您好：有"+number+"笔合同已进入续费阶段，请尽快进行处理！！！\n \n \n  本条信息为系统信息，请勿回复！");
+        }
+
+        return body;
     }
 
 }

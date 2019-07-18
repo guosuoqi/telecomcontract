@@ -51,6 +51,16 @@ public class Contract {
     private Integer renewStatus;//续费状态
 
 
+    private Integer number;//计数
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
     public String getRemark() {
         return remark;
     }
