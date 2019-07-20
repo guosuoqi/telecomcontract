@@ -38,13 +38,13 @@ public class Contract {
 
     private Integer contractType;//合同类型
 
-    private String contractTypeName;//合同类型名称
-
     private String extenxionOperator;//续约经办人
 
     private String renewOperator;//续费经办人
 
     private String remark;//备注
+
+    private String contractTypeName;//合同类型名称
 
     private Integer extenxionStatus;//续约状态
 

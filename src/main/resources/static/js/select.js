@@ -1,7 +1,6 @@
-/*
-/!**
+/**
  * 初始化下拉选择框
- *!/
+ */
 function initCodeType(type) {
     var roomId=$("#typeHidIdOne").val();
     var towerId=$("#typeHidIdTwo").val();
@@ -19,7 +18,7 @@ function initCodeType(type) {
             for (var i = 0; i < data.length; i++) {
                 if(data[i].codeType =='contract'){
                     if(contractId==data[i].codeId){
-                        typeHtmlcontract += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
+                        typeHtmlcontract += '<option value="' + data[i].codeId + '" selected>' + data[i].codtypeHidIdOneeName + '</option>';
                     }else {
                         typeHtmlcontract += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
                     }
@@ -68,10 +67,10 @@ function initCodeType(type) {
 
 
 
-/!**
+/**
  * json映射
  * @param jsonObj
- *!/
+ */
 function josnCopy(jsonObj){
     for (var key in jsonObj) {
         var doms = $("#"+key);
@@ -83,4 +82,3 @@ function josnCopy(jsonObj){
 
 
 
-*/

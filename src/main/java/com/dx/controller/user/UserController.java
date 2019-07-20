@@ -7,6 +7,7 @@ import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.service.user.UserService;
 import com.dx.util.PageResult;
+import com.dx.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
     @RequestMapping("toIndex")

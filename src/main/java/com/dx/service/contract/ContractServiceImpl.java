@@ -1,6 +1,8 @@
 package com.dx.service.contract;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dx.mapper.contract.ContractMapper;
+import com.dx.mapper.task.TaskMapper;
 import com.dx.mapper.user.UserMapper;
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
@@ -13,6 +15,7 @@ import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
 import com.sun.xml.internal.ws.handler.HandlerException;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.catalina.mbeans.UserMBean;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -77,7 +80,7 @@ public class ContractServiceImpl implements ContractService {
             if(cell == null) break;//第1个单元格为空，跳出
             //错误原因
             String reason = "";
-            Contract contract;
+            Contract contract = new Contract();
             //账号
             String userid = cell.getStringCellValue().trim();
             if("".equals(userid)){
@@ -288,7 +291,6 @@ public class ContractServiceImpl implements ContractService {
         contract = new Contract();
         contract.setPayEndTime(pastDate);
         contractMapper.updateContractStatus(contract);
-
     }
     public void sendContractTaskToEmail() {
         TaskModel model;
@@ -325,7 +327,7 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    private JSONObject getCommJson(UserMain user, int type, Integer number) {
+    private JSONObject getCommJson(UserMain user, int type,Integer number) {
         JSONObject body =new JSONObject();
         body.put("userEmail",user.getEmail());
         if(type==1){

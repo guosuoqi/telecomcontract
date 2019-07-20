@@ -25,9 +25,9 @@ public class ScheduledJob {
     private TaskServeceImpl taskServeceImpl ;
 
 
-    //@Scheduled(cron ="0 0/2 * * * ?")
+  //@Scheduled(cron ="0 0/2 * * * ?")
     public void scheduled() throws Exception {
-        logger.info("开始定时任务！");
+       logger.info("开始定时任务！");
      /*  List<ReportInfo> reportInfos=findUpdateService.querybyStart();
        boolean flag = findUpdateService.findFlag(reportInfos);
         int msgFlag = dealReportMapper.queryStatus0();
@@ -36,7 +36,7 @@ public class ScheduledJob {
         }
 
        logger.info("输出的flag"+flag);*/
-    }
+   }
     @Scheduled(cron ="0 0 7 * * ?")
     public void sendEmail() {
         logger.info("开始定时发送邮件！");

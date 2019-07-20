@@ -115,7 +115,7 @@
         autoclose: true,//选中自动关闭
         todayBtn: true//显示今日按钮
     });
-    //打开用户管理页面
+     //打开用户管理页面
     function initUser(){
         $('#myTable').bootstrapTable('destroy');
         $("#myTable").bootstrapTable({
@@ -280,7 +280,7 @@
         });
         return res;
     }
-    //打开新增用户的弹框
+//打开新增用户的弹框
     function openAddDialog(){
         bootbox.dialog({
             size:"big",
@@ -316,7 +316,7 @@
             }
         })
     }
-    //打开修改的弹框
+//打开修改的弹框
     function editContract(contractId,roomType,towerType,contractType){
         $("#typeHidIdOne").val(roomType);
         $("#typeHidIdTwo").val(towerType);

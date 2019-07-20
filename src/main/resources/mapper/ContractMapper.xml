@@ -19,10 +19,10 @@
 				and extenxion_status =#{contract.extenxionStatus}
 			</if>
 			<if test="contract.startTime != null and contract.startTime != ''">
-				and pay_end_time &gt;= #{contract.startTime}
+				and start_time &gt;= #{contract.startTime}
 			</if>
 			<if test="contract.endTime != null and contract.endTime != ''">
-				and pay_end_time &lt;= #{contract.endTime}
+				and end_time &lt;= #{contract.endTime}
 			</if>
 			<if test="contract.payEndTime != null and contract.payEndTime != ''">
 				and pay_end_time &lt;= #{contract.payEndTime}
@@ -101,6 +101,32 @@
 		order by contract_id desc
 		limit #{startIndex},#{endIndex}
 	</select>
+    <!--合同管理页面查询-->
+    <select id="queryContractByStatus"  resultType="com.dx.model.contract.Contract">
+        select count(0) as number ,
+        <if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
+            extenxion_operator as extenxionOperator
+        </if>
+        <if test="contract.renewStatus != null and contract.renewStatus != ''">
+            renew_operator as renewOperator
+        </if>
+        from contract_manage
+        <where>
+            <if test="contract.renewStatus != null">
+                and renew_status =#{contract.renewStatus}
+            </if>
+            <if test="contract.extenxionStatus != null">
+                and extenxion_status =#{contract.extenxionStatus}
+            </if>
+        </where>
+        group by
+        <if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
+            extenxion_operator
+        </if>
+        <if test="contract.renewStatus != null and contract.renewStatus != ''">
+            renew_operator
+        </if>
+    </select>
 	<!--合同管理页面查新增-->
 	<insert id="addContract" >
 	 insert into contract_manage (
