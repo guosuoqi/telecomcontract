@@ -1,0 +1,45 @@
+.list-group-item-firstMenu {
+    color: #000000;
+    background-color: #fff;
+}
+a.list-group-item-firstMenu {
+    color: #000000;
+}
+a.list-group-item-firstMenu .list-group-item-heading {
+    color: inherit;
+}
+a.list-group-item-firstMenu:hover,
+a.list-group-item-firstMenu:focus {
+    color: #fff;
+    background-color: #556B2F;
+}
+a.list-group-item-firstMenu.active,
+a.list-group-item-firstMenu.active:hover,
+a.list-group-item-firstMenu.active:focus {
+    color: #fff;
+    background-color: #556B2F;
+    border-color: #fff;
+}
+
+.list-group-item-secondMenu {
+    color: #0F0F0F;
+    background-color: #F4F4F4;
+}
+a.list-group-item-secondMenu {
+    color: #0F0F0F;
+}
+a.list-group-item-secondMenu .list-group-item-heading {
+    color: inherit;
+}
+a.list-group-item-secondMenu:hover,
+a.list-group-item-secondMenu:focus {
+    color: #556B2F;
+    background-color: #556B2F;
+}
+a.list-group-item-secondMenu.active,
+a.list-group-item-secondMenu.active:hover,
+a.list-group-item-secondMenu.active:focus {
+    color: #556B2F;
+    background-color: #556B2F;
+    border-color: #fff;
+}

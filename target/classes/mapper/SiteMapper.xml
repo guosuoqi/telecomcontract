@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dx.mapper.site.SiteMapper">
+	<!--3/4/5GBBU查询总条数-->
+	<select id="queryBBUCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_bbu
+        where network_type=#{equipmentBBU.networkType}
+	</select>
+	<!--3/4/5GBBU页面查询-->
+	<select id="queryBBU"  resultType="com.dx.model.site.EquipmentBBU">
+		select
+		*
+		from t_equipment_bbu
+		where network_type=#{equipmentBBU.networkType}
+		limit #{startIndex},#{endIndex}
+	</select>
+
+	<!--3/4/5GBBU页面新增-->
+	<insert id="add3GBBU" >
+	 insert into t_equipment_bbu (
+	       dx_code,bbu_code,bbu_name,
+	       Net_Care_id,Net_Care_name,network_type
+      )
+    values (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},
+            #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType}
+
+      )
+	</insert>
+
+	<!-- 3/4/5BBU批量删除 -->
+	<delete id="delAll">
+		delete from t_equipment_bbu where id in(${ids})
+	</delete>
+
+	<!--3/4/5BBU页面修改回显-->
+	<select id="query3GBBUById" resultType="com.dx.model.site.EquipmentBBU">
+		select * from t_equipment_bbu where id =#{id}
+	</select>
+	<!--3/4/5BBU页面修改-->
+	<update id="update3GBBU">
+		update t_equipment_bbu
+		<set>
+			<if test="equipmentBBU.dxCode != null and equipmentBBU.dxCode != ''">
+				dx_code = #{equipmentBBU.dxCode},
+			</if>
+			<if test="equipmentBBU.bbuCode != null and equipmentBBU.bbuCode != ''">
+				bbu_code = #{equipmentBBU.bbuCode},
+			</if>
+			<if test="equipmentBBU.bbuName != null and equipmentBBU.bbuName != ''">
+				bbu_name = #{equipmentBBU.bbuName},
+			</if>
+			<if test="equipmentBBU.NetCareId != null and equipmentBBU.NetCareId != ''">
+				Net_care_id = #{equipmentBBU.netCareId},
+			</if>
+			<if test="equipmentBBU.NetCareName != null and equipmentBBU.NetCareName != ''">
+				Net_Care_name = #{equipmentBBU.netCareName},
+			</if>
+
+		</set>
+		<where>
+		     id = #{equipmentBBU.id}
+		</where>
+	</update>
+
+	<!--3/4/5GRRU查询总条数-->
+	<select id="queryRRUCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_rru_aau
+        where network_type=#{equipmentRRUAAU.networkType}
+	</select>
+	<!--3/4/5GRRU页面查询-->
+	<select id="queryRRU"  resultType="com.dx.model.site.EquipmentRRUAAU">
+		select
+		*
+		from t_equipment_rru_aau
+		where network_type=#{equipmentRRUAAU.networkType}
+		limit #{startIndex},#{endIndex}
+	</select>
+
+	<!--3/4/5GRRU页面新增-->
+	<insert id="add3GRRU" >
+	 insert into t_equipment_rru_aau (
+	       dx_code,rru_code,rru_name,
+	       net_Care_id,net_Care_name,network_type
+      )
+    values (#{equipmentRRUAAU.dxCode},#{equipmentRRUAAU.rruCode},#{equipmentRRUAAU.rruName},
+            #{equipmentRRUAAU.netCareId},#{equipmentRRUAAU.netCareName},#{equipmentRRUAAU.networkType}
+
+      )
+	</insert>
+
+	<!-- 3/4/5GRRU批量删除 -->
+	<delete id="delAllRRU">
+		delete from t_equipment_rru_aau where id in(${ids})
+	</delete>
+
+	<!--3/4/5GRRU页面修改回显-->
+	<select id="query3GRRUById" resultType="com.dx.model.site.EquipmentRRUAAU">
+		select * from t_equipment_rru_aau where id =#{id}
+	</select>
+	<!--3/4/5GRRU页面修改-->
+	<update id="updateRRU">
+		update t_equipment_rru_aau
+		<set>
+			<if test="equipmentRRUAAU.dxCode != null and equipmentRRUAAU.dxCode != ''">
+				dx_code = #{equipmentRRUAAU.dxCode},
+			</if>
+			<if test="equipmentRRUAAU.rruCode != null and equipmentRRUAAU.rruCode != ''">
+				rru_code = #{equipmentRRUAAU.rruCode},
+			</if>
+			<if test="equipmentRRUAAU.rruName != null and equipmentRRUAAU.rruName != ''">
+				rru_name = #{equipmentRRUAAU.rruName},
+			</if>
+			<if test="equipmentRRUAAU.NetCareId != null and equipmentRRUAAU.NetCareId != ''">
+				Net_care_id = #{equipmentRRUAAU.netCareId},
+			</if>
+			<if test="equipmentRRUAAU.NetCareName != null and equipmentRRUAAU.NetCareName != ''">
+				Net_Care_name = #{equipmentRRUAAU.netCareName},
+			</if>
+
+		</set>
+		<where>
+			id = #{equipmentRRUAAU.id}
+		</where>
+	</update>
+</mapper>
