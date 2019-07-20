@@ -42,32 +42,6 @@
 		</where>
 	</select>
 	<!--合同管理页面查询-->
-	<select id="queryContractByStatus"  resultType="com.dx.model.contract.Contract">
-		select count(0) as number ,
-		<if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
-			extenxion_operator as extenxionOperator
-		</if>
-		<if test="contract.renewStatus != null and contract.renewStatus != ''">
-			renew_operator as renewOperator
-		</if>
-		from contract_manage
-		<where>
-			<if test="contract.renewStatus != null">
-				and renew_status =#{contract.renewStatus}
-			</if>
-			<if test="contract.extenxionStatus != null">
-				and extenxion_status =#{contract.extenxionStatus}
-			</if>
-		</where>
-		group by
-		<if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
-			extenxion_operator
-		</if>
-		<if test="contract.renewStatus != null and contract.renewStatus != ''">
-			renew_operator
-		</if>
-	</select>
-	<!--合同管理页面查询-->
 	<select id="queryContract"  resultType="com.dx.model.contract.Contract">
 		select
 		<include refid="Base_Column_List"/>

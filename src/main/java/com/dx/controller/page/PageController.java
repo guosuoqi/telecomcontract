@@ -48,9 +48,9 @@ public class PageController {
 	//去新增合同管理的页面
 	@RequestMapping("toAddContract")
 	public String toAddContract() {
+
 		return "/view/addContract";
 	}
-
 //去新增合同续约的页面
 	@RequestMapping("toAddContractExtension")
 	public String toAddContractExtension() {
