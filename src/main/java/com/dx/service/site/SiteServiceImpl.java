@@ -87,4 +87,12 @@ public class SiteServiceImpl implements SiteService{
     public EquipmentRRUAAU query3GRRUById(Integer id) {
         return siteMapper.query3GRRUById(id);
     }
+
+    public List<EquipmentBBU> queryBBUByIdsAndType(String ids) {
+        return siteMapper.queryBBUByIdsAndType(ids);
+    }
+
+    public List<EquipmentRRUAAU> queryRRByIdsAndType(String ids) {
+        return siteMapper.queryRRByIdsAndType(ids);
+    }
 }

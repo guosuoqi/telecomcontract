@@ -16,6 +16,20 @@
 		where network_type=#{equipmentBBU.networkType}
 		limit #{startIndex},#{endIndex}
 	</select>
+	<!--3/4/5GBBUpoi获取-->
+	<select id="queryBBUByIdsAndType"  resultType="com.dx.model.site.EquipmentBBU">
+		select
+			*
+		from t_equipment_bbu
+		where id in ${ids}
+	</select>
+	<!--3/4/5GRRUpoi获取-->
+	<select id="queryRRByIdsAndType"  resultType="com.dx.model.site.EquipmentRRUAAU">
+		select
+			*
+		from t_equipment_rru_aau
+		where id in ${ids}
+	</select>
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >

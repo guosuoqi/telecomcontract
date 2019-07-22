@@ -32,4 +32,8 @@ public interface SiteMapper {
     void updateRRU(@Param("equipmentRRUAAU")EquipmentRRUAAU equipmentRRUAAU);
 
     EquipmentRRUAAU query3GRRUById(@Param("id")Integer id);
+
+    List<EquipmentBBU> queryBBUByIdsAndType(@Param("ids")String ids);
+
+    List<EquipmentRRUAAU> queryRRByIdsAndType(@Param("ids")String ids);
 }

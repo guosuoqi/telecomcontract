@@ -149,7 +149,6 @@
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
                 {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle'},
                 {field:'loginNumber',title:'用户账号',align: 'center',valign: 'middle'},
-                {field:'password',title:'用户密码',align: 'center',valign: 'middle'},
                 {field:'userName',title:'用户名称',align: 'center',valign: 'middle'},
                 {field:'mobile',title:'手机号',align: 'center',valign: 'middle'},
                 {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
@@ -284,7 +283,7 @@
     function openAddDialog(){
         bootbox.dialog({
             size:"big",
-            title:"添加合同",
+            title:"添加用户",
             message:createAddUser("/page/toAddUser"),
             closeButton:true,
             buttons:{

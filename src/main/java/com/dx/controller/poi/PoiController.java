@@ -1,8 +1,12 @@
 package com.dx.controller.poi;
 
+import com.dx.model.common.PoiTypeEnum;
 import com.dx.model.contract.Contract;
+import com.dx.model.site.EquipmentBBU;
+import com.dx.model.site.EquipmentRRUAAU;
 import com.dx.model.user.UserMain;
 import com.dx.service.contract.ContractService;
+import com.dx.service.site.SiteServiceImpl;
 import com.dx.util.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -31,46 +35,88 @@ import java.util.List;
 @RestController
 @RequestMapping("/poi")
 public class PoiController {
+    private final String bbuStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
+    private final String conStr="合同编号,合同名字,地址,年租金,总租金,合同甲方,收款人,拟租年份,开始时间,结束时间,付费截止日期,机房类型,塔栀类型,合同类型";
+    private final String rruStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
     @Autowired
     private ContractService contractService;
+
+    @Autowired
+    private SiteServiceImpl siteService;
         @RequestMapping("/createExcel")
-        public void createExcel(HttpServletRequest request, HttpServletResponse response, String ids) throws IOException {
+        public void createExcel(HttpServletRequest request, HttpServletResponse response, String ids,Integer type) throws IOException {
             HashMap<String, String>result = new HashMap<String, String>();
             OutputStream output=null;
             try {
-                List<Contract>list= contractService.queryContractByIds(ids);
+                List<Contract>list= null;
+                List<EquipmentBBU>equipmentBBUlist= null;
+                List<EquipmentRRUAAU>equipmentRRUAAUList= null;
 
-                String fileName="合同信息_"+ DateUtils.getDate();
+                String fileName=null;
+                String []sheetMerged=null;
+                if(type.equals(PoiTypeEnum.POI_TYPE_CONTRACT.getKey())){
+                    sheetMerged= conStr.split(",");
+                    fileName="合同信息_";
+                    list=contractService.queryContractByIds(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_3G_BBU.getKey())){
+                    sheetMerged= bbuStr.split(",");
+                    fileName="3G_BBU_";
+                    equipmentBBUlist=siteService.queryBBUByIdsAndType(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_4G_BBU.getKey())){
+                   sheetMerged= bbuStr.split(",");
+                    fileName="4G_BBU_";
+                    equipmentBBUlist=siteService.queryBBUByIdsAndType(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_5G_BBU.getKey())){
+                    sheetMerged= bbuStr.split(",");
+                    fileName="5G_BBU_";
+                    equipmentBBUlist=siteService.queryBBUByIdsAndType(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_3G_RRU.getKey())){
+                   sheetMerged= rruStr.split(",");
+                    fileName="3G_RRU_";
+                    equipmentRRUAAUList=siteService.queryRRByIdsAndType(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_4G_RRU.getKey())){
+                    sheetMerged= rruStr.split(",");
+                    fileName="4G_RRU_";
+                    equipmentRRUAAUList=siteService.queryRRByIdsAndType(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_5G_AAU.getKey())){
+                   sheetMerged= rruStr.split(",");
+                    fileName="5G_AAU_";
+                    equipmentRRUAAUList=siteService.queryRRByIdsAndType(ids);
+                }
                 //创建HSSFWorkbook对象(excel的文档对象)
                 HSSFWorkbook wb = new HSSFWorkbook();
                 //建立新的sheet对象（excel的表单）
-                HSSFSheet sheet=wb.createSheet(fileName);
+                HSSFSheet sheet=wb.createSheet(fileName+ DateUtils.getDate());
                 //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
                 HSSFRow row1=sheet.createRow(0);
                 //创建单元格（excel的单元格，参数为列索引，可以是0～255之间的任何一个
                 HSSFCell cell=row1.createCell(0);
                 //设置单元格内容
-                cell.setCellValue("合同信息一览表");
+                cell.setCellValue(fileName+"一览表");
                 //合并单元格CellRangeAddress构造参数依次表示起始行，截至行，起始列， 截至列
-                sheet.addMergedRegion(new CellRangeAddress(0,0,0,14));
-                HSSFRow row2 = getHeadRow(sheet);
-                for (int i = 0; i <list.size() ; i++) {
+                sheet.addMergedRegion(new CellRangeAddress(0,0,0,sheetMerged.length));
+                HSSFRow row2=sheet.createRow(1);
+                for (int i = 0; i < sheetMerged.length; i++) {
+                    row2.createCell(i).setCellValue(sheetMerged[i]);
+                }
+                if(type.equals(PoiTypeEnum.POI_TYPE_CONTRACT.getKey())){
+                    for (int i = 0; i <list.size() ; i++) {
                     //在sheet里创建第三行
                     HSSFRow row3=sheet.createRow(2+i);
-                    row3.createCell(0).setCellValue(list.get(i).getContractNum());
-                    row3.createCell(1).setCellValue(list.get(i).getContractName());
-                    row3.createCell(2).setCellValue(list.get(i).getCity()+"-"+list.get(i).getCounty());
-                    row3.createCell(3).setCellValue(list.get(i).getYearRental());
-                    row3.createCell(4).setCellValue(list.get(i).getSunRental());
-                    row3.createCell(5).setCellValue(list.get(i).getContractFirst());
-                    row3.createCell(6).setCellValue(list.get(i).getPayee());
-                    row3.createCell(7).setCellValue(list.get(i).getPlanYear());
-                    row3.createCell(8).setCellValue(list.get(i).getStartTime());
-                    row3.createCell(9).setCellValue(list.get(i).getEndTime());
-                    row3.createCell(10).setCellValue(list.get(i).getPayEndTime());
-                    row3.createCell(11).setCellValue(list.get(i).getRoomTypeName());
-                    row3.createCell(12).setCellValue(list.get(i).getTowerTypeName());
-                    row3.createCell(13).setCellValue(list.get(i).getContractTypeName());
+                    setContractPoi(row3,list.get(i));
+                    }
+                }else if(isBBU(type)){
+                    for (int i = 0; i <equipmentBBUlist.size() ; i++) {
+                        //在sheet里创建第三行
+                        HSSFRow row3=sheet.createRow(2+i);
+                        setBBUPoi(row3,equipmentBBUlist.get(i));
+                    }
+                }else if(isRRU(type)){
+                    for (int i = 0; i <equipmentBBUlist.size() ; i++) {
+                        //在sheet里创建第三行
+                        HSSFRow row3=sheet.createRow(2+i);
+                        setRRUPoi(row3,equipmentRRUAAUList.get(i));
+                    }
                 }
                 //输出Excel文件
                 output=response.getOutputStream();
@@ -93,27 +139,6 @@ public class PoiController {
                 output.close();
             }
         }
-
-    private HSSFRow getHeadRow(HSSFSheet sheet) {
-        //在sheet里创建第二行
-        HSSFRow row2=sheet.createRow(1);
-        //创建单元格并设置单元格内容
-        row2.createCell(0).setCellValue("合同编号");
-        row2.createCell(1).setCellValue("合同名字");
-        row2.createCell(2).setCellValue("地址");
-        row2.createCell(3).setCellValue("年租金");
-        row2.createCell(4).setCellValue("总租金");
-        row2.createCell(5).setCellValue("合同甲方");
-        row2.createCell(6).setCellValue("收款人");
-        row2.createCell(7).setCellValue("拟租年份");
-        row2.createCell(8).setCellValue("开始时间");
-        row2.createCell(9).setCellValue("结束时间");
-        row2.createCell(10).setCellValue("付费截止日期");
-        row2.createCell(11).setCellValue("机房类型");
-        row2.createCell(12).setCellValue("塔栀类型");
-        row2.createCell(13).setCellValue("合同类型");
-        return row2;
-    }
 
     @RequestMapping(value = "uploadBookFileData", method = RequestMethod.POST)
     @ResponseBody
@@ -160,5 +185,56 @@ public class PoiController {
         }
         return result;
     }
+    private void setRRUPoi(HSSFRow row3, EquipmentRRUAAU equipmentBBU) {
+        row3.createCell(0).setCellValue(equipmentBBU.getDxCode());
+        row3.createCell(1).setCellValue(equipmentBBU.getRruCode());
+        row3.createCell(2).setCellValue(equipmentBBU.getRruName());
+        row3.createCell(3).setCellValue(equipmentBBU.getNetCareId());
+        row3.createCell(4).setCellValue(equipmentBBU.getNetCareName());
+        row3.createCell(5).setCellValue(equipmentBBU.getNetworkType());
+    }
 
+    private void setBBUPoi(HSSFRow row3, EquipmentBBU equipmentBBU) {
+        row3.createCell(0).setCellValue(equipmentBBU.getDxCode());
+        row3.createCell(1).setCellValue(equipmentBBU.getBbuCode());
+        row3.createCell(2).setCellValue(equipmentBBU.getBbuName());
+        row3.createCell(3).setCellValue(equipmentBBU.getNetCareId());
+        row3.createCell(4).setCellValue(equipmentBBU.getNetCareName());
+        row3.createCell(5).setCellValue(equipmentBBU.getNetworkType());
+    }
+
+    private boolean isRRU(Integer type) {
+        if(type.equals(PoiTypeEnum.POI_TYPE_3G_RRU.getKey())
+                ||type.equals(PoiTypeEnum.POI_TYPE_4G_RRU.getKey())
+                ||type.equals(PoiTypeEnum.POI_TYPE_5G_AAU.getKey())){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBBU(Integer type) {
+        if(type.equals(PoiTypeEnum.POI_TYPE_3G_BBU.getKey())
+                ||type.equals(PoiTypeEnum.POI_TYPE_4G_BBU.getKey())
+                ||type.equals(PoiTypeEnum.POI_TYPE_5G_BBU.getKey())){
+            return true;
+        }
+        return false;
+    }
+
+    private void setContractPoi(HSSFRow row3, Contract contract) {
+        row3.createCell(0).setCellValue(contract.getContractNum());
+        row3.createCell(1).setCellValue(contract.getContractName());
+        row3.createCell(2).setCellValue(contract.getCity()+"-"+contract.getCounty());
+        row3.createCell(3).setCellValue(contract.getYearRental());
+        row3.createCell(4).setCellValue(contract.getSunRental());
+        row3.createCell(5).setCellValue(contract.getContractFirst());
+        row3.createCell(6).setCellValue(contract.getPayee());
+        row3.createCell(7).setCellValue(contract.getPlanYear());
+        row3.createCell(8).setCellValue(contract.getStartTime());
+        row3.createCell(9).setCellValue(contract.getEndTime());
+        row3.createCell(10).setCellValue(contract.getPayEndTime());
+        row3.createCell(11).setCellValue(contract.getRoomTypeName());
+        row3.createCell(12).setCellValue(contract.getTowerTypeName());
+        row3.createCell(13).setCellValue(contract.getContractTypeName());
+    }
 }
