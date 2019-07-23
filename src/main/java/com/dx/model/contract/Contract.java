@@ -50,6 +50,7 @@ public class Contract {
 
     private Integer renewStatus;//续费状态
 
+    private String roomName;
 
     private Integer number;//计数
 
@@ -253,4 +254,11 @@ public class Contract {
         this.renewStatus = renewStatus;
     }
 
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
 }

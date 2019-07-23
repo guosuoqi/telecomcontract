@@ -36,7 +36,7 @@ import java.util.List;
 @RequestMapping("/poi")
 public class PoiController {
     private final String bbuStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
-    private final String conStr="合同编号,合同名字,地址,年租金,总租金,合同甲方,收款人,拟租年份,开始时间,结束时间,付费截止日期,机房类型,塔栀类型,合同类型";
+    private final String conStr="合同编号,合同名字,地址,年租金,总租金,合同甲方,收款人,拟租年份,开始时间,结束时间,付费截止日期,机房类型,塔栀类型,合同类型,所属机房";
     private final String rruStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
     @Autowired
     private ContractService contractService;
@@ -236,5 +236,6 @@ public class PoiController {
         row3.createCell(11).setCellValue(contract.getRoomTypeName());
         row3.createCell(12).setCellValue(contract.getTowerTypeName());
         row3.createCell(13).setCellValue(contract.getContractTypeName());
+        row3.createCell(14).setCellValue(contract.getRoomName());
     }
 }
