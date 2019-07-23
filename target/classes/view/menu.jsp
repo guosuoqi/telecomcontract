@@ -92,7 +92,7 @@
         initMyTree();
     })
 
-    function initMyTree(){
+/*    function initMyTree(){
         $.ajax({
             url:'/nav/toShowTree',
             type:'post',
@@ -110,7 +110,32 @@
                 })
             }
         })
+    }*/
+
+    function initMyTree(){
+        $.ajax({
+            url:'/nav/toShowTree',
+            success:function(data){
+                //alert(data)
+                $('#myTree').treeview({
+
+                    //设置列表树的节点在用户鼠标滑过时的背景颜色
+                    onhoverColor:"#187480",
+                    data:data,
+                    onNodeSelected:function(event, node) {
+                        $.addtabs({iframeHeight: 650});
+                        //addtabs(event, node)
+                        $.addtabs.add({
+                            id:node.id,
+                            title:node.text,
+                            url:node.href
+                        });
+                    }
+                })
+            }
+        })
     }
+
 //退出登录
     function exit(){
         location.href="/user/exitLogin"

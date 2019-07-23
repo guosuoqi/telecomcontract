@@ -115,7 +115,7 @@
         autoclose: true,//选中自动关闭
         todayBtn: true//显示今日按钮
     });
-    //打开用户管理页面
+     //打开用户管理页面
     function initUser(){
         $('#myTable').bootstrapTable('destroy');
         $("#myTable").bootstrapTable({
@@ -149,7 +149,6 @@
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
                 {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle'},
                 {field:'loginNumber',title:'用户账号',align: 'center',valign: 'middle'},
-                {field:'password',title:'用户密码',align: 'center',valign: 'middle'},
                 {field:'userName',title:'用户名称',align: 'center',valign: 'middle'},
                 {field:'mobile',title:'手机号',align: 'center',valign: 'middle'},
                 {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
@@ -280,11 +279,11 @@
         });
         return res;
     }
-    //打开新增用户的弹框
+//打开新增用户的弹框
     function openAddDialog(){
         bootbox.dialog({
             size:"big",
-            title:"添加合同",
+            title:"添加用户",
             message:createAddUser("/page/toAddUser"),
             closeButton:true,
             buttons:{
@@ -294,7 +293,7 @@
                     "callback" : function() {
                         var str = $("#role").val();
                         $.ajax({
-                            url:'/contract/addContract',
+                            url:'/user/addUser',
                             type:'post',
                             data: $("#userForm").serialize()+str,
                             dataType:'json',
@@ -316,7 +315,7 @@
             }
         })
     }
-    //打开修改的弹框
+//打开修改的弹框
     function editContract(contractId,roomType,towerType,contractType){
         $("#typeHidIdOne").val(roomType);
         $("#typeHidIdTwo").val(towerType);

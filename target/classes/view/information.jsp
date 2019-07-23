@@ -400,14 +400,12 @@
                 }
             },
             callback: function(result){
-                if (result) {
                     var ids = "";
                     for (var i = 0; i < arr.length; i++) {
                         ids += ids == "" ? arr[i].contractId : ","+arr[i].contractId;
                     }
-                    location.href="/poi/createExcel?ids="+ids
+                    location.href="/poi/createExcel?ids="+ids+"&&type=1"
                 }
-            }
         })
     }
 </script>

@@ -29,7 +29,7 @@
 <body>
 
 <div class="container-fluid">
-    <form id="contractForm" class="form-horizontal">
+    <form id="userForm" class="form-horizontal">
         <div class="row">
             <div class="col-xs-2">用户姓名:</div>
             <div class="col-xs-4">
@@ -60,13 +60,12 @@
                 <input class="form-control" name="email" id="email" type="text"/>
             </div>
         </div>
-        <div class="modal-body">
-            <form:select path="type" class="input-medium" style="width:284px;">
-                <option value="">请选择</option>
-                <c:forEach items="${roleList}" var="item">
-                    <form:option value="${item.id}" priority="${item.name}">${item.name}</form:option>
-                </c:forEach>
-            </form:select>
+        <div class="row">
+            <div class="col-xs-2">选择角色:</div>
+            <div class="col-xs-4">
+                <select id="roleAdd" name="roleAdd" class="form-control">
+                </select>
+            </div>
         </div>
 
     </form>
@@ -81,13 +80,27 @@
         autoclose:true
     });
     $(function(){
-        initCodeType(2);
+        queryRoleAdd();
     })
 
-    function testone(id){
-       // alert($("#tower").selected().val());
-        alert(id);
+    //初始化角色
+    function queryRoleAdd(){
+        $.ajax({
+            url: '/user/queryRole',
+            data : "",
+            success:function (data){
+                var typeHtmlAdd = '<option value="-1">--请选择--</option>';
+                for ( var i = 0; i < data.length; i++) {
+                    typeHtmlAdd+='<option value="'+data[i].id+'" >'+data[i].name+'</option>';
+                }
+                $("#roleAdd").html(typeHtmlAdd);
+            },
+            error:function (){
+                alert("指定人员下拉有误,请调试 ！！！");
+            }
+        })
     }
+
     //事件转中文
     $('.date').datetimepicker({
         language: 'zh-CN',//显示中文
