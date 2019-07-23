@@ -35,6 +35,9 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private UserMapper userMapper;
 
+    private String XU_YUE_Content="NAME-机房 合同待续费 ！！ 现缴费截止日期为-YYYYMMDD,请尽快完成续费";
+    private String XU_FEI_Content="NAME-机房 合同待续签 ！！ 现合同截止日期为-YYYYMMDD,请尽快完成续签";
+
     //查询合同管理页面
     @Override
     public PageResult queryContract(Integer page, Integer rows, Contract contract) {
@@ -316,10 +319,10 @@ public class ContractServiceImpl implements ContractService {
             }
             if(!con.getRenewOperator().isEmpty()){
                 user=userMapper.queryUserByName(con.getRenewOperator());
-                body= getCommJson(user,1,con.getNumber());
+                body= getCommJson(user,1,con);
             }else if(!con.getExtenxionOperator().isEmpty()){
                 user=userMapper.queryUserByName(con.getExtenxionOperator());
-                body= getCommJson(user,2,con.getNumber());
+                body= getCommJson(user,2,con);
             }
             if(user==null){
                 continue;
@@ -332,16 +335,16 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    private JSONObject getCommJson(UserMain user, int type,Integer number) {
+    private JSONObject getCommJson(UserMain user, int type,Contract con) {
         JSONObject body =new JSONObject();
         body.put("userEmail",user.getEmail());
         if(type==1){
             body.put("subject","续费待处理通知");
-            body.put("content",user.getUserName()+"您好：有"+number+"笔合同已进入续费阶段，请尽快进行处理！！！\n \n \n  本条信息为系统信息，请勿回复！");
+            body.put("content",XU_YUE_Content.replace("NAME",con.getRoomName()).replace("YYYYMMDD",con.getPayEndTime()));
 
         }else {
             body.put("subject","续约待处理通知");
-            body.put("subject",user.getUserName()+"您好：有"+number+"笔合同已进入续费阶段，请尽快进行处理！！！\n \n \n  本条信息为系统信息，请勿回复！");
+            body.put("content",XU_FEI_Content.replace("NAME",con.getRoomName()).replace("YYYYMMDD",con.getEndTime()));
         }
 
         return body;

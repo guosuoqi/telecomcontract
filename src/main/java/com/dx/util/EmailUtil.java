@@ -17,11 +17,12 @@ public class EmailUtil {
     //发件人地址
     public static String senderAddress = "18931217605@189.cn";
     //收件人地址
-    public static String recipientAddress = "17319260809@163.com";
+    private static String recipientAddress = "17319260809@163.com";
     //发件人账户名
-    public static String senderAccount = "18931217605@189.cn";
+    private static String senderAccount = "18931217605@189.cn";
     //发件人账户密码
-    public static String senderPassword = "BD123.abc";
+    private static String senderPassword = "BD123.abc";
+    //合同内容模板
 
     public static void main(String[] args) {
         JSONObject body = new JSONObject();
