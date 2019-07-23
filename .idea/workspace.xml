@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8e537130-b368-4995-9400-08cf217c1570" name="Default" comment="6套页面_版本合并">
+    <list default="true" id="8e537130-b368-4995-9400-08cf217c1570" name="Default" comment="版本合并">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/telecomcontract.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/controller/poi/PoiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/controller/poi/PoiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/controller/user/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/controller/user/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/mapper/site/SiteMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/mapper/site/SiteMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/model/common/TaskEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/model/common/TaskEnum.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/model/contract/Contract.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/model/contract/Contract.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/contract/ContractServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/contract/ContractServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/site/SiteServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/site/SiteServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/user/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/user/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/ContractMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/ContractMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/SiteMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/SiteMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/select.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/select.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/addUser.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/addUser.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/information.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/information.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/menu.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/menu.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/userMain.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/userMain.jsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -249,6 +232,17 @@
             <path>
               <item name="telecomcontract" type="b2602c69:ProjectViewProjectNode" />
               <item name="telecomcontract" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="telecomcontract" type="b2602c69:ProjectViewProjectNode" />
+              <item name="telecomcontract" type="462c0819:PsiDirectoryNode" />
+              <item name=".mvn" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="telecomcontract" type="b2602c69:ProjectViewProjectNode" />
+              <item name="telecomcontract" type="462c0819:PsiDirectoryNode" />
+              <item name=".mvn" type="462c0819:PsiDirectoryNode" />
+              <item name="wrapper" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="telecomcontract" type="b2602c69:ProjectViewProjectNode" />
@@ -486,7 +480,7 @@
       <workItem from="1563668338332" duration="7083000" />
       <workItem from="1563759225252" duration="38000" />
       <workItem from="1563778336419" duration="7758000" />
-      <workItem from="1563844594364" duration="1828000" />
+      <workItem from="1563844594364" duration="2484000" />
     </task>
     <task id="LOCAL-00001" summary="框架">
       <created>1560261813438</created>
@@ -537,16 +531,23 @@
       <option name="project" value="LOCAL" />
       <updated>1563802285344</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="版本合并">
+      <created>1563858710114</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1563858710114</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="322687000" />
+    <option name="totallyTimeSpent" value="323343000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4986945" visible="true" weight="0.26434922" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4986945" visible="true" weight="0.26434922" />
       <window_info id="Structure" order="1" weight="0.2497979" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -565,7 +566,7 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.053285968" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.20781527" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" visible="true" weight="0.9449378" />
+      <window_info anchor="bottom" id="Version Control" order="11" visible="true" weight="0.3339254" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
       <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="14" />
@@ -679,7 +680,8 @@
     <MESSAGE value="合同管理页面" />
     <MESSAGE value="6套页面" />
     <MESSAGE value="6套页面_版本合并" />
-    <option name="LAST_COMMIT_MESSAGE" value="6套页面_版本合并" />
+    <MESSAGE value="版本合并" />
+    <option name="LAST_COMMIT_MESSAGE" value="版本合并" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
