@@ -2,12 +2,9 @@ package com.dx.component;
 
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
-import com.dx.model.contract.Contract;
 import com.dx.service.contract.ContractServiceImpl;
 import com.dx.service.task.TaskServeceImpl;
 import com.dx.util.EmailUtil;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,18 +22,6 @@ public class ScheduledJob {
     private TaskServeceImpl taskServeceImpl ;
 
 
-  //@Scheduled(cron ="0 0/2 * * * ?")
-    public void scheduled() throws Exception {
-       logger.info("开始定时任务！");
-     /*  List<ReportInfo> reportInfos=findUpdateService.querybyStart();
-       boolean flag = findUpdateService.findFlag(reportInfos);
-        int msgFlag = dealReportMapper.queryStatus0();
-        if(msgFlag > 0){
-            evaluationThreadSerivce.sendAdminMsg("-2",new ReportInfo());
-        }
-
-       logger.info("输出的flag"+flag);*/
-   }
     @Scheduled(cron ="0 0 7 * * ?")
     public void sendEmail() {
         logger.info("开始定时发送邮件！");
