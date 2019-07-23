@@ -243,4 +243,11 @@
 	</update>
 
 
+	<!--合同管理页面查询总条数-->
+	<select id="queryContractCountSum"  resultType="int">
+		select
+		count(1)
+		from contract_manage
+	</select>
+
 </mapper>

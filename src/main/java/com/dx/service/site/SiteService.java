@@ -2,6 +2,7 @@ package com.dx.service.site;
 
 import com.dx.model.site.EquipmentBBU;
 import com.dx.model.site.EquipmentRRUAAU;
+import com.dx.model.site.SitManager;
 import com.dx.util.PageResult;
 
 public interface SiteService {
@@ -24,4 +25,6 @@ public interface SiteService {
     void updateRRU(EquipmentRRUAAU equipmentRRUAAU);
 
     EquipmentRRUAAU query3GRRUById(Integer id);
+
+    PageResult queryStieManager(Integer page, Integer rows, SitManager sitManager);
 }

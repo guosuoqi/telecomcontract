@@ -173,5 +173,9 @@ public class ContractController {
         return contractService.queryContractByEndTime(contract);
     }
 
-
+    @RequestMapping(value ="queryContractCount")
+    @ResponseBody
+    public int queryContractCountSum(){
+        return contractService.queryContractCountSum();
+    }
 }

@@ -2,6 +2,7 @@ package com.dx.mapper.site;
 
 import com.dx.model.site.EquipmentBBU;
 import com.dx.model.site.EquipmentRRUAAU;
+import com.dx.model.site.SitManager;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -36,4 +37,8 @@ public interface SiteMapper {
     List<EquipmentBBU> queryBBUByIdsAndType(@Param("ids")String ids);
 
     List<EquipmentRRUAAU> queryRRByIdsAndType(@Param("ids")String ids);
+
+    int queryStieManagerCount(HashMap<String, Object> params);
+
+    List<SitManager> queryStieManager(HashMap<String, Object> params);
 }

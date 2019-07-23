@@ -140,4 +140,19 @@
 			id = #{equipmentRRUAAU.id}
 		</where>
 	</update>
+
+
+	<!--3站点页面查询总条数-->
+	<select id="queryStieManagerCount"  resultType="int">
+		select
+		count(1)
+		from t_base_station
+	</select>
+	<!--3/4/5GBBU页面查询-->
+	<select id="queryStieManager"  resultType="com.dx.model.site.SitManager">
+		select
+		*
+		from t_base_station
+		limit #{startIndex},#{endIndex}
+	</select>
 </mapper>

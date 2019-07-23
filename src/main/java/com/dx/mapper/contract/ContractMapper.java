@@ -40,4 +40,6 @@ public interface ContractMapper {
     void updateContractStatus(Contract contract);
 
     List<Contract> queryContractByStatus(Contract contract);
+
+    int queryContractCountSum();
 }

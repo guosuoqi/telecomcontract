@@ -4,6 +4,7 @@ import com.dx.controller.contract.ContractController;
 import com.dx.model.contract.Contract;
 import com.dx.model.site.EquipmentBBU;
 import com.dx.model.site.EquipmentRRUAAU;
+import com.dx.model.site.SitManager;
 import com.dx.service.site.SiteService;
 import com.dx.util.ExceptionPrintUtil;
 import com.dx.util.PageResult;
@@ -205,6 +206,15 @@ public class SiteController {
     @ResponseBody
     public void updateRRU(EquipmentRRUAAU equipmentBBRRUAAU){
         siteService.updateRRU(equipmentBBRRUAAU);
+    }
+
+
+    //查询3/4/5GBBU页面
+    @RequestMapping(value = "queryStieManager", method = RequestMethod.POST)
+    @ResponseBody
+    public PageResult queryStieManager(Integer page, Integer rows, SitManager sitManager) {
+        PageResult pageResult = siteService.queryStieManager(page, rows, sitManager);
+        return pageResult;
     }
 
 }

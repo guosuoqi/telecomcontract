@@ -4,6 +4,7 @@ import com.dx.mapper.site.SiteMapper;
 import com.dx.model.contract.Contract;
 import com.dx.model.site.EquipmentBBU;
 import com.dx.model.site.EquipmentRRUAAU;
+import com.dx.model.site.SitManager;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,21 @@ public class SiteServiceImpl implements SiteService{
     @Override
     public EquipmentRRUAAU query3GRRUById(Integer id) {
         return siteMapper.query3GRRUById(id);
+    }
+
+    @Override
+    public PageResult queryStieManager(Integer page, Integer rows, SitManager sitManager) {
+        PageResult pageResult = new PageResult();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("sitManager",sitManager);
+        int  count=siteMapper.queryStieManagerCount(params);
+        pageResult.setTotal(count);
+        PageUtil<SitManager> pageUtil = new PageUtil<SitManager>(count,page,rows);
+        params.put("startIndex", pageUtil.getStartIndex());
+        params.put("endIndex",rows);
+        List<SitManager> list = siteMapper.queryStieManager(params);
+        pageResult.setRows(list);
+        return pageResult;
     }
 
     public List<EquipmentBBU> queryBBUByIdsAndType(String ids) {

@@ -258,6 +258,11 @@ public class ContractServiceImpl implements ContractService {
     public void updateContractExtension(ContractExtension contractExtension) {
         contractMapper.updateContractExtension(contractExtension);
     }
+//查询合同总个数
+    @Override
+    public int queryContractCountSum() {
+        return contractMapper.queryContractCountSum();
+    }
 
     /**
      * 获取单元格内容
