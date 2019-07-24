@@ -8,7 +8,7 @@ import com.dx.util.PageResult;
 public interface SiteService {
     PageResult queryBBU(Integer page, Integer rows, EquipmentBBU equipmentBBU);
 
-    int add3GBBU(EquipmentBBU equipmentBBU);
+    boolean add3GBBU(EquipmentBBU equipmentBBU);
 
     int delAll(String ids);
 
@@ -18,9 +18,9 @@ public interface SiteService {
 
     PageResult queryRRU(Integer page, Integer rows, EquipmentRRUAAU equipmentRRUAAU);
 
-    int add3GRRU(EquipmentRRUAAU equipmentRRUAAU);
-
     int delAllRRU(String ids);
+
+    boolean add3GRRU(EquipmentRRUAAU equipmentRRUAAU);
 
     void updateRRU(EquipmentRRUAAU equipmentRRUAAU);
 

@@ -40,6 +40,8 @@ public class PoiController {
     private final String rruStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private SiteServiceImpl siteServiceImpl;
 
     @Autowired
     private SiteServiceImpl siteService;
@@ -140,9 +142,9 @@ public class PoiController {
             }
         }
 
-    @RequestMapping(value = "uploadBookFileData", method = RequestMethod.POST)
+    @RequestMapping(value = "importContractFile", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String,String> uploadBookFileData(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+    public HashMap<String,String> importContractFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
 
         HashMap<String,String>  result = new HashMap<> ();
         HttpSession session = request.getSession();
@@ -168,11 +170,105 @@ public class PoiController {
             if(!contractService.addContractList(sheet,userMain.getUserName())){
                 result.put("code","2");
                 result.put("msg","保存失败！");
-                return result;
+            }else {
+                result.put("code","0");
+                result.put("msg","保存成功！");
             }
         } catch (IOException e) {
             //异常输出
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //异常输出
 
+                }
+            }
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "importRRUFile", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String,String> importRRUFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+
+        HashMap<String,String>  result = new HashMap<> ();
+        HttpSession session = request.getSession();
+        if(session.getAttribute(session.getId())==null){
+            result.put("code","1");
+            result.put("msg","请先登录！");
+            return result;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            Workbook workbook = null;
+            if (file.getOriginalFilename().toLowerCase().endsWith("xlsx")) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else if (file.getOriginalFilename().toLowerCase().endsWith("xls")) {
+                workbook = new HSSFWorkbook(new POIFSFileSystem(inputStream));
+            }
+            // 打开Excel中的第一个Sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            //操作人
+           //UserMain userMain = (UserMain) session.getAttribute(session.getId());
+            //上载表格到库中
+            if(!siteServiceImpl.addRRUList(sheet)){
+                result.put("code","2");
+                result.put("msg","保存失败！");
+            }else {
+                result.put("code","0");
+                result.put("msg","保存成功！");
+            }
+        } catch (IOException e) {
+            //异常输出
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //异常输出
+
+                }
+            }
+        }
+        return result;
+    }
+    @RequestMapping(value = "importBBUFile", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String,String> importBBUFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+
+        HashMap<String,String>  result = new HashMap<> ();
+        HttpSession session = request.getSession();
+        if(session.getAttribute(session.getId())==null){
+            result.put("code","1");
+            result.put("msg","请先登录！");
+            return result;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            Workbook workbook = null;
+            if (file.getOriginalFilename().toLowerCase().endsWith("xlsx")) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else if (file.getOriginalFilename().toLowerCase().endsWith("xls")) {
+                workbook = new HSSFWorkbook(new POIFSFileSystem(inputStream));
+            }
+            // 打开Excel中的第一个Sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            //操作人
+            //UserMain userMain = (UserMain) session.getAttribute(session.getId());
+            //上载表格到库中
+            if(!siteServiceImpl.addBBUList(sheet)){
+                result.put("code","2");
+                result.put("msg","保存失败！");
+            }else {
+                result.put("code","0");
+                result.put("msg","保存成功！");
+            }
+        } catch (IOException e) {
+            //异常输出
         }finally {
             if(inputStream != null){
                 try {

@@ -38,11 +38,10 @@ public class SiteController {
     @ResponseBody
     public HashMap<String, String> add3GBBU(EquipmentBBU equipmentBBU) {
 
-        HashMap<String, String> result= new HashMap<String, String>();;
+        HashMap<String, String> result= new HashMap<String, String>();
         try {
             if ((equipmentBBU != null )) {
-                int count = siteService.add3GBBU(equipmentBBU);
-                if (count == 0) {
+                if (!siteService.add3GBBU(equipmentBBU)) {
                     result.put("code", "1");
                     result.put("msg", "BBU新增失败！");
                     logger.info(this.getClass() + "，BBU新增失败！");
@@ -133,8 +132,7 @@ public class SiteController {
         HashMap<String, String> result= new HashMap<String, String>();;
         try {
             if ((equipmentRRUAAU != null )) {
-                int count = siteService.add3GRRU(equipmentRRUAAU);
-                if (count == 0) {
+                if (!siteService.add3GRRU(equipmentRRUAAU)) {
                     result.put("code", "1");
                     result.put("msg", "RRU新增失败！");
                     logger.info(this.getClass() + "，RRU新增失败！");

@@ -68,38 +68,36 @@ public class ContractServiceImpl implements ContractService {
         String time= DateUtils.getDate("yyyyMMddHHmmss");
         List<SysCode> typeList=contractMapper.queryType();
         List<Contract> contractList = new ArrayList<>();
+        Contract contract;
         for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 break;//整行为空，跳出
             }
+            //错误原因
+            String reason = "";
             //获取每个单元格
             /**
              * 0 id  1合同名字 2省-市 3年租金 4 总租金 5 合同编号
              * 6合同甲方 7 收款人 8 拟租年份 9开始时间 10 结束事件
              * 11付费截至时间 12机房类型 13塔栀类型 14合同类型
              */
-            Cell cell = row.getCell(0);//第一个单元格
-            if(cell == null) break;//第1个单元格为空，跳出
-            //错误原因
-            String reason = "";
-            Contract contract = new Contract();
-            //账号
-            String userid = cell.getStringCellValue().trim();
-            if("".equals(userid)){
-                break;
-            }
-           // userInfoTemp.setUserid(userid);
+            //String  id = getCellVal(row.getCell(0));//第一个单元格
+            //合同编号
+            String department = getCellVal(row.getCell(0));
+           /* if(!"".equals(department)){
+                reason += "合同编号不可为空,";
+            }*/
             //合同名
             String name = getCellVal(row.getCell(1));
-            if("".equals(name)){
+           /* if("".equals(name)){
                 reason += "合同名字,";
-            }
+            }*/
             //地址
             String cityAndCounty = getCellVal(row.getCell(2));
-            if("".equals(cityAndCounty)){
+            /*if("".equals(cityAndCounty)){
                 reason += "地址不可为空,";
-            }
+            }*/
             String[] split = cityAndCounty.split("-");
             String city="";
             String county="";
@@ -111,67 +109,63 @@ public class ContractServiceImpl implements ContractService {
             }
             //年租金
             String yearRental = getCellVal(row.getCell(3));
-            if(!"".equals(yearRental)){
+          /*  if(!"".equals(yearRental)){
                 reason += "年租金不允许为空,";
-            }
+            }*/
             //总租金
             String sunRental = getCellVal(row.getCell(4));
-            if(!"".equals(sunRental)){
+            /*if(!"".equals(sunRental)){
                 reason += "总租金不允许为空,";
-            }
-            //合同编号
-            String department = getCellVal(row.getCell(5));
-            if(!"".equals(department)){
-                reason += "合同编号不可为空,";
-            }
+            }*/
+
             //合同甲方    getContractFirst
-            String contractFirst = getCellVal(row.getCell(6));
-            if(!"".equals(contractFirst)){
+            String contractFirst = getCellVal(row.getCell(5));
+          /*  if(!"".equals(contractFirst)){
                 reason += "合同甲方不可为空,";
-            }
+            }*/
             //收款人   getPayee
-            String payee = getCellVal(row.getCell(7));
-            if(!"".equals(contractFirst)){
+            String payee = getCellVal(row.getCell(6));
+           /* if(!"".equals(contractFirst)){
                 reason += "合同甲方不可为空,";
-            }
+            }*/
             //拟租年份  getPlanYear
-            String planYear = getCellVal(row.getCell(8));
-            if(!"".equals(planYear)){
+            String planYear = getCellVal(row.getCell(7));
+          /*  if(!"".equals(planYear)){
                 reason += "拟租年份不可为空,";
-            }
+            }*/
             //开始时间  getStartTime
             String startTime = getCellVal(row.getCell(8));
-            if(!"".equals(planYear)){
+          /*  if(!"".equals(planYear)){
                 reason += "开始时间不可为空,";
-            }
+            }*/
             //结束时间  getEndTime
-            String endTime = getCellVal(row.getCell(8));
-            if(!"".equals(endTime)){
+            String endTime = getCellVal(row.getCell(9));
+          /*  if(!"".equals(endTime)){
                 reason += "结束时间不可为空,";
-            }
+            }*/
             // 付费截止日期   getPayEndTime
-            String payEndTim = getCellVal(row.getCell(8));
-            if(!"".equals(payEndTim)){
+            String payEndTim = getCellVal(row.getCell(10));
+            /*if(!"".equals(payEndTim)){
                 reason += "付费截止日期不可为空,";
-            }
+            }*/
             // 机房类型  getRoomTypeName
-            String roomTypeName = getCellVal(row.getCell(8));
+            String roomTypeName = getCellVal(row.getCell(11));
             String roomType=getTypeByName(typeList,roomTypeName);
-            if(!"".equals(roomType)){
+           /* if(!"".equals(roomType)){
                 reason += "机房类型不可为空,";
-            }
+            }*/
             // 塔栀类型 getTowerTypeName
-            String towerTypeName = getCellVal(row.getCell(8));
+            String towerTypeName = getCellVal(row.getCell(12));
             String towerType=getTypeByName(typeList,towerTypeName);
-            if(!"".equals(towerType)){
+          /*  if(!"".equals(towerType)){
                 reason += "塔栀类型不可为空,";
-            }
+            }*/
             //合同类型 getContractTypeName
-            String contractTypeName = getCellVal(row.getCell(8));
+            String contractTypeName = getCellVal(row.getCell(13));
             String contractType=getTypeByName(typeList,contractTypeName);
-            if(!"".equals(towerType)){
+            /*if(!"".equals(towerType)){
                 reason += "合同类型不可为空,";
-            }
+            }*/
             contract = new Contract();
             contract.setContractName(name);
             contract.setCity(city);

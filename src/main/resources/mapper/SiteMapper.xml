@@ -33,14 +33,16 @@
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >
-	 insert into t_equipment_bbu (
-	       dx_code,bbu_code,bbu_name,
-	       Net_Care_id,Net_Care_name,network_type
-      )
-    values (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},
-            #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType}
+        <foreach collection="list" item="EquipmentBBU" index="index" open="" close="" separator=";">
+             insert into t_equipment_bbu (
+                   dx_code,bbu_code,bbu_name,
+                   Net_Care_id,Net_Care_name,network_type
+              )
+            values (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},
+                    #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType}
 
-      )
+              )
+        </foreach>
 	</insert>
 
 	<!-- 3/4/5BBU批量删除 -->
@@ -96,14 +98,16 @@
 
 	<!--3/4/5GRRU页面新增-->
 	<insert id="add3GRRU" >
-	 insert into t_equipment_rru_aau (
-	       dx_code,rru_code,rru_name,
-	       net_Care_id,net_Care_name,network_type
-      )
-    values (#{equipmentRRUAAU.dxCode},#{equipmentRRUAAU.rruCode},#{equipmentRRUAAU.rruName},
-            #{equipmentRRUAAU.netCareId},#{equipmentRRUAAU.netCareName},#{equipmentRRUAAU.networkType}
+        <foreach collection="list" item="EquipmentRRUAAU" index="index" open="" close="" separator=";">
+             insert into t_equipment_rru_aau (
+                   dx_code,rru_code,rru_name,
+                   net_Care_id,net_Care_name,network_type
+              )
+            values (#{equipmentRRUAAU.dxCode},#{equipmentRRUAAU.rruCode},#{equipmentRRUAAU.rruName},
+                    #{equipmentRRUAAU.netCareId},#{equipmentRRUAAU.netCareName},#{equipmentRRUAAU.networkType}
 
-      )
+              )
+        </foreach>
 	</insert>
 
 	<!-- 3/4/5GRRU批量删除 -->
