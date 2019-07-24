@@ -77,13 +77,7 @@
 	</select>
     <!--合同管理页面查询-->
     <select id="queryContractByStatus"  resultType="com.dx.model.contract.Contract">
-        select count(0) as number ,
-        <if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
-            extenxion_operator as extenxionOperator
-        </if>
-        <if test="contract.renewStatus != null and contract.renewStatus != ''">
-            renew_operator as renewOperator
-        </if>
+        select *
         from contract_manage
         <where>
             <if test="contract.renewStatus != null">
@@ -93,13 +87,7 @@
                 and extenxion_status =#{contract.extenxionStatus}
             </if>
         </where>
-        group by
-        <if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
-            extenxion_operator
-        </if>
-        <if test="contract.renewStatus != null and contract.renewStatus != ''">
-            renew_operator
-        </if>
+
     </select>
 	<!--合同管理页面查新增-->
 	<insert id="addContract" >
@@ -242,5 +230,19 @@
 		</where>
 	</update>
 
+
+	<!--合同管理页面查询总条数-->
+	<select id="queryContractCountSum"  resultType="int">
+		select
+		count(1)
+		from contract_manage
+	</select>
+
+	<!--合同管理页面查询总条数-->
+	<select id="querySiteCountSum"  resultType="int">
+		select
+		count(1)
+		from t_base_station
+	</select>
 
 </mapper>

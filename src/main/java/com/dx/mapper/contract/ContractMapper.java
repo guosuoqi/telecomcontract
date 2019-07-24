@@ -42,4 +42,6 @@ public interface ContractMapper {
     List<Contract> queryContractByStatus(Contract contract);
 
     int queryContractCountSum();
+
+    int querySiteCountSum();
 }

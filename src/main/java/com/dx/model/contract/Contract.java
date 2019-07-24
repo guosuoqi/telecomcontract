@@ -50,7 +50,7 @@ public class Contract {
 
     private Integer renewStatus;//续费状态
 
-    private String roomName;
+    private String roomName;  //站点名称
 
     private Integer number;//计数
 

@@ -264,7 +264,13 @@ public class ContractServiceImpl implements ContractService {
 //查询合同总个数
     @Override
     public int queryContractCountSum() {
+
         return contractMapper.queryContractCountSum();
+    }
+    //查询站点总个数
+    @Override
+    public int querySiteCountSum() {
+        return contractMapper.querySiteCountSum();
     }
 
     /**
@@ -306,7 +312,7 @@ public class ContractServiceImpl implements ContractService {
         contract.setExtenxionStatus(1);
         List<Contract>list=contractMapper.queryContractByStatus(contract);
         if(list!=null && !list.isEmpty()){
-
+            sendTaskToEmail(list);
         }
     }
     public void sendTaskToEmail(List<Contract>list){

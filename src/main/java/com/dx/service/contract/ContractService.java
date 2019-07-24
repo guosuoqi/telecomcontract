@@ -39,4 +39,6 @@ public interface ContractService {
     void updateContractExtension(ContractExtension contractExtension);
 
     int queryContractCountSum();
+
+    int querySiteCountSum();
 }

@@ -175,7 +175,12 @@ public class ContractController {
 
     @RequestMapping(value ="queryContractCount")
     @ResponseBody
-    public int queryContractCountSum(){
-        return contractService.queryContractCountSum();
+    public HashMap<String,Object> queryContractCountSum(){
+        HashMap<String, Object> params = new HashMap<>();
+        int contractCountNum = contractService.queryContractCountSum();
+        params.put("countNum",contractCountNum);
+        int siteCountNum = contractService.querySiteCountSum();
+        params.put("siteCountNum",siteCountNum);
+        return params;
     }
 }

@@ -132,6 +132,7 @@
                         });
                     }
                 })
+                $("#myTree").treeview('collapseAll');//关闭展开
             }
         })
     }

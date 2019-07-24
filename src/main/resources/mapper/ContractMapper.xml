@@ -238,4 +238,11 @@
 		from contract_manage
 	</select>
 
+	<!--合同管理页面查询总条数-->
+	<select id="querySiteCountSum"  resultType="int">
+		select
+		count(1)
+		from t_base_station
+	</select>
+
 </mapper>
