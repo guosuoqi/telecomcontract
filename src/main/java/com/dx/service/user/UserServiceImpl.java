@@ -4,27 +4,19 @@ import com.dx.mapper.contract.ContractMapper;
 import com.dx.mapper.user.UserMapper;
 import com.alibaba.fastjson.JSONObject;
 import com.dx.model.contract.Contract;
-import org.apache.catalina.mbeans.UserMBean;
+import com.dx.model.nav.UserRoleBean;
+import com.dx.util.StringUtil;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.scheduling.annotation.Scheduled;
 import com.dx.model.user.UserMain;
-import com.dx.model.contract.ContractExtension;
-import com.dx.mapper.task.TaskMapper;
-import com.dx.mapper.user.UserMapper;
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
 import com.dx.model.nav.RoleBean;
-import com.dx.model.nav.UserRoleBean;
-import com.dx.model.user.UserMain;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,9 +72,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.queryRoleByUserId(userId);
     }
 
-    @Override
+/*    @Override
     @Transactional(noRollbackFor=Exception.class)
-    public int saveUserRole(Integer userId,String ids){
+    public int saveUserRole(String userId,String ids){
         try {
             List<RoleBean> list = userMapper.queryRoleByIds(ids);
             String roleNames=null;
@@ -107,6 +99,22 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             return 0;
         }
+    }*/
+
+    @Override
+    public void saveRole(String userId, Integer[] roleId) {
+        //删除角色原有权限
+        userMapper.deleteRole(userId);
+        //新增角色新修改的权限
+        ArrayList<UserRoleBean> params = new ArrayList<UserRoleBean>();
+        for (Integer integer : roleId) {
+            UserRoleBean userRoleBean = new UserRoleBean();
+            userRoleBean.setId(StringUtil.getUUId());
+            userRoleBean.setRoleId(integer);;
+            userRoleBean.setUserId(userId);
+            params.add(userRoleBean);
+        }
+        userMapper.saveRole(params);
     }
 
     public UserMain queryUserByName(String userName){

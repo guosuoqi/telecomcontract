@@ -1,12 +1,10 @@
 package com.dx.service.user;
 
-import com.dx.model.nav.NavTree;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.util.PageResult;
 
-import java.security.SecureRandom;
 import java.util.List;
 
 public interface UserService {
@@ -20,5 +18,7 @@ public interface UserService {
 
     List<UserRoleBean> queryRoleByUserId(String userId);
 
-    int saveUserRole(Integer userId, String ids);
+   //int saveUserRole(String userId, String ids);
+
+    void saveRole(String userId, Integer[] roleId);
 }

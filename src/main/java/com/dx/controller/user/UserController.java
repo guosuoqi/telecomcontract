@@ -1,7 +1,6 @@
 package com.dx.controller.user;
 
 
-import com.dx.model.contract.Contract;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
@@ -16,8 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.dx.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -97,7 +94,7 @@ public class UserController {
         List<UserRoleBean> roleBeans = userService.queryRoleByUserId(userId);
         String [] ids =new String[roleBeans.size()];
         for (int i = 0; i <roleBeans.size() ; i++) {
-            ids[i]= roleBeans.get(i).getRoleId();
+            ids[i]= String.valueOf(roleBeans.get(i).getRoleId());
         }
         return ids;
     }
@@ -117,11 +114,23 @@ public class UserController {
         PageResult pageResult = userService.queryRoleAll(page, rows, roleBean);
         return pageResult;
     }
-    //修改用户角色
+   /* //修改用户角色
     @RequestMapping(value = "saveUserRole", method = RequestMethod.POST)
     @ResponseBody
     public int saveUserRole(Integer userId,String ids) {
         return userService.saveUserRole(userId,ids);
+    }*/
+
+    @RequestMapping("saveUserRole")
+    @ResponseBody
+    public boolean saveRole(String userId,Integer[]roleId){
+        try {
+            userService.saveRole(userId,roleId);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

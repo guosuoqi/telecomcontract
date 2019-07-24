@@ -243,19 +243,35 @@
         })
     }
 
+
+
+
+    function fun(){
+
+    }
     //提交指定角色
     function submitRole(){
+
+        var str=[];
+        var obj = document.getElementById("role");
+        for(var i=0;i<obj.options.length;i++){
+            if(obj.options[i].selected){
+                str.push(obj.options[i].value);// 收集选中项
+            }
+        }
+        $("#role").val(str);
+
         $.ajax({
             url: '/user/saveUserRole',
             type: "post",
             data : {
-                ids:$("#role").val(),
+                roleId:str,
                 userId:$("#hiddenUserId").val()
             },
             success:function (data){
                 if(data==1){
                     initTable();
-                    $("[data-dismiss='modal']").click();
+                    $("[data-dismiss='modal']").close();
                     alert("更改指定人成功")
                 }else {
                     alert("指定人员下拉有误,请调试 ！！！");

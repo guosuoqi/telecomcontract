@@ -3,10 +3,10 @@ package com.dx.mapper.user;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
-import com.dx.util.PageResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,11 +28,15 @@ public interface UserMapper {
 
     List<RoleBean> queryRoleByIds(@Param("ids")String ids);
 
-    void deleteUserRole(Integer userId);
+    void deleteUserRole(@Param("userId")String userId);
 
     void insertUserRole(@Param("list") List<UserRoleBean> list);
 
     void updateUserByUserId(UserMain user);
 
     UserMain queryUserByName(@Param("userName")String userName);
+
+    void deleteRole(String userId);
+
+    void saveRole(ArrayList<UserRoleBean> params);
 }
