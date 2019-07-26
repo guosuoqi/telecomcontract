@@ -20,5 +20,9 @@ public interface UserService {
 
    //int saveUserRole(String userId, String ids);
 
-    void saveRole(String userId, Integer[] roleId);
+    void saveRole(String userId, Integer[] roleId,UserMain userMain);
+
+    int addUser(UserMain userMain);
+
+    int delUser(String ids);
 }

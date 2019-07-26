@@ -92,25 +92,6 @@
         initMyTree();
     })
 
-/*    function initMyTree(){
-        $.ajax({
-            url:'/nav/toShowTree',
-            type:'post',
-            success:function(result){
-                $('#myTree').treeview({
-                    data:result,
-                    onNodeSelected:function(event,node){
-                        $.addtabs({iframeHeight: 650});
-                        $.addtabs.add({
-                            id:node.id,
-                            title:node.text,
-                            url:node.href
-                        });
-                    }
-                })
-            }
-        })
-    }*/
 
     function initMyTree(){
         $.ajax({

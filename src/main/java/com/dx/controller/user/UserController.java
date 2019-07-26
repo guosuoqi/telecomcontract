@@ -1,10 +1,12 @@
 package com.dx.controller.user;
 
 
+import com.dx.model.contract.Contract;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.service.user.UserService;
+import com.dx.util.ExceptionPrintUtil;
 import com.dx.util.PageResult;
 import com.dx.util.StringUtils;
 import org.slf4j.Logger;
@@ -123,14 +125,100 @@ public class UserController {
 
     @RequestMapping("saveUserRole")
     @ResponseBody
-    public boolean saveRole(String userId,Integer [] roleId){
+    public boolean saveRole(String userId,Integer [] roleId,UserMain userMain){
         try {
-            userService.saveRole(userId,roleId);
+            userService.saveRole(userId,roleId,userMain);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+    //用户页面新增
+    @RequestMapping("addUser")
+    @ResponseBody
+    public HashMap<String, String>  addUser(UserMain userMain) {
+        HashMap<String, String> result= new HashMap<String, String>();;
+        try {
+            if ((userMain != null )) {
+                UserMain userInfoByLoginNumber = userService.getUserInfoByLoginNumber(userMain.getLoginNumber());
+                if(userInfoByLoginNumber==null){
+                    int count =   userService.addUser(userMain);
+                    if (count == 0) {
+                        result.put("code", "1");
+                        result.put("msg", "用户新增失败！");
+                        logger.info(this.getClass() + "，用户新增失败！");
+                        return result;
+                }
+                }else{
+                    result.put("code", "1");
+                    result.put("msg", "用户账号重复,请更换！");
+                    logger.info(this.getClass() + "，用户账号重复,请更换！！");
+                    return result;
+                }
+                result = new HashMap<String, String>();
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }else{
+                result = new HashMap<String, String>();
+                result.put("code", "2");
+                result.put("msg", "用户新增失败！");
+                logger.info(this.getClass() + "，用户新增失败+对象为空！");
+                return result;
+            }
+        }catch (Exception e){
+            result = new HashMap<String, String>();
+            result.put("code", "2");
+            result.put("msg", "用户新增失败！");
+            logger.info(this.getClass() + "，用户新增失败！");
+            //异常输出
+            logger.error("exception toString and track space : {}", "\r\n" + e);
+            logger.error(ExceptionPrintUtil.errorTrackSpace(e));
+            return result;
+        }
+    }
+
+
+    //用户批量删除
+    @RequestMapping("delUser")
+    @ResponseBody
+    public  HashMap<String, String>  delAll(String ids){
+        HashMap<String, String> result;
+        try {
+            if ((ids != null || "".equals(ids))) {
+                int count =   userService.delUser(ids);;
+                if (count == 0) {
+                    result = new HashMap<String, String>();
+                    result.put("code", "1");
+                    result.put("msg", "用户删除失败！");
+                    logger.info(this.getClass() + "，用户删除失败！");
+                    return result;
+                }
+                result = new HashMap<String, String>();
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }else{
+                result = new HashMap<String, String>();
+                result.put("code", "2");
+                result.put("msg", "用户删除失败！");
+                logger.info(this.getClass() + "，用户删除失败！");
+            }
+
+        } catch (Exception e) {
+            result = new HashMap<String, String>();
+            result.put("code", "3");
+            result.put("msg", "用户删除失败！");
+            logger.info(this.getClass() + "，用户删除失败！");
+            //异常输出
+            logger.error("exception toString and track space : {}", "\r\n" + e);
+            logger.error(ExceptionPrintUtil.errorTrackSpace(e));
+            return result;
+        }
+        return result;
     }
 
 }

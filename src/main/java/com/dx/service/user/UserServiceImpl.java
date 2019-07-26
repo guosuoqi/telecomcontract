@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
     }*/
 
     @Override
-    public void saveRole(String userId, Integer[] roleId) {
+    public void saveRole(String userId, Integer[] roleId,UserMain userMain) {
         //删除角色原有权限
         userMapper.deleteRole(userId);
         //新增角色新修改的权限
@@ -115,6 +115,18 @@ public class UserServiceImpl implements UserService {
             params.add(userRoleBean);
         }
         userMapper.saveRole(params);
+
+        userMapper.updateUserRoleByUserId(userId,userMain);
+    }
+//新增用户
+    @Override
+    public int addUser(UserMain userMain) {
+        return userMapper.addUser(userMain);
+    }
+//删除用户
+    @Override
+    public int delUser(String ids) {
+        return userMapper.delUser(ids);
     }
 
     public UserMain queryUserByName(String userName){

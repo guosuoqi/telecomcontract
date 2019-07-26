@@ -4,7 +4,7 @@
 
 
     <sql id="Base_Column_List">
-        id, login_number,password,user_name, mobile,email, user_state
+        id, login_number,password,user_name, role,mobile,email, user_state
     </sql>
 
     <select id="getUserInfoByLoginNumber"  resultType="com.dx.model.user.UserMain">
@@ -60,13 +60,6 @@
     <delete id="deleteUserRole">
        DELETE FROM sys_user_role WHERE user_id=#{userId}
     </delete>
-    <!--新增用户角色表信息-->
-    <insert id="insertUserRole">
-        insert into t_role_nav(user_id,role_id) values
-        <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.userId},#{item.roleId})
-        </foreach>
-    </insert>
 
     <insert id="saveRolePower">
         insert into t_role_nav(id,roleId,navId) values
@@ -102,4 +95,24 @@
         </foreach>
     </insert>
 
+    <!--修改用户信息-->
+    <update id="updateUserRoleByUserId">
+        update sys_user
+        <set>
+            <if test="userMain.role != null and userMain.role != ''">
+                 role =#{userMain.role}
+            </if>
+        </set>
+        where id=#{userId}
+    </update>
+
+    <insert id="addUser">
+        insert into sys_user(login_Number,password,user_Name,mobile,email,role) values
+            (#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role})
+    </insert>
+
+    <!-- 合同管理页面批量删除 -->
+    <delete id="delUser">
+		delete from sys_user where id in(${ids})
+	</delete>
 </mapper>

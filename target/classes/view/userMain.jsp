@@ -43,7 +43,7 @@
                             <label for="userName">用户名称</label>
                         </div>
                         <div class="col-sm-9"> <%--占8格，充满--%>
-                            <input type="text" name="userName" id="userName"  class="form-control" placeholder="请输入合同名称">
+                            <input type="text" name="userName" id="userName"  class="form-control" placeholder="请输入用户名称">
                         </div>
 
 
@@ -92,8 +92,76 @@
     </div><!-- /.modal -->
 </div>
 
-<button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
-<button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+
+<!-- 按钮触发模态框 -->
+<%--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    开始演示模态框
+</button>--%>
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myRoleModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalRole" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="buttonAdd" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalRole">
+                    新增用户
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2">用户姓名:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="userName" id="userName1" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">账号:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="loginNumber" id="loginNumber" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">密码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="password" id="password" type="password"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">手机号:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="mobile" id="mobile" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">联系邮箱:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="email" id="email" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">选择角色:</div>
+                    <div class="col-xs-4">
+                        <select id="roleAdd" name="roleAdd" class="selectpicker"  multiple  data-live-search="true" >
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitUser()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<button type="button" onclick="openAddUser()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<button type="button" onclick="delUser()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
 <button type="button" onclick="RoleManger()" class="btn btn-danger glyphicon">角色查询页面</button>
 </div>
@@ -152,6 +220,7 @@
                 {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle'},
                 {field:'loginNumber',title:'用户账号',align: 'center',valign: 'middle'},
                 {field:'userName',title:'用户名称',align: 'center',valign: 'middle'},
+                {field:'role',title:'用户角色',align: 'center',valign: 'middle'},
                 {field:'mobile',title:'手机号',align: 'center',valign: 'middle'},
                 {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
                 {field:'userstate',title:'用户状态',align: 'center',valign: 'middle'},
@@ -160,6 +229,10 @@
                     }}
             ]
         })
+    }
+
+    function openAddUser(){
+        $('#myRoleModal').modal();
     }
     /*  //打开角色管理页面
       function initRole(){
@@ -235,9 +308,12 @@
                     typeHtml+='<option value="'+data[i].id+'" data="'+data[i].name+'">'+data[i].name+'</option>';
                 }
                 $("#role").html(typeHtml);
+                $("#roleAdd").html(typeHtml);
                 $('#role').selectpicker('refresh');
+                $('#roleAdd').selectpicker('refresh');
 
                 $('#role').selectpicker('render');
+                $('#roleAdd').selectpicker('render');
             },
             error:function (){
                 alert("指定人员下拉有误,请调试 ！！！");
@@ -248,19 +324,20 @@
 
 
 
-    function fun(){
-
-    }
     //提交指定角色
     function submitRole(){
         var obj = document.getElementById("role");
         var roleIds='';
+        var roleName="";
         for (var i = 0; i < obj.options.length; i++) {
             if (obj.options[i].selected) {
                 roleIds += roleIds == '' ? obj.options[i].value : ',' + obj.options[i].value;
             }
+            if (obj.options[i].selected) {
+                roleName += roleName == '' ? obj.options[i].text : ',' + obj.options[i].text;
+            }
         }
-        $.post('/user/saveUserRole',{userId:$("#hiddenUserId").val(),roleId:roleIds},function(data) {
+        $.post('/user/saveUserRole',{userId:$("#hiddenUserId").val(),roleId:roleIds,role:roleName},function(data) {
             if(data==1){
                 $("[data-dismiss='modal']").close();
                 alert("更改指定人成功")
@@ -269,7 +346,38 @@
             }
         })
     }
-
+    //提交用户
+    function submitUser(){
+        var obj = document.getElementById("roleAdd");
+        var roleName="";
+        for (var i = 0; i < obj.options.length; i++) {
+            if (obj.options[i].selected) {
+                roleName += roleName == '' ? obj.options[i].text : ',' + obj.options[i].text;
+            }
+        }
+       // document.getElementById('buttonAdd').disabled=true;
+        $.ajax({
+            url: '/user/addUser',
+            type: "post",
+            data : {
+                loginNumber:$("#loginNumber").val(),
+                password:$("#password").val(),
+                userName:$("#userName1").val(),
+                mobile:$("#mobile").val(),
+                email:$("#email").val(),
+                role:roleName
+            },
+            success:function (data){
+                initTable();
+                $("[data-dismiss='modal']").click();
+                alert("更改指定人成功")
+             //   document.getElementById('buttonAss').disabled=false;
+            },
+            error:function (){
+                alert("指定人员下拉有误,请调试 ！！！");
+            }
+        })
+    }
 
 
     //新增修改路径
@@ -284,42 +392,7 @@
         });
         return res;
     }
-//打开新增用户的弹框
-    function openAddDialog(){
-        bootbox.dialog({
-            size:"big",
-            title:"添加用户",
-            message:createAddUser("/page/toAddUser"),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = $("#role").val();
-                        $.ajax({
-                            url:'/user/addUser',
-                            type:'post',
-                            data: $("#userForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:data.msg
-                                })
-                                $('#myTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }
+
 //打开修改的弹框
     function editContract(contractId,roomType,towerType,contractType){
         $("#typeHidIdOne").val(roomType);
@@ -362,7 +435,7 @@
         })
     }
     //批量删除
-    function delContract(){
+    function delUser(){
         var arr = $('#myTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
@@ -391,10 +464,10 @@
                 if (result) {
                     var ids = "";
                     for (var i = 0; i < arr.length; i++) {
-                        ids += ids == "" ? arr[i].contractId : ","+arr[i].contractId;
+                        ids += ids == "" ? arr[i].id : ","+arr[i].id;
                     }
                     $.ajax({
-                        url:"/contract/delAll",
+                        url:"/user/delUser",
                         data:{ids:ids},
                         success:function(result){
                             alert(result.msg);

@@ -3,6 +3,7 @@ package com.dx.mapper.contract;
 import com.dx.model.contract.Contract;
 import com.dx.model.contract.ContractExtension;
 import com.dx.model.contract.SysCode;
+import com.dx.model.user.UserMain;
 import org.apache.ibatis.annotations.Param;
 import org.omg.PortableInterceptor.INACTIVE;
 
@@ -46,4 +47,5 @@ public interface ContractMapper {
     int querySiteCountSum();
 
     int queryContractExtensionCount();
+
 }

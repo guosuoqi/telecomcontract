@@ -18,13 +18,7 @@ public class UserMain {
 
     private String makedate;//创建时间
 
-    private String orgCode;//管理机构
-
-    private String roleNames;//管理机构
-
-    private String operator;//操作人
-
-    private String wechatUserId;//对应微信id
+    private String role;//用户角色
 
     public Integer getId() {
         return id;
@@ -90,41 +84,11 @@ public class UserMain {
         this.makedate = makedate;
     }
 
-    public String getComcode() {
-        return orgCode;
+    public String getRole() {
+        return role;
     }
 
-    public void setComcode(String comcode) {
-        this.orgCode = comcode;
+    public void setRole(String role) {
+        this.role = role;
     }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
-    public String getOrgCode() {
-        return orgCode;
-    }
-
-    public void setRoleNames(String roleNames) {
-        this.roleNames = roleNames;
-    }
-
-    public void setOrgCode(String orgCode) {
-        this.orgCode = orgCode;
-    }
-
-    public String getWechatUserId() {
-        return wechatUserId;
-    }
-
-    public void setWechatUserId(String wechatUserId) {
-        this.wechatUserId = wechatUserId;
-    }
-
-
 }

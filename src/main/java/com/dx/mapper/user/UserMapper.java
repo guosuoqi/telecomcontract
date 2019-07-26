@@ -39,4 +39,10 @@ public interface UserMapper {
     void deleteRole(@Param("userId")String userId);
 
     void saveRole(ArrayList<UserRoleBean> params);
+
+    void updateUserRoleByUserId(@Param("userId")String userId,@Param("userMain")UserMain userMain);
+
+    int addUser(@Param("userMain")UserMain userMain);
+
+    int delUser(@Param("ids")String ids);
 }
