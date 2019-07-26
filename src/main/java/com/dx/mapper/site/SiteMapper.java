@@ -14,7 +14,7 @@ public interface SiteMapper {
 
     List<EquipmentBBU> queryBBU(HashMap<String, Object> params);
 
-    int add3GBBU(@Param("equipmentBBU") EquipmentBBU equipmentBBU);
+    boolean add3GBBU(List<EquipmentBBU> bbuList);
 
     int delAll(@Param("ids") String ids);
 
@@ -26,7 +26,7 @@ public interface SiteMapper {
 
     List<EquipmentRRUAAU> queryRRU(HashMap<String, Object> params);
 
-    int add3GRRU(@Param("equipmentRRUAAU")EquipmentRRUAAU equipmentRRUAAU);
+    boolean add3GRRU( List<EquipmentRRUAAU> rruList);
 
     int delAllRRU(@Param("ids")String ids);
 
