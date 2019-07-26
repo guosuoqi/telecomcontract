@@ -8,27 +8,28 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class disposeUtil {
-    private final Integer WORKING_TIME=7;
-
-
 
     public static void main(String[] args) {
-        Double dd=15.5;
-        System.out.println(getDateTime("2019-04-29 12:00:00",dd));
+        Double dd=12.0;
+        System.out.println(getDateTime("2019-04-29 11:00:00",dd,0));
     }
 
     //主流程
-    public static String getDateTime(String beginTime, Double num){
+    public static String getDateTime(String beginTime, Double num,Integer cu){
+         Integer WORKING_TIME=7;
         if(beginTime==null || num==null){
             System.out.println("参数不正确");
             return null;
         }
-        SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
-            Date date=sDateFormat.parse(beginTime);
+            SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=isWorkTime(beginTime,1,cu);
+            /*date=sDateFormat.parse(beginTime);*/
+            System.out.println(sDateFormat.format(date));
+
             int days=0;
-            int minutes= (int) Math.round((num % 7)*60);
-            int ceil = (int)Math.ceil(num / 7);
+            int minutes= (int) Math.round((num % WORKING_TIME)*60);
+            int ceil = (int)Math.ceil(num / WORKING_TIME);
             while ((ceil-=1)>=0){
                 while (isHodliDays(date)){
                     date=getNextDate(date,1,null);
@@ -38,18 +39,72 @@ public class disposeUtil {
                     date=getNextDate(date,1,null);
                     days+=1;
                 }
+                if(ceil!=0){
+                    days+=1;
+                }
             }
-            return sDateFormat.format(getNextDate(sDateFormat.parse(beginTime),days,minutes));
+            date = getNextDate(sDateFormat.parse(beginTime), days, minutes);
+            String format = sDateFormat.format(date);
+            date=isWorkTime(format,2,1);
+            return sDateFormat.format(date);
         } catch (ParseException e) {
             System.out.println("转换异常");
             return null;
         }
     }
 
-    public static String getWeek(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        String week = sdf.format(date);
-        return week;
+    private static Date isWorkTime(String date,Integer type,Integer cu) {
+        DateFormat df = new SimpleDateFormat("HH:mm");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
+        SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat ymd=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = new GregorianCalendar();
+
+        try {
+            Date model = sDateFormat.parse(date);
+            Date ymdParam =ymd.parse(date);
+            String p = new SimpleDateFormat("HH:mm").format(model);
+            Date param = df.parse(p);
+            Date amStart = df.parse("09:00");
+            Date amEnd = df.parse("12:00");
+            Date pmStart = df.parse("13:30");
+            Date pmEnd = df.parse("17:30");
+            long halfTime=pmStart.getTime()-amEnd.getTime();
+            Integer minute= Math.toIntExact(halfTime / 1000 / 60);
+            if(type==1){
+                if(param.getTime() <= amStart.getTime()){
+                    model=jointDateTime(ymdParam.getTime()+amStart.getTime(),model);
+                }else if(param.getTime() >= amEnd.getTime() && param.getTime() <pmStart.getTime()){
+                    model=jointDateTime(ymdParam.getTime()+pmStart.getTime(),model);
+                }else if(param.getTime()>pmEnd.getTime()){
+                    ymdParam = getNextDate(ymdParam, 1, 0);
+                    model=jointDateTime(ymdParam.getTime()+amStart.getTime(),model);
+                }
+            }else {
+                if(param.getTime() >= amEnd.getTime() && param.getTime() <=pmEnd.getTime()){
+                    calendar.setTime(model);
+                    calendar.add(Calendar.MINUTE,minute);
+                    model = calendar.getTime();
+                }
+                if(param.getTime()>pmEnd.getTime()){
+                    ymdParam = getNextDate(ymdParam, 1, 0);
+                    long time=param.getTime()-pmEnd.getTime()+amStart.getTime();
+                    minute= Math.toIntExact(time / 1000 / 60);
+                    calendar.setTime(ymdParam);
+                    calendar.add(Calendar.MINUTE,minute);
+                    String dateTime = getDateTime(sDateFormat.format(calendar.getTime()), 0.0,1);
+                    model=sDateFormat.parse(dateTime);
+                }
+            }
+            return model;
+        } catch (ParseException e) {
+            return null;
+        }
+
+    }
+
+    private static Date jointDateTime(long m, Date model){
+        model.setTime(m);
+        return model;
     }
 
     public static boolean getWeek2(Date date){
@@ -105,9 +160,19 @@ public class disposeUtil {
     }
 
 
-    private static Date getNextDate(Date date, Integer d, Integer m){
+    private static Date getNextDate(Date date, Integer d, Integer m) throws ParseException {
         Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
+        if(d!=null && d!=0){
+            DateFormat df = new SimpleDateFormat("HH:mm");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
+            Date amStart = df.parse("9:00");
+            String hm = df.format(date);
+            Date param = df.parse(hm);
+            long times=date.getTime()-param.getTime()+amStart.getTime();
+            date.setTime(times);
+            calendar.setTime(date);
+        }else {
+            calendar.setTime(date);
+        }
         calendar.add(Calendar.DATE, d);
         if(m==null){
             return calendar.getTime();
