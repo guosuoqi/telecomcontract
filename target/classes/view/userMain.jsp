@@ -99,6 +99,8 @@
 </div>
 <table id="myTable"></table>
 <table id="myRole"></table>
+
+
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
@@ -205,7 +207,7 @@
             url: '/user/queryRoleByUserId',
             type: "get",
             data : {
-                userId:id
+                userId:id,
             },
             success:function (data){
                 $('#myModal').modal();
@@ -243,26 +245,29 @@
         })
     }
 
+
+
+
+    function fun(){
+
+    }
     //提交指定角色
     function submitRole(){
-        $.ajax({
-            url: '/user/saveUserRole',
-            type: "post",
-            data : {
-                ids:$("#role").val(),
-                userId:$("#hiddenUserId").val()
-            },
-            success:function (data){
-                if(data==1){
-                    initTable();
-                    $("[data-dismiss='modal']").click();
-                    alert("更改指定人成功")
-                }else {
-                    alert("指定人员下拉有误,请调试 ！！！");
-                }
+        var obj = document.getElementById("role");
+        var roleIds='';
+        for (var i = 0; i < obj.options.length; i++) {
+            if (obj.options[i].selected) {
+                roleIds += roleIds == '' ? obj.options[i].value : ',' + obj.options[i].value;
+            }
+        }
+        $.post('/user/saveUserRole',{userId:$("#hiddenUserId").val(),roleId:roleIds},function(data) {
+            if(data==1){
+                $("[data-dismiss='modal']").close();
+                alert("更改指定人成功")
+            }else {
+                alert("指定人员下拉有误,请调试 ！！！");
             }
         })
-
     }
 
 

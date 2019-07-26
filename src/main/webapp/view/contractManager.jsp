@@ -41,8 +41,7 @@
     <a href="合同续约.html" target="rightFrame"><div style="width:80%;height:50%;margin-top:10px;margin-left:25%;">
         <font size='3'>即将到期合同数 </font>
     </div>
-        <div style="width:80%;height:50%;margin-top:10px;margin-left:45%;">
-            <font size='3'>1 </font>
+        <div style="width:80%;height:50%;margin-top:10px;margin-left:45%;" id="extensionNum">
         </div></a>
 </div>
 <div style="width:25%;height:100px;background-color:#ccffff;float:left;margin-left:10%;margin-top:20px">
@@ -57,7 +56,6 @@
         <center> <font size='3'>现有设备数量</font></center>
     </div>
     <div style="width:50%;height:50%;margin-top:10px;margin-left:20%;">
-        <center><font size='3'>5</font></center>
     </div>
 </div>
 <div style="width:25%;height:100px;background-color:#ccffff;float:left;margin-left:10%;margin-top:20px">
@@ -65,7 +63,6 @@
          <font size='3'><center>电费待缴站点数</center></font>
     </div>
     <div style="width:40%;height:50%;margin-top:10px;margin-left:45%;">
-        <center> <font size=3>0</font></center>
     </div>
 </div>
 <div style="width:25%;height:100px;background-color:#ff0000;float:left;margin-left:10%;margin-top:20px">
@@ -74,7 +71,6 @@
             <center><font size='3'>租赁费代缴费站点数</font></center>
         </div>
         <div style="width:40%;height:40%;margin-top:10px;margin-left:30%;">
-            <center> <font size='3'>1</font></center>
         </div>
     </a>
 </div>
@@ -104,6 +100,7 @@ function initContractManager(){
         success:function(result){
            $("#contractCount").html(result.countNum);
            $("#siteCount").html(result.siteCountNum);
+           $("#extensionNum").html(result.extensionNum);
         },
         error:function(data){
             alert("检查后台代码")

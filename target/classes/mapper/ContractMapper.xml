@@ -231,18 +231,28 @@
 	</update>
 
 
-	<!--合同管理页面查询总条数-->
+	<!--合同管理页面合同查询总条数-->
 	<select id="queryContractCountSum"  resultType="int">
 		select
 		count(1)
 		from contract_manage
 	</select>
 
-	<!--合同管理页面查询总条数-->
+	<!--合同管理页面站点查询总条数-->
 	<select id="querySiteCountSum"  resultType="int">
 		select
 		count(1)
 		from t_base_station
+	</select>
+
+	<!--合同管理页面待续约查询总条数-->
+	<select id="queryContractExtensionCount"  resultType="int">
+		select
+		count(1)
+		from contract_manage
+		<where>
+		extenxion_status = 1
+		</where>
 	</select>
 
 </mapper>

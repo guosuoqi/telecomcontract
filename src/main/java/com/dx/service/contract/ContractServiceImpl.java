@@ -273,6 +273,11 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.querySiteCountSum();
     }
 
+    @Override
+    public int queryContractExtensionCount() {
+        return contractMapper.queryContractExtensionCount();
+    }
+
     /**
      * 获取单元格内容
      * @param cell 指定单元格

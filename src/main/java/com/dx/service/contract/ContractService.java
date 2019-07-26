@@ -41,4 +41,6 @@ public interface ContractService {
     int queryContractCountSum();
 
     int querySiteCountSum();
+
+    int queryContractExtensionCount();
 }

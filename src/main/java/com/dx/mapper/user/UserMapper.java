@@ -36,7 +36,7 @@ public interface UserMapper {
 
     UserMain queryUserByName(@Param("userName")String userName);
 
-    void deleteRole(String userId);
+    void deleteRole(@Param("userId")String userId);
 
     void saveRole(ArrayList<UserRoleBean> params);
 }

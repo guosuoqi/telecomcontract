@@ -123,7 +123,7 @@ public class UserController {
 
     @RequestMapping("saveUserRole")
     @ResponseBody
-    public boolean saveRole(String userId,Integer[]roleId){
+    public boolean saveRole(String userId,Integer [] roleId){
         try {
             userService.saveRole(userId,roleId);
             return true;

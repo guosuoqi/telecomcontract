@@ -181,6 +181,8 @@ public class ContractController {
         params.put("countNum",contractCountNum);
         int siteCountNum = contractService.querySiteCountSum();
         params.put("siteCountNum",siteCountNum);
+        int extensionNum = contractService.queryContractExtensionCount();
+        params.put("extensionNum",extensionNum);
         return params;
     }
 }
