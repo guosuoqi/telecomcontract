@@ -1,40 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8e537130-b368-4995-9400-08cf217c1570" name="Default" comment="信息管理页面">
+    <list default="true" id="8e537130-b368-4995-9400-08cf217c1570" name="Default" comment="新增删除用户">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/controller/contract/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/controller/contract/ContractController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/mapper/contract/ContractMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/mapper/contract/ContractMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dx/util/DateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dx/util/DateUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ContractMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ContractMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/view/contractManager.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/view/contractManager.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/view/userMain.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/view/userMain.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/component/ScheduledJob.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/component/ScheduledJob.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/controller/contract/ContractController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/controller/contract/ContractController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/controller/poi/PoiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/controller/poi/PoiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/controller/site/SiteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/controller/site/SiteController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dx/controller/user/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/controller/user/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/mapper/contract/ContractMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/mapper/contract/ContractMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/mapper/site/SiteMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/mapper/site/SiteMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dx/mapper/user/UserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/mapper/user/UserMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/model/contract/Contract.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/model/contract/Contract.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/model/nav/UserRoleBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/model/nav/UserRoleBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/contract/ContractService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/contract/ContractService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/contract/ContractServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/contract/ContractServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/site/SiteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/site/SiteService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/site/SiteServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/site/SiteServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/model/user/UserMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/model/user/UserMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/user/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dx/service/user/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/service/user/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/util/DateUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/util/DateUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dx/util/EmailUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dx/util/EmailUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/ContractMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/ContractMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/userMain.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/userMain.jsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -69,13 +42,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="127" column="28" lean-forward="true" selection-start-line="127" selection-start-column="28" selection-end-line="127" selection-end-column="28" />
+            <state relative-caret-position="57">
+              <caret line="201" column="23" lean-forward="true" selection-start-line="201" selection-start-column="23" selection-end-line="201" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4783#4799#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,10 +58,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
+            <state relative-caret-position="202">
+              <caret line="115" column="48" lean-forward="true" selection-start-line="115" selection-start-column="48" selection-end-line="115" selection-end-column="48" />
               <folding>
-                <marker date="1564065223947" expanded="true" signature="407:524" ph="select from sys_user" />
+                <marker date="1564132405439" expanded="true" signature="412:529" ph="select from sys_user" />
               </folding>
             </state>
           </provider>
@@ -96,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="55">
-              <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+            <state relative-caret-position="377">
+              <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
             </state>
           </provider>
         </entry>
@@ -105,37 +79,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/service/user/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+            <state relative-caret-position="263">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/service/user/UserServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="108" column="71" lean-forward="true" selection-start-line="108" selection-start-column="71" selection-end-line="108" selection-end-column="71" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2501#2502#0" expanded="true" />
-                <element signature="e#2560#2561#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/util/StringUtil.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/service/user/UserServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="51" lean-forward="true" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+            <state relative-caret-position="214">
+              <caret line="128" column="30" selection-start-line="128" selection-start-column="30" selection-end-line="128" selection-end-column="30" />
               <folding>
-                <element signature="e#105#106#0" expanded="true" />
-                <element signature="e#167#168#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2501#2502#0" expanded="true" />
+                <element signature="e#2560#2561#0" expanded="true" />
+                <element signature="e#3852#3866#0" expanded="true" />
+                <element signature="e#4348#4349#0" expanded="true" />
+                <element signature="e#4399#4400#0" expanded="true" />
+                <element signature="e#4457#4458#0" expanded="true" />
+                <element signature="e#4490#4491#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,8 +110,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/view/userMain.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="264" column="39" selection-start-line="264" selection-start-column="34" selection-end-line="264" selection-end-column="39" />
+            <state relative-caret-position="160">
+              <caret line="469" column="42" selection-start-line="469" selection-start-column="35" selection-end-line="469" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/controller/contract/ContractController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="132" lean-forward="true" selection-start-line="94" selection-start-column="3" selection-end-line="132" />
+              <folding>
+                <element signature="e#5008#5009#0" expanded="true" />
+                <element signature="e#5065#5066#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -162,36 +141,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>queryUserByName</find>
-      <find>getUserInfoByLoginNumber</find>
-      <find>initExtension</find>
-      <find>initContract</find>
-      <find>ContractServiceImpl</find>
-      <find>queryContract</find>
-      <find>queryCcontractById</find>
-      <find>queryCcontractByIds</find>
-      <find>queryUserCount</find>
-      <find>EXPContract</find>
       <find>createExcel</find>
       <find>queryContractCount</find>
       <find>修改</find>
-      <find>queryRole</find>
       <find>Integer</find>
       <find>submitRole</find>
       <find>roleAdd</find>
       <find>queryRoleByUserId</find>
       <find>updateContractStatus</find>
       <find>1</find>
-      <find>saveUserRole</find>
       <find>queryContractEndTimeCount</find>
       <find>extension</find>
       <find>queryContractExtensionCount</find>
       <find>editRole</find>
-      <find>role</find>
-      <find>save</find>
       <find>modal</find>
       <find>t_user_role</find>
       <find>deleteRole</find>
+      <find>queryUser</find>
+      <find>saveUserRole</find>
+      <find>save</find>
+      <find>userName</find>
+      <find>openAddDialog</find>
+      <find>role</find>
+      <find>queryRole</find>
+      <find>submitUser</find>
+      <find>add</find>
+      <find>buttonAdd</find>
+      <find>selectpicker</find>
+      <find>delA</find>
+      <find>,</find>
+      <find>del</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -218,8 +197,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/dx/model/site/EquipmentBBU.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/view/update3GBBU.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/view/3GBBU.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/view/4GBBU.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/view/5GBBU.jsp" />
@@ -251,24 +228,26 @@
         <option value="$PROJECT_DIR$/src/main/webapp/view/siteManager.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/model/site/SitManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/service/nav/NavServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/view/menu.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/model/contract/Contract.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/view/addUser.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/util/StringUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dx/service/user/UserServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dx/service/user/UserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/model/nav/UserRoleBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/util/DateUtils.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/ContractMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dx/mapper/contract/ContractMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/controller/contract/ContractController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/view/contractManager.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/view/userMain.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dx/util/disposeUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dx/model/user/UserMain.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/view/menu.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dx/mapper/contract/ContractMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dx/service/user/UserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dx/service/user/UserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/view/userMain.jsp" />
       </list>
     </option>
   </component>
@@ -308,7 +287,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -512,6 +490,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -538,12 +517,8 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\testone\telecomcontract\src\main\resources\mapper" />
-      <recent name="F:\testone\telecomcontract\src\main\resources" />
-      <recent name="F:\testone\telecomcontract\src\main\resources\mapper\user" />
-      <recent name="F:\testone\telecomcontract\src\main\resources\mapper\nav" />
-      <recent name="F:\dx\telecomcontract\src\main" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.dx.config" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\testone\telecomcontract\src\main\java\com\dx\model\nav" />
@@ -553,14 +528,18 @@
       <recent name="F:\testone\telecomcontract\src\main\resources\mapper" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.dx.util" />
       <recent name="com.dx.model.common" />
       <recent name="com.dx.component" />
-      <recent name="com.dx.util" />
       <recent name="com.dx.controller.page" />
       <recent name="com.dx.mapper.nav" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.dx.config" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\testone\telecomcontract\src\main\resources\mapper" />
+      <recent name="F:\testone\telecomcontract\src\main\resources" />
+      <recent name="F:\testone\telecomcontract\src\main\resources\mapper\user" />
+      <recent name="F:\testone\telecomcontract\src\main\resources\mapper\nav" />
+      <recent name="F:\dx\telecomcontract\src\main" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -736,6 +715,7 @@
       <workItem from="1563930626650" duration="2559000" />
       <workItem from="1563939032297" duration="15886000" />
       <workItem from="1564018150326" duration="8852000" />
+      <workItem from="1564106123047" duration="14983000" />
     </task>
     <task id="LOCAL-00001" summary="框架">
       <created>1560261813438</created>
@@ -828,17 +808,51 @@
       <option name="project" value="LOCAL" />
       <updated>1563972628395</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="时间">
+      <created>1564106710811</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1564106710811</updated>
+    </task>
+    <task id="LOCAL-00015" summary="时间">
+      <created>1564106880257</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1564106880257</updated>
+    </task>
+    <task id="LOCAL-00016" summary="时间">
+      <created>1564107300910</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1564107300910</updated>
+    </task>
+    <task id="LOCAL-00017" summary="实体类">
+      <created>1564121125068</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1564121125068</updated>
+    </task>
+    <task id="LOCAL-00018" summary="新增删除用户">
+      <created>1564132637193</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1564132637193</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="365960000" />
+    <option name="totallyTimeSpent" value="380943000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4986945" visible="true" weight="0.23201293" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4986945" visible="true" weight="0.2821342" />
       <window_info id="Structure" order="1" weight="0.2497979" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -849,7 +863,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.5133215" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4995958" weight="0.42273533" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3463588" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.6820604" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -974,7 +988,10 @@
     <MESSAGE value="版本合并" />
     <MESSAGE value="总站管理页面提交" />
     <MESSAGE value="信息管理页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="信息管理页面" />
+    <MESSAGE value="时间" />
+    <MESSAGE value="实体类" />
+    <MESSAGE value="新增删除用户" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增删除用户" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -993,27 +1010,45 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/dx/controller/site/SiteController.java</url>
-          <line>171</line>
+          <line>169</line>
           <properties />
           <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/dx/controller/site/SiteController.java</url>
-          <line>192</line>
+          <line>190</line>
           <properties />
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/dx/controller/site/SiteController.java</url>
-          <line>215</line>
+          <line>213</line>
           <properties />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/dx/service/site/SiteServiceImpl.java</url>
-          <line>94</line>
+          <line>103</line>
           <properties />
           <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/dx/service/user/UserServiceImpl.java</url>
+          <line>106</line>
+          <properties />
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java</url>
+          <line>142</line>
+          <properties />
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java</url>
+          <line>190</line>
+          <properties />
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -1037,18 +1072,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/contractExtension.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1995" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/nav/NavMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/site/SiteMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="358">
@@ -1145,13 +1168,6 @@
             <element signature="e#3019#3020#0" expanded="true" />
             <element signature="e#3062#3063#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/menu.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="134" column="59" selection-start-line="134" selection-start-column="59" selection-end-line="134" selection-end-column="59" />
         </state>
       </provider>
     </entry>
@@ -1316,13 +1332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/model/user/UserMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/model/nav/UserRoleBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -1339,13 +1348,6 @@
             <element signature="e#370#371#0" expanded="true" />
             <element signature="e#390#391#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/addUser.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1420,17 +1422,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/controller/contract/ContractController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="184" column="46" selection-start-line="184" selection-start-column="34" selection-end-line="184" selection-end-column="46" />
-          <folding>
-            <element signature="e#5008#5009#0" expanded="true" />
-            <element signature="e#5065#5066#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/service/contract/ContractService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="327">
@@ -1441,31 +1432,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/contract/ContractMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="48" column="1" lean-forward="true" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/ContractMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="248" column="43" selection-start-line="248" selection-start-column="16" selection-end-line="248" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/userMain.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="264" column="39" selection-start-line="264" selection-start-column="34" selection-end-line="264" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/util/StringUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
-          <caret line="7" column="51" lean-forward="true" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+          <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
           <folding>
             <element signature="e#105#106#0" expanded="true" />
             <element signature="e#167#168#0" expanded="true" />
@@ -1473,37 +1443,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/util/disposeUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
+        <state relative-caret-position="18">
+          <caret line="35" column="17" lean-forward="true" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/menu.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="94" selection-start-line="94" selection-end-line="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/addUser.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-394">
+          <caret line="68" column="14" selection-start-line="32" selection-start-column="7" selection-end-line="68" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/contract/ContractMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="50" column="1" lean-forward="true" selection-start-line="50" selection-start-column="1" selection-end-line="50" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/model/user/UserMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="23" />
           <folding>
-            <marker date="1564065223947" expanded="true" signature="407:524" ph="select from sys_user" />
+            <element signature="e#386#387#0" expanded="true" />
+            <element signature="e#411#412#0" expanded="true" />
+            <element signature="e#448#449#0" expanded="true" />
+            <element signature="e#476#477#0" expanded="true" />
+            <element signature="e#514#515#0" expanded="true" />
+            <element signature="e#548#549#0" expanded="true" />
+            <element signature="e#602#603#0" expanded="true" />
+            <element signature="e#648#649#0" expanded="true" />
+            <element signature="e#683#684#0" expanded="true" />
+            <element signature="e#714#715#0" expanded="true" />
+            <element signature="e#762#763#0" expanded="true" />
+            <element signature="e#802#803#0" expanded="true" />
+            <element signature="e#837#838#0" expanded="true" />
+            <element signature="e#868#869#0" expanded="true" />
+            <element signature="e#916#917#0" expanded="true" />
+            <element signature="e#956#957#0" expanded="true" />
+            <element signature="e#989#990#0" expanded="true" />
+            <element signature="e#1018#1019#0" expanded="true" />
+            <element signature="e#1062#1063#0" expanded="true" />
+            <element signature="e#1098#1099#0" expanded="true" />
+            <element signature="e#1130#1131#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1200#1201#0" expanded="true" />
+            <element signature="e#1234#1235#0" expanded="true" />
+            <element signature="e#1270#1271#0" expanded="true" />
+            <element signature="e#1302#1303#0" expanded="true" />
+            <element signature="e#1352#1353#0" expanded="true" />
+            <element signature="e#1394#1395#0" expanded="true" />
+            <element signature="e#1429#1430#0" expanded="true" />
+            <element signature="e#1460#1461#0" expanded="true" />
+            <element signature="e#1508#1509#0" expanded="true" />
+            <element signature="e#1548#1549#0" expanded="true" />
+            <element signature="e#1579#1580#0" expanded="true" />
+            <element signature="e#1606#1607#0" expanded="true" />
+            <element signature="e#1646#1647#0" expanded="true" />
+            <element signature="e#1678#1679#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/controller/contract/ContractController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55">
-          <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="127" column="28" lean-forward="true" selection-start-line="127" selection-start-column="28" selection-end-line="127" selection-end-column="28" />
+        <state relative-caret-position="423">
+          <caret line="132" lean-forward="true" selection-start-line="94" selection-start-column="3" selection-end-line="132" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#5008#5009#0" expanded="true" />
+            <element signature="e#5065#5066#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/service/user/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+        <state relative-caret-position="263">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1512,12 +1539,66 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/service/user/UserServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="108" column="71" lean-forward="true" selection-start-line="108" selection-start-column="71" selection-end-line="108" selection-end-column="71" />
+        <state relative-caret-position="214">
+          <caret line="128" column="30" selection-start-line="128" selection-start-column="30" selection-end-line="128" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2501#2502#0" expanded="true" />
             <element signature="e#2560#2561#0" expanded="true" />
+            <element signature="e#3852#3866#0" expanded="true" />
+            <element signature="e#4348#4349#0" expanded="true" />
+            <element signature="e#4399#4400#0" expanded="true" />
+            <element signature="e#4457#4458#0" expanded="true" />
+            <element signature="e#4490#4491#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/mapper/user/UserMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/ContractMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="196" column="13" lean-forward="true" selection-start-line="193" selection-start-column="4" selection-end-line="196" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="115" column="48" lean-forward="true" selection-start-line="115" selection-start-column="48" selection-end-line="115" selection-end-column="48" />
+          <folding>
+            <marker date="1564132405439" expanded="true" signature="412:529" ph="select from sys_user" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/view/userMain.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="469" column="42" selection-start-line="469" selection-start-column="35" selection-end-line="469" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/5.1.6.RELEASE/spring-web-5.1.6.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="31" column="94" selection-start-line="31" selection-start-column="94" selection-end-line="31" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dx/controller/user/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="201" column="23" lean-forward="true" selection-start-line="201" selection-start-column="23" selection-end-line="201" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4783#4799#0" expanded="true" />
           </folding>
         </state>
       </provider>
