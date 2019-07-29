@@ -11,11 +11,11 @@ public class disposeUtil {
 
     public static void main(String[] args) {
         Double dd=12.0;
-        System.out.println(getDateTime("2019-04-29 11:00:00",dd,0));
+        System.out.println(getDateTime("2019-07-29 14:42:00",dd));
     }
 
     //主流程
-    public static String getDateTime(String beginTime, Double num,Integer cu){
+    public static String getDateTime(String beginTime, Double num){
          Integer WORKING_TIME=7;
         if(beginTime==null || num==null){
             System.out.println("参数不正确");
@@ -23,29 +23,29 @@ public class disposeUtil {
         }
         try {
             SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date=isWorkTime(beginTime,1,cu);
+            Date date=isWorkTime(beginTime,1);
             /*date=sDateFormat.parse(beginTime);*/
             System.out.println(sDateFormat.format(date));
 
             int days=0;
             int minutes= (int) Math.round((num % WORKING_TIME)*60);
             int ceil = (int)Math.ceil(num / WORKING_TIME);
-            while ((ceil-=1)>=0){
+            while ((ceil--)>=0){
                 while (isHodliDays(date)){
                     date=getNextDate(date,1,null);
-                    days+=1;
+                    days++;
                 }
-                while (getWeek2(date)){
+                while (getWeek2(date) && isOverDays(date)){
                     date=getNextDate(date,1,null);
-                    days+=1;
+                    days++;
                 }
                 if(ceil!=0){
-                    days+=1;
+                    days++;
                 }
             }
             date = getNextDate(sDateFormat.parse(beginTime), days, minutes);
             String format = sDateFormat.format(date);
-            date=isWorkTime(format,2,1);
+            date=isWorkTime(format,2);
             return sDateFormat.format(date);
         } catch (ParseException e) {
             System.out.println("转换异常");
@@ -53,7 +53,7 @@ public class disposeUtil {
         }
     }
 
-    private static Date isWorkTime(String date,Integer type,Integer cu) {
+    private static Date isWorkTime(String date,Integer type) {
         DateFormat df = new SimpleDateFormat("HH:mm");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
         SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateFormat ymd=new SimpleDateFormat("yyyy-MM-dd");
@@ -91,7 +91,7 @@ public class disposeUtil {
                     minute= Math.toIntExact(time / 1000 / 60);
                     calendar.setTime(ymdParam);
                     calendar.add(Calendar.MINUTE,minute);
-                    String dateTime = getDateTime(sDateFormat.format(calendar.getTime()), 0.0,1);
+                    String dateTime = getDateTime(sDateFormat.format(calendar.getTime()), 0.0);
                     model=sDateFormat.parse(dateTime);
                 }
             }
@@ -142,8 +142,6 @@ public class disposeUtil {
                 + "06-12,09-19,09-20,09-21,10-01,10-02,10-03,10-04,10-05,10-06,10-07";
 
 
-        // 节假前后加班日期
-        String overDay = "01-05,01-06,02-16,02-17,04-07,04-17,04-28,06-08,06-09,09-22,09-19,10-12";
 
         DateFormat df = new SimpleDateFormat("MM-dd");
         String d = df.format(date);
@@ -152,27 +150,37 @@ public class disposeUtil {
             System.out.println("是节假日...");
             return true;
         }
-        if (overDay.contains(d)) {
-            System.out.println("节假前后加班日期...");
-            return true;
-        }
         return false;
+    }
+    public static boolean isOverDays(Date date) { // 判断是否滴节假日，是否有节假日加班
+        // 节假前后加班日期
+        String overDay = "01-05,01-06,02-16,02-17,04-07,04-17,04-28,06-08,06-09,09-22,09-19,10-12";
+        DateFormat df = new SimpleDateFormat("MM-dd");
+        String d = df.format(date);
+        if (overDay.contains(d)) {
+            return false;
+        }
+        return true;
+
     }
 
 
-    private static Date getNextDate(Date date, Integer d, Integer m) throws ParseException {
+    private static Date getNextDate(Date date, Integer d, Integer m ) throws ParseException {
         Calendar calendar = new GregorianCalendar();
-        if(d!=null && d!=0){
+        if(m!=null && m!=0){
             DateFormat df = new SimpleDateFormat("HH:mm");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
             Date amStart = df.parse("9:00");
             String hm = df.format(date);
             Date param = df.parse(hm);
-            long times=date.getTime()-param.getTime()+amStart.getTime();
-            date.setTime(times);
-            calendar.setTime(date);
-        }else {
-            calendar.setTime(date);
+            long minute=param.getTime()+(m*60*1000);
+            Date pmEnd = df.parse("17:30");
+            if(minute>pmEnd.getTime()){
+                long times=date.getTime()-pmEnd.getTime()+amStart.getTime();
+                date.setTime(times);
+                d++;
+            }
         }
+        calendar.setTime(date);
         calendar.add(Calendar.DATE, d);
         if(m==null){
             return calendar.getTime();
