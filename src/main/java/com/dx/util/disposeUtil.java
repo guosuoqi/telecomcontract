@@ -10,8 +10,8 @@ import java.util.GregorianCalendar;
 public class disposeUtil {
 
     public static void main(String[] args) {
-        Double dd=10.0;
-        System.out.println(getDateTime("2019-09-29 14:42:00",dd,0));
+        Double dd=8.0;
+        System.out.println(getDateTime("2019-09-29 11:42:00",dd,0));
     }
 
     //主流程
@@ -151,11 +151,19 @@ public class disposeUtil {
         if(m!=null && m!=0){
             DateFormat df = new SimpleDateFormat("HH:mm");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
             Date amStart = df.parse("9:00");
+            Date amEnd = df.parse("12:00");
+            Date pmStart = df.parse("13:30");
+            Date pmEnd = df.parse("17:30");
+            long halfTime=pmStart.getTime()-amEnd.getTime();
             String hm = df.format(date);
             Date param = df.parse(hm);
-            long minute=param.getTime()+(m*60*1000);
-            Date pmEnd = df.parse("17:30");
-            if(minute>pmEnd.getTime()){
+            long s=param.getTime()+(m*60*1000);
+            long amEndMinute=amEnd.getTime();
+            if(param.getTime()<=amEnd.getTime() && s>=amEndMinute){
+                s+=halfTime;
+                m+=(int)(halfTime/1000/60);
+            }
+            if(s>pmEnd.getTime()){
                 long times=date.getTime()-pmEnd.getTime()+amStart.getTime();
                 date.setTime(times);
                 d++;
