@@ -109,7 +109,7 @@ public class UserController {
         dealReportService.updateRoleById(roleBean);
     }*/
 
-    //查询合同管理页面
+    //查询角色权限管理页面
     @RequestMapping(value = "queryRoleAll", method = RequestMethod.POST)
     @ResponseBody
     public PageResult queryRoleAll(Integer page, Integer rows, RoleBean roleBean) {

@@ -225,7 +225,7 @@
                 {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
                 {field:'userstate',title:'用户状态',align: 'center',valign: 'middle'},
                 {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                        return   ' <a href="javascript:editRole('+row.id+');">修改</a>  ';
+                        return   ' <a href="javascript:editRole('+row.id+');">修改角色</a>  ';
                     }}
             ]
         })
@@ -234,46 +234,7 @@
     function openAddUser(){
         $('#myRoleModal').modal();
     }
-    /*  //打开角色管理页面
-      function initRole(){
-          $('#myRole').bootstrapTable('destroy');
-          $("#myRole").bootstrapTable({
-              url:'/user/queryRole',//获取数据地址
-              method: 'post',
-              contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-              pagination:true, //是否展示分页
-              pageList:[5, 10, 20, 50],//分页组件
-              pageNumber:1,
-              pageSize:5,//默认每页条数
-              //search:true,//是否显示搜索框
-              //searchText:'试试',//初始化搜索文字
-              showColumns:false,//是否显示 内容列下拉框
-              showToggle:false,//是否显示 切换试图（table/card）按钮
-              showPaginationSwitch:false,//是否显示 数据条数选择框
-              showRefresh:false,//是否显示刷新按钮
-              detailView:false,//设置为 true 可以显示详细页面模式。
-              showFooter:false,//是否显示列脚
-              clickToSelect: true, //是否启用点击选中行
-              sidePagination:'server',//分页方式：client客户端分页，server服务端分页（*
-              striped:true,
-              queryParams:function(){
-                  return {
-                      page: this.pageNumber,
-                      rows: this.pageSize,
-                      userName:$('#userName').val(),
-                  }
-              },
 
-              columns:[
-                  {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
-                  {field:'id',title:'角色编号',align: 'center',width:"40px",valign: 'middle'},
-                  {field:'name',title:'角色',align: 'center',valign: 'middle'},
-                  {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                          return   ' <a href="javascript:editRole('+row.id+');">绑定权限</a>  ';
-                      }}
-              ]
-          })
-      }*/
     //打开角色模态框
     function editRole(id){
         $.ajax({
@@ -379,61 +340,6 @@
         })
     }
 
-
-    //新增修改路径
-    var res;
-    function createAddUser(url){
-        $.ajax({
-            url:url,
-            async:false,
-            success:function(data){
-                res = data;
-            }
-        });
-        return res;
-    }
-
-//打开修改的弹框
-    function editContract(contractId,roomType,towerType,contractType){
-        $("#typeHidIdOne").val(roomType);
-        $("#typeHidIdTwo").val(towerType);
-        $("#typeHidIdThree").val(contractType);
-        bootbox.dialog({
-            size:"big",
-            title:"修改合同信息",
-            message:createAddContent("/page/toUpdateContract?contractId="+contractId),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&towerTypeName="+$("#towerUp option:selected").text()+
-                            "&contractTypeName="+$("#contractUp option:selected").text()+
-                            "&roomTypeName="+$("#roomUp option:selected").text();
-                        $.ajax({
-                            url:'/contract/updateContract',
-                            type:'post',
-                            data:$("#contractForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:"修改成功！"
-                                }),
-                                    $('#myTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }
     //批量删除
     function delUser(){
         var arr = $('#myTable').bootstrapTable('getSelections');

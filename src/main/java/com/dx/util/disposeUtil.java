@@ -10,8 +10,8 @@ import java.util.GregorianCalendar;
 public class disposeUtil {
 
     public static void main(String[] args) {
-        Double dd=10.0;
-        System.out.println(getDateTime("2019-09-29 14:42:00",dd,0));
+        Double dd=4.21;
+        System.out.println(getDateTime("2019-07-30 10:55:09",dd,0));
     }
 
     //主流程
