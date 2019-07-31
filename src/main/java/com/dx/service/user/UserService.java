@@ -1,10 +1,12 @@
 package com.dx.service.user;
 
+import com.dx.model.nav.NavTree;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.util.PageResult;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface UserService {
@@ -25,4 +27,8 @@ public interface UserService {
     int addUser(UserMain userMain);
 
     int delUser(String ids);
+
+    List<NavTree> queryRoleNav(HashMap<String, Object> param);
+
+    void saveRoleNav(String roleId, Integer[] navIds);
 }

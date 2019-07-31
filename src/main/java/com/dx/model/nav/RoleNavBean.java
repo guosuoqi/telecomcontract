@@ -1,11 +1,11 @@
 package com.dx.model.nav;
 
 
-public class RolePowerBean {
+public class RoleNavBean {
 	
 	private String id;
 	private String roleId;
-	private Integer powerId;
+	private Integer navId;
 
 	public String getId() {
 		return id;
@@ -23,11 +23,11 @@ public class RolePowerBean {
 		this.roleId = roleId;
 	}
 
-	public Integer getPowerId() {
-		return powerId;
+	public Integer getNavId() {
+		return navId;
 	}
 
-	public void setPowerId(Integer powerId) {
-		this.powerId = powerId;
+	public void setNavId(Integer navId) {
+		this.navId = navId;
 	}
 }

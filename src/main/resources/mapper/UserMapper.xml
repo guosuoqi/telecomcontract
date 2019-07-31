@@ -115,4 +115,26 @@
     <delete id="delUser">
 		delete from sys_user where id in(${ids})
 	</delete>
+
+
+    <select id="getNavList" parameterType="int" resultType="com.dx.model.nav.NavTree">
+		select id,name as text,url as href,pid
+			from  sys_nav
+	</select>
+
+    <select id="queryRoleNavById" resultType="roleNavBean">
+		select * from sys_role_power  where role_id=#{roleId}
+	</select>
+
+
+    <delete id="deleteRoleNav">
+	delete from sys_role_power where role_id=#{roleId}
+	</delete>
+
+    <insert id="saveRoleNav">
+        insert into sys_role_power(id,role_id,nav_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.roleId},#{item.navId})
+        </foreach>
+    </insert>
 </mapper>

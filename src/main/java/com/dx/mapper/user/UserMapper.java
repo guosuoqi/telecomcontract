@@ -1,6 +1,8 @@
 package com.dx.mapper.user;
 
+import com.dx.model.nav.NavTree;
 import com.dx.model.nav.RoleBean;
+import com.dx.model.nav.RoleNavBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import org.apache.ibatis.annotations.Param;
@@ -45,4 +47,12 @@ public interface UserMapper {
     int addUser(@Param("userMain")UserMain userMain);
 
     int delUser(@Param("ids")String ids);
+
+    List<NavTree> getNavList();
+
+    List<RoleNavBean> queryRoleNavById(HashMap<String, Object> param);
+
+    void deleteRoleNav(@Param("roleId") String roleId);
+
+    void saveRoleNav(ArrayList<RoleNavBean> params);
 }

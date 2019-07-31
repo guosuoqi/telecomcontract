@@ -329,7 +329,7 @@
                 role:roleName
             },
             success:function (data){
-                initTable();
+                initUser();
                 $("[data-dismiss='modal']").click();
                 alert("更改指定人成功")
              //   document.getElementById('buttonAss').disabled=false;

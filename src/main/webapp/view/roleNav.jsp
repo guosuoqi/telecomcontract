@@ -26,11 +26,38 @@
 <body>
 <div>
 	<table id="myRoles"></table>
+	<input type="text" id="roleHideId">
 </div>
 
-<div>
-	<table id="navTreeTable"></table>
-	<input type="hidden" id="roleHideId">
+
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					请更改角色
+				</h4>
+			</div>
+			<div class="modal-body">
+
+				<label for="navTreeTable">角色分类</label>
+				<div id="navTreeTable"   >
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" onclick="submitNav()">
+					提交更改
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
 </div>
 
 </body>
@@ -78,23 +105,102 @@
            ]
        })
    }
-
+	var nodeCheckedSilent = false;
+	var nodeUncheckedSilent = false;
 	//初始化权限树
 	function bindPower(roleId){
 		$("#roleHideId").val(roleId);
-		$('#navTreeTable').bootstrapTable('destroy');
-		$("#navTreeTable").bootstrapTable({
+		$.ajax({
 			url: '/user/queryRoleNav',
-			checkbox:true,
-			lines:true,
-			parentField:'pid',
-			onDblClick:function(node){
-				$('#navHideId').val(node.id);
-				initDetailMenu(node.id);
+			data:{id:roleId},
+			success:function(data) {
+				$('#myModal').modal();
+				$("#navTreeTable").treeview({
+					showCheckbox: true,
+					state:{checked:true},
+					data:data,
+					onNodeChecked: function(event, data) {
+						if(nodeCheckedSilent){
+							return;
+						}
+						nodeCheckedSilent = true;//开始父子节点级联全选全不选
+						checkAllParent(data);
+						checkAllSon(data);
+						nodeCheckedSilent = false;
+					},
+					onNodeUnchecked : function(event, data) {
+						if(nodeUncheckedSilent){
+							return;
+						}
+						nodeUncheckedSilent = true;//开始父子节点级联全选全不选
+						uncheckAllParent(data);
+						uncheckAllSon(data);
+						nodeUncheckedSilent = false;
+
+					}
+
+				});
 			}
+
+					/*onDblClick:function(node){
+						$('#navHideId').val(node.id);
+						initDetailMenu(node.id);
+					}*/
 		})
 	}
-	/*	//查询详细权限
+
+
+	//选中全部父节点
+	function checkAllParent(data){
+		$('#navTreeTable').treeview('checkNode',data.nodeId,{silent:true});
+		var parentNode = $('#navTreeTable').treeview('getParent',data.nodeId);
+		if(!("nodeId" in parentNode)){
+			return;
+		}else{
+			checkAllParent(parentNode);
+		}
+	}
+	//取消全部父节点
+	function uncheckAllParent(data){
+		$('#navTreeTable').treeview('uncheckNode',data.nodeId,{silent:true});
+		var siblings = $('#navTreeTable').treeview('getSiblings', data.nodeId);
+		var parentNode = $('#navTreeTable').treeview('getParent',data.nodeId);
+		if(!("nodeId" in parentNode)) {
+			return;
+		}
+		var isAllUnchecked = true;  //是否全部没选中
+		for(var i in siblings){
+			if(siblings[i].state.checked){
+				isAllUnchecked=false;
+				break;
+			}
+		}
+		if(isAllUnchecked){
+			uncheckAllParent(parentNode);
+		}
+
+	}
+
+	//级联选中所有子节点
+	function checkAllSon(data){
+		$('#navTreeTable').treeview('checkNode',data.nodeId,{silent:true});
+		if(data.nodes!=null&&data.nodes.length>0){
+			for(var i in data.nodes){
+				checkAllSon(data.nodes[i]);
+			}
+		}
+	}
+	//级联取消所有子节点
+	function uncheckAllSon(data){
+		$('#navTreeTable').treeview('uncheckNode',data.nodeId,{silent:true});
+		if(data.nodes!=null&&data.nodes.length>0){
+			for(var i in data.nodes){
+				uncheckAllSon(data.nodes[i]);
+			}
+		}
+	}
+
+		//查询详细权限
         function initDetailMenu(navId){
             $('#detailMenu').datagrid({
                 url:'../user/queryPowerMenuList.do?navId='+navId,
@@ -147,14 +253,16 @@
             })
         }
         //保存角色权限
-        function saveRolePower(){
+        function submitNav(){
+		    alert($("#roleHideId").val())
+			alert($("#navTreeTable").treeview("getChecked"))
             var roleId=$("#roleHideId").val()
-            var navAll=$("#navTreeTable").tree("getChecked")
+            var navAll=$("#navTreeTable").treeview("getChecked")
             var navIds='';
             for (var i = 0; i < navAll.length; i++) {
                 navIds += navIds == '' ? navAll[i].id:','+navAll[i].id;
             }
-            $.post('../user/saveRolePower.do',{roleId:roleId,navIds:navIds},function(data){
+            $.post('/user/saveRoleNav',{roleId:roleId,navIds:navIds},function(data){
                 if(data){
                     $.messager.alert('提示','保存角色权限成功','info');
                 }else{
@@ -162,6 +270,6 @@
                 }
 
             })
-        }*/
+        }
 </script>
 </html>

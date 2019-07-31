@@ -1,7 +1,7 @@
 package com.dx.controller.user;
 
 
-import com.dx.model.contract.Contract;
+import com.dx.model.nav.NavTree;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
@@ -100,7 +100,13 @@ public class UserController {
         }
         return ids;
     }
-
+    @RequestMapping("queryRoleNav")
+    @ResponseBody
+    public List<NavTree>queryRoleNav(String id){
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("roleId", id);
+        return userService.queryRoleNav(param);
+    }
 /*    //更改指定人
     @RequestMapping("updateRoleById")
     @ResponseBody
@@ -134,7 +140,17 @@ public class UserController {
             return false;
         }
     }
-
+    @RequestMapping("saveRoleNav")
+    @ResponseBody
+    public boolean	saveRoleNav(String roleId,Integer[]navIds){
+        try {
+            userService.saveRoleNav(roleId,navIds);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     //用户页面新增
     @RequestMapping("addUser")

@@ -1,10 +1,14 @@
 package com.dx.service.user;
 
 import com.dx.mapper.contract.ContractMapper;
+import com.dx.mapper.nav.NavMapper;
 import com.dx.mapper.user.UserMapper;
 import com.alibaba.fastjson.JSONObject;
 import com.dx.model.contract.Contract;
+import com.dx.model.nav.NavTree;
+import com.dx.model.nav.RoleNavBean;
 import com.dx.model.nav.UserRoleBean;
+import com.dx.service.nav.NavService;
 import com.dx.util.StringUtil;
 import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
@@ -26,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private ContractMapper contractMapper;
+    @Autowired
+    private NavService navService;
 
     @Override
     public UserMain getUserInfoByLoginNumber(String loginNumber) {
@@ -127,6 +133,39 @@ public class UserServiceImpl implements UserService {
     @Override
     public int delUser(String ids) {
         return userMapper.delUser(ids);
+    }
+
+    @Override
+    public List<NavTree> queryRoleNav(HashMap<String, Object> param) {
+        //查询所有的权限树节点
+        List<NavTree> list = navService.toShowTree();
+        //查询传过来角色所拥有的权限
+        List<RoleNavBean>roleNavBeans=userMapper.queryRoleNavById(param);
+        for (NavTree navTree : list) {
+            for (RoleNavBean roleNavBean : roleNavBeans) {
+                if(navTree.getId()==roleNavBean.getNavId()){
+                    navTree.setState();
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public void saveRoleNav(String roleId, Integer[] navIds) {
+        //删除角色原有权限
+        userMapper.deleteRoleNav(roleId);
+        //新增角色新修改的权限
+        ArrayList<RoleNavBean> params = new ArrayList<RoleNavBean>();
+        for (Integer integer : navIds) {
+            RoleNavBean roleNavBean = new RoleNavBean();
+            roleNavBean.setId(StringUtil.getUUId());
+            roleNavBean.setRoleId(roleId);
+            roleNavBean.setNavId(integer);
+            params.add(roleNavBean);
+        }
+        System.out.println(params);
+        userMapper.saveRoleNav(params);
     }
 
     public UserMain queryUserByName(String userName){

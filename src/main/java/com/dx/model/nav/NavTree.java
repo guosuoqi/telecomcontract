@@ -1,6 +1,8 @@
 package com.dx.model.nav;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class NavTree {
@@ -12,6 +14,15 @@ public class NavTree {
 	private Integer pid;
 	
 	private Boolean selectable;
+
+	private static Map<String, Object> stateMap = new HashMap<String, Object>();
+
+	static {
+		stateMap.put("checked", true);
+	}
+
+	private Map<String, Object> state;
+
 	
 	private List<NavTree> nodes;
 	
@@ -48,6 +59,14 @@ public class NavTree {
 
 	public void setSelectable(Boolean selectable) {
 		this.selectable = selectable;
+	}
+
+	public Map<String, Object> getState() {
+		return state;
+	}
+
+	public void setState() {
+		this.state = stateMap;
 	}
 
 	public List<NavTree> getNodes() {
