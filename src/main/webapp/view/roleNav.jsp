@@ -254,8 +254,6 @@
         }
         //保存角色权限
         function submitNav(){
-		    alert($("#roleHideId").val())
-			alert($("#navTreeTable").treeview("getChecked"))
             var roleId=$("#roleHideId").val()
             var navAll=$("#navTreeTable").treeview("getChecked")
             var navIds='';
@@ -264,9 +262,10 @@
             }
             $.post('/user/saveRoleNav',{roleId:roleId,navIds:navIds},function(data){
                 if(data){
-                    $.messager.alert('提示','保存角色权限成功','info');
+                   alert('保存角色权限成功');
+					$("#myModal").modal('hide');
                 }else{
-                    $.messager.alert('提示','保存角色权限失败','error');
+                    alert('保存角色权限失败');
                 }
 
             })

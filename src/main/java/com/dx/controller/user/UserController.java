@@ -8,6 +8,7 @@ import com.dx.model.user.UserMain;
 import com.dx.service.user.UserService;
 import com.dx.util.ExceptionPrintUtil;
 import com.dx.util.PageResult;
+import com.dx.util.StringUtil;
 import com.dx.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,6 +153,11 @@ public class UserController {
         }
     }
 
+    public static void main(String[] args) {
+        UserMain user = new UserMain();
+        System.out.println(user==null);
+    }
+
     //用户页面新增
     @RequestMapping("addUser")
     @ResponseBody
@@ -160,14 +166,14 @@ public class UserController {
         try {
             if ((userMain != null )) {
                 UserMain userInfoByLoginNumber = userService.getUserInfoByLoginNumber(userMain.getLoginNumber());
-                if(userInfoByLoginNumber==null){
+                if(userInfoByLoginNumber ==null){
                     int count =   userService.addUser(userMain);
                     if (count == 0) {
                         result.put("code", "1");
                         result.put("msg", "用户新增失败！");
                         logger.info(this.getClass() + "，用户新增失败！");
                         return result;
-                }
+                    }
                 }else{
                     result.put("code", "1");
                     result.put("msg", "用户账号重复,请更换！");

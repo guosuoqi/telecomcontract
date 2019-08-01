@@ -146,7 +146,14 @@ public class UserServiceImpl implements UserService {
                 if(navTree.getId()==roleNavBean.getNavId()){
                     navTree.setState();
                 }
+                List<NavTree> nodes = navTree.getNodes();
+                for (NavTree nav : nodes){
+                    if(nav.getId()==roleNavBean.getNavId()){
+                        nav.setState();
+                    }
+                }
             }
+
         }
         return list;
     }

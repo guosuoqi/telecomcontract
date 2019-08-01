@@ -33,7 +33,7 @@
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >
-        <foreach collection="list" item="EquipmentBBU" index="index" open="" close="" separator=";">
+        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=";">
              insert into t_equipment_bbu (
                    dx_code,bbu_code,bbu_name,
                    Net_Care_id,Net_Care_name,network_type

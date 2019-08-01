@@ -23,10 +23,114 @@
     <link rel="stylesheet" href="/static/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
     <script src="/static/bootstrap/bootstrap-bootbox/bootbox.js"></script>
     <%--<script src="/static/js/select.js"></script>--%>
-    <title>信息管理</title>
+    <title>合同管理</title>
 </head>
 
 <body>
+
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增3GBBU
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2">合同名称:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="contractName" id="contractName" type="text"/>
+                    </div>
+                    <div class="col-xs-2">合同编号:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="contractNum" id="contractNum" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">年租金:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="yearRental" id="yearRental" type="text"/>
+                    </div>
+                    <div class="col-xs-2">总租金:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="sunRental"id="sunRental" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2">合同甲方:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="contractFirst" id="contractFirst" type="text"/>
+                    </div>
+                    <div class="col-xs-2">收款人:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control"  name="payee" id="payee" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2">拟租年份:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control date" name="planYear" id="planYear" type="text"/>
+                    </div>
+                    <div class="col-xs-2">付费截止日期:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control date" name="payEndTime" id="payEndTime" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2">开始时间:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control date" name="startTime" id="startTimeAdd" type="text"/>
+                    </div>
+                    <div class="col-xs-2">结束时间:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control date" name="endTime" id="endTimeAdd" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2">合同类型:</div>
+                    <div class="col-xs-4">
+                        <select id="contract" name="contractType" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-xs-2">铁栀类型:</div>
+                    <div class="col-xs-4">
+                        <select id="tower" name="towerType" class="form-control">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">机房类型:</div>
+                    <div class="col-xs-4">
+                        <select id="room" name="roomType" class="form-control">
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitContract()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
 <input type="hidden" id="typeHidIdOne">
 <input type="hidden" id="typeHidIdTwo">
 <input type="hidden" id="typeHidIdThree">
@@ -117,7 +221,9 @@
     <!--初始化加载页面-->
     $(function(){
        initCodeType();
+        initCodeTypeAdd();
         initContract();
+
     })
     //时间转中文
     $('.date').datetimepicker({
@@ -177,8 +283,8 @@
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
                 {field:'contractId',title:'合同id',align: 'center',width:"40px",valign: 'middle'},
                 {field:'contractName',title:'合同名字',align: 'center',valign: 'middle'},
-                {field:'city',title:'--省--',align: 'center',valign: 'middle'},
-                {field:'county',title:'--市--',align: 'center',valign: 'middle'},
+                {field:'city',title:'--市--',align: 'center',valign: 'middle'},
+                {field:'county',title:'--县--',align: 'center',valign: 'middle'},
                 {field:'yearRental',title:'年租金',align: 'center',valign: 'middle'},
                 {field:'sunRental',title:'总租金',align: 'center',valign: 'middle'},
                 {field:'contractNum',title:'合同编号',align: 'center',valign: 'middle'},
@@ -197,7 +303,36 @@
             ]
         })
     }
+    function initCodeTypeAdd(){
+        $(".selectpicker").selectpicker({
+            noneSelectedText: '--请选择--' //默认显示内容  
+        });
+        $.ajax({
+            url: "/contract/queryType",
+            success:function (data) {
+                var typeHtmlcontract = '<option value="-1">--请选择--</option>';
+                var typeHtmlRoom = '<option value="-1">--请选择--</option>';
+                var typeHtmlTower = '<option value="-1">--请选择--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].codeType == 'contract') {
+                        typeHtmlcontract += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
+                    } else if (data[i].codeType == 'room') {
+                        typeHtmlRoom += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
 
+                    } else if (data[i].codeType == 'tower') {
+                        typeHtmlTower += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
+
+                    }
+                }
+                $("#room").html(typeHtmlRoom);
+                $("#tower").html(typeHtmlTower);
+                $("#contract").html(typeHtmlcontract);
+                $('.selectpicker').selectpicker('refresh');
+            },error:function(){
+                alert("指定人员下拉有误,请调试 ！！！");
+            }
+        })
+    }
 
     function initCodeType(){
         $(".selectpicker").selectpicker({
@@ -243,6 +378,44 @@
     }
 //打开新增合同的弹框
     function openAddDialog(){
+        $('#myModal').modal();
+    }
+    //提交合同
+    function submitContract(){
+        document.getElementById('buttonAdd').disabled=true;
+        $.ajax({
+            url:'/contract/addContract',
+            type: "post",
+            data : {
+                contractName:$("#contractName").val(),
+                contractNum:$("#contractNum").val(),
+                yearRental:$("#yearRental").val(),
+                sunRental:$("#sunRental").val(),
+                contractFirst:$("#contractFirst").val(),
+                payee:$("#payee").val(),
+                planYear:$("#planYear").val(),
+                payEndTime:$("#payEndTime").val(),
+                startTime:$("#startTimeAdd").val(),
+                endTime:$("#endTimeAdd").val(),
+                contractType:$("#contract").val(),
+                towerType:$("#tower").val(),
+                roomType:$("#room").val(),
+                towerTypeName:$("#tower option:selected").text(),
+                contractTypeName:$("#contract option:selected").text(),
+                roomTypeName:$("#room option:selected").text()
+            },
+            success:function (data){
+                initContract();
+                alert(data.msg)
+                $("#myModal").modal('hide');
+                document.getElementById('buttonAdd').disabled=false;
+            },
+            error:function (){
+                alert("新增用户失败");
+            }
+        })
+    }
+   /* function openAddDialog(){
         bootbox.dialog({
             size:"big",
             title:"添加合同",
@@ -278,7 +451,9 @@
                 }
             }
         })
-    }
+    }*/
+
+
 //打开修改的弹框
     function editContract(contractId,roomType,towerType,contractType){
         $("#typeHidIdOne").val(roomType);
