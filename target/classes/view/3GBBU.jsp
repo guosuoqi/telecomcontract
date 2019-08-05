@@ -27,7 +27,63 @@
 </head>
 
 <body>
+<!-- 按钮触发模态框 -->
+<%--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    开始演示模态框
+</button>--%>
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增3GBBU
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2">电信编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="dxCode" id="dxCode" type="text"/>
+                    </div>
+                    <div class="col-xs-2">BBU编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="bbuCode" id="bbuCode" type="text"/>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-xs-2">BBU名字:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="bbuName" id="bbuName" type="text"/>
+                    </div>
+                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2">电信网管名称:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="netCareName" id="netCareName" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submit3GBBU()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 
 <button type="button" onclick="openAdd3GBBU()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
@@ -105,7 +161,11 @@
         return res;
     }
     //打开新增合同续约的弹框
+
     function openAdd3GBBU(){
+        $('#myModal').modal();
+    }
+   /* function openAdd3GBBU(){
         bootbox.dialog({
             size:"big",
             title:"添加3GBBU",
@@ -139,8 +199,34 @@
                 }
             }
         })
-    }
+    }*/
 
+
+    //提交用户
+    function submit3GBBU(){
+        document.getElementById('buttonAdd').disabled=true;
+        $.ajax({
+            url: '/site/add3GBBU',
+            type: "post",
+            data : {
+                dxCode:$("#dxCode").val(),
+                bbuCode:$("#bbuCode").val(),
+                bbuName:$("#bbuName").val(),
+                netCareId:$("#netCareId").val(),
+                netCareName:$("#netCareName").val(),
+                networkType:3
+            },
+            success:function (data){
+                initBBU();
+                alert(data.msg)
+                $("#myModal").modal('hide');
+                document.getElementById('buttonAdd').disabled=false;
+            },
+            error:function (){
+                alert("新增用户失败");
+            }
+        })
+    }
     //打开修改的弹框
     function editBBu(id){
         bootbox.dialog({

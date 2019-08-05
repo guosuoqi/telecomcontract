@@ -32,6 +32,7 @@
 
 <div class="container-fluid">
     <form id="contractForm" class="form-horizontal">
+
         <div class="row">
             <div class="col-xs-2">合同名称:</div>
             <div class="col-xs-4">
@@ -89,14 +90,15 @@
         </div>
 
         <div class="row">
-        <div class="col-xs-2">合同类型:</div>
+            <div class="col-xs-2">合同类型:</div>
         <div class="col-xs-4">
-            <select id="contractUp" name="contractTypeName"  class="form-control">
-                selected
+            <input class="form-control"  value="${contract.contractType}" id="contractUpHd" type="type"/>
+            <select id="contractUp" name="contractTypeName" class="form-control">
             </select>
         </div>
             <div class="col-xs-2">铁栀类型:</div>
             <div class="col-xs-4">
+                <input class="form-control"  value="${contract.towerType}" id="towerUpHd" type="type"/>
                 <select id="towerUp" name="towerTypeName"  class="form-control">
                 </select>
             </div>
@@ -104,6 +106,7 @@
         <div class="row">
             <div class="col-xs-2">机房类型:</div>
             <div class="col-xs-4">
+                <input class="form-control"  value="${contract.roomType}" id="roomUpHd" type="type"/>
                 <select id="roomUp" name="roomTypeName" class="form-control">
                 </select>
             </div>
@@ -129,6 +132,9 @@
     });
 
     function initCodeTypeEdit(){
+        var conHd=$("#contractUpHd").val()
+        var roomHd=$("#roomUpHd").val()
+        var towerHd=$("#towerUpHd").val()
         $(".selectpicker").selectpicker({
             noneSelectedText: '--请选择--' //默认显示内容  
         });
@@ -140,13 +146,23 @@
                 var typeHtmlTower = '<option value="-1">--请选择--</option>';
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].codeType == 'contract') {
-                        typeHtmlcontract += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
+                        if(data[i].codeId==conHd){
+                            typeHtmlcontract += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
+                        }else {
+                            typeHtmlcontract += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
+                        }
                     } else if (data[i].codeType == 'room') {
-                        typeHtmlRoom += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
-
+                            if(data[i].codeId==roomHd){
+                                typeHtmlRoom += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
+                            }else {
+                                typeHtmlRoom += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
+                            }
                     } else if (data[i].codeType == 'tower') {
-                        typeHtmlTower += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
-
+                        if(data[i].codeId==towerHd){
+                            typeHtmlTower += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
+                        }else {
+                            typeHtmlTower += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
+                        }
                     }
                 }
                 $("#roomUp").html(typeHtmlRoom);

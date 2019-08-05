@@ -1,6 +1,7 @@
 package com.dx.service.site;
 
 import com.dx.mapper.site.SiteMapper;
+import com.dx.model.common.SiteEnum;
 import com.dx.model.contract.Contract;
 import com.dx.model.site.EquipmentBBU;
 import com.dx.model.site.EquipmentRRUAAU;
@@ -43,6 +44,18 @@ public class SiteServiceImpl implements SiteService{
     public boolean add3GBBU(EquipmentBBU equipmentBBU) {
         List<EquipmentBBU> bbuList=new ArrayList<>();
         bbuList.add(equipmentBBU);
+        SitManager sit = new SitManager();
+        sit.setDxCode(equipmentBBU.getDxCode());
+        if(SiteEnum.T_BBU.getKey()==equipmentBBU.getNetworkType()){
+            sit.setThreeBbuCount(1);
+        }else if(SiteEnum.F_BBU.getKey()==equipmentBBU.getNetworkType()){
+            sit.setFourBbuCount(1);
+        }else if(SiteEnum.FIVE_BBU.getKey()==equipmentBBU.getNetworkType()){
+            sit.setFiveBbuCount(1);
+        }else{
+            return false;
+        }
+        siteMapper.updateSite(sit);
         return siteMapper.add3GBBU(bbuList);
     }
 

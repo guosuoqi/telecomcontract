@@ -33,7 +33,7 @@
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >
-        <foreach collection="list" item="EquipmentBBU" index="index" open="" close="" separator=";">
+        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=";">
              insert into t_equipment_bbu (
                    dx_code,bbu_code,bbu_name,
                    Net_Care_id,Net_Care_name,network_type
@@ -159,4 +159,38 @@
 		from t_base_station
 		limit #{startIndex},#{endIndex}
 	</select>
+	<!--3/4/5BBU页面修改-->
+	<update id="updateSite">
+		update t_base_station
+		<set>
+			<if test="threeBbuCount != null and threeBbuCount != 0">
+				three_bbu_count = three_bbu_count + #{threeBbuCount},
+			</if>
+			<if test="fourBbuCount!= null and fourBbuCount != 0">
+				four_bbu_count = four_bbu_count + #{fourBbuCount},
+			</if>
+			<if test="fiveBbuCount != null and fiveBbuCount != 0">
+				five_bbu_count = five_bbu_count + #{fiveBbuCount},
+			</if>
+			<if test="threeRruCount != null and threeRruCount != 0">
+				three_rru_count = three_rru_count + #{threeRruCount},
+			</if>
+			<if test="fourRruCount!= null and fourRruCount != 0">
+				four_rru_count = four_rru_count + #{fourRruCount},
+			</if>
+			<if test="fiveAauCount != null and fiveAauCount != 0">
+				five_aau_count = five_aau_count + #{fiveAauCount},
+			</if>
+			<if test="equipmentBBU.NetCareId != null and equipmentBBU.NetCareId != ''">
+				Net_care_id = #{netCareId},
+			</if>
+			<if test="equipmentBBU.NetCareName != null and equipmentBBU.NetCareName != ''">
+				Net_Care_name = #{netCareName},
+			</if>
+			Power_Consume =
+		</set>
+		<where>
+			id = #{equipmentBBU.id}
+		</where>
+	</update>
 </mapper>

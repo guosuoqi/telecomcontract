@@ -223,7 +223,6 @@
                 {field:'role',title:'用户角色',align: 'center',valign: 'middle'},
                 {field:'mobile',title:'手机号',align: 'center',valign: 'middle'},
                 {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
-                {field:'userstate',title:'用户状态',align: 'center',valign: 'middle'},
                 {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
                         return   ' <a href="javascript:editRole('+row.id+');">修改角色</a>  ';
                     }}
@@ -300,10 +299,10 @@
         }
         $.post('/user/saveUserRole',{userId:$("#hiddenUserId").val(),roleId:roleIds,role:roleName},function(data) {
             if(data==1){
-                $("[data-dismiss='modal']").close();
-                alert("更改指定人成功")
+                alert("更改角色成功")
+                $("#myModal").modal('hide');
             }else {
-                alert("指定人员下拉有误,请调试 ！！！");
+                alert("更改角色失败");
             }
         })
     }
@@ -316,7 +315,7 @@
                 roleName += roleName == '' ? obj.options[i].text : ',' + obj.options[i].text;
             }
         }
-       // document.getElementById('buttonAdd').disabled=true;
+       document.getElementById('buttonAdd').disabled=true;
         $.ajax({
             url: '/user/addUser',
             type: "post",
@@ -330,12 +329,12 @@
             },
             success:function (data){
                 initUser();
-                $("[data-dismiss='modal']").click();
-                alert("更改指定人成功")
-             //   document.getElementById('buttonAss').disabled=false;
+                alert(data.msg)
+                $("#myRoleModal").modal('hide');
+                document.getElementById('buttonAdd').disabled=false;
             },
             error:function (){
-                alert("指定人员下拉有误,请调试 ！！！");
+                alert("新增用户失败");
             }
         })
     }

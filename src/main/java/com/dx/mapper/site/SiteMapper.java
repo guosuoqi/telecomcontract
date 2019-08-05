@@ -41,4 +41,6 @@ public interface SiteMapper {
     int queryStieManagerCount(HashMap<String, Object> params);
 
     List<SitManager> queryStieManager(HashMap<String, Object> params);
+
+    void updateSite(SitManager sit);
 }
