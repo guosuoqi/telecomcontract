@@ -43,4 +43,9 @@ public interface SiteMapper {
     List<SitManager> queryStieManager(HashMap<String, Object> params);
 
     void updateSite(SitManager sit);
+
+    void updateRruCountAndPower(@Param("list") List<SitManager> sitManager);
+
+    List<SitManager> queryBBUInfo(@Param("list") List<String> dxCodes, @Param("type")Integer type);
+    List<SitManager> queryRruInfo(@Param("list") List<String> dxCodes, @Param("type")Integer type);
 }

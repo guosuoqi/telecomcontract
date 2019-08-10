@@ -35,9 +35,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/poi")
 public class PoiController {
-    private final String bbuStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
+    private final String bbuStr="电信编码,bbu编码,bbu名称,耗电量,网管员id,网管员,类型编码";
     private final String conStr="合同编号,合同名字,地址,年租金,总租金,合同甲方,收款人,拟租年份,开始时间,结束时间,付费截止日期,机房类型,塔栀类型,合同类型,所属机房";
-    private final String rruStr="电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码";
+    private final String rruStr="电信编码,bbu编码,bbu名称,耗电量,网管员id,网管员,类型编码";
     @Autowired
     private ContractService contractService;
     @Autowired
@@ -114,7 +114,7 @@ public class PoiController {
                         setBBUPoi(row3,equipmentBBUlist.get(i));
                     }
                 }else if(isRRU(type)){
-                    for (int i = 0; i <equipmentBBUlist.size() ; i++) {
+                    for (int i = 0; i <equipmentRRUAAUList.size() ; i++) {
                         //在sheet里创建第三行
                         HSSFRow row3=sheet.createRow(2+i);
                         setRRUPoi(row3,equipmentRRUAAUList.get(i));
@@ -125,10 +125,10 @@ public class PoiController {
                 response.reset();
                 String agent = request.getHeader("USER-AGENT").toLowerCase();
                 response.setContentType("application/vnd.ms-excel");
-                String codedFileName = java.net.URLEncoder.encode(fileName, "UTF-8");
+                String codedFileName = java.net.URLEncoder.encode(fileName +DateUtils.getDate(), "UTF-8");
                 if (agent.contains("firefox")) {
                     response.setCharacterEncoding("utf-8");
-                    response.setHeader("content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+                    response.setHeader("content-disposition", "attachment;filename=" + new String(codedFileName.getBytes(), "ISO8859-1") + ".xls");
                 } else {
                     response.setHeader("content-disposition", "attachment;filename=" + codedFileName + ".xls");
                 }
@@ -285,18 +285,20 @@ public class PoiController {
         row3.createCell(0).setCellValue(equipmentBBU.getDxCode());
         row3.createCell(1).setCellValue(equipmentBBU.getRruCode());
         row3.createCell(2).setCellValue(equipmentBBU.getRruName());
-        row3.createCell(3).setCellValue(equipmentBBU.getNetCareId());
-        row3.createCell(4).setCellValue(equipmentBBU.getNetCareName());
-        row3.createCell(5).setCellValue(equipmentBBU.getNetworkType());
+        row3.createCell(3).setCellValue(equipmentBBU.getPower());
+        row3.createCell(4).setCellValue(equipmentBBU.getNetCareId());
+        row3.createCell(5).setCellValue(equipmentBBU.getNetCareName());
+        row3.createCell(6).setCellValue(equipmentBBU.getNetworkType());
     }
 
     private void setBBUPoi(HSSFRow row3, EquipmentBBU equipmentBBU) {
         row3.createCell(0).setCellValue(equipmentBBU.getDxCode());
         row3.createCell(1).setCellValue(equipmentBBU.getBbuCode());
         row3.createCell(2).setCellValue(equipmentBBU.getBbuName());
-        row3.createCell(3).setCellValue(equipmentBBU.getNetCareId());
-        row3.createCell(4).setCellValue(equipmentBBU.getNetCareName());
-        row3.createCell(5).setCellValue(equipmentBBU.getNetworkType());
+        row3.createCell(3).setCellValue(equipmentBBU.getPower());
+        row3.createCell(4).setCellValue(equipmentBBU.getNetCareId());
+        row3.createCell(5).setCellValue(equipmentBBU.getNetCareName());
+        row3.createCell(6).setCellValue(equipmentBBU.getNetworkType());
     }
 
     private boolean isRRU(Integer type) {

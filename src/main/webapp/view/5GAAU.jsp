@@ -32,7 +32,30 @@
 
 <button type="button" onclick="openAdd5GAAU()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="del5GAAU()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+<button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 
+<!-- daoruDialog弹框 -->
+<div class="modal fade" id="daoruDialog" tabindex="-1" role="dialog" aria-labelledby="importModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="importModal">导入</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <form id="uploadForm">
+                        <input type="file" name="file">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                <button type="button" onclick="doUpload()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+            </div>
+        </div>
+    </div>
 </div>
 <table id="5GAAUTable"></table>
 </body>
@@ -227,6 +250,64 @@
             }
         })
     }
+    //导出数据
+    function EXPContract(){
+        var arr = $('#5GAAUTable').bootstrapTable('getSelections');
+        if (arr.length <= 0) {
+            bootbox.alert({
+                size: "small",
+                title: "提示",
+                message: "请选择需要导出的数据",
+                callback: function(){
+                }
+            });
+            return;
+        }
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要导出吗?",
+            buttons: {
+                confirm: {
+                    label: '确定',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: '取消',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result){
+                var ids = "";
+                for (var i = 0; i < arr.length; i++) {
+                    ids += ids == "" ? arr[i].id : ","+arr[i].id;
+                }
+                location.href="/poi/createExcel?ids="+ids+"&&type=7"
+            }
+        })
+    }
+    //打开导入弹框
+    $("#daoru").click(function(){
+        $('#daoruDialog').modal();
+    })
+    function doUpload() {
+        var formData = new FormData($( "#uploadForm" )[0]);
+        $.ajax({
+            url: '/poi/importBBUFile',
+            type: 'post',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                $('#myTable').bootstrapTable('refresh');
+            },
+            error: function () {
+                alert(result.msg);
+            }
+        });
+    }
+
 </script>
 </html>
 

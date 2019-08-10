@@ -1,6 +1,8 @@
 package com.dx.service.site;
 
+import com.alibaba.fastjson.JSON;
 import com.dx.mapper.site.SiteMapper;
+import com.dx.model.common.PowerEnum;
 import com.dx.model.common.SiteEnum;
 import com.dx.model.contract.Contract;
 import com.dx.model.site.EquipmentBBU;
@@ -9,6 +11,7 @@ import com.dx.model.site.SitManager;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
+import com.sun.xml.internal.ws.handler.HandlerException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -136,49 +139,77 @@ public class SiteServiceImpl implements SiteService{
 
     public boolean addRRUList(Sheet sheet) {
         List<EquipmentRRUAAU> RRUList = new ArrayList<>();
+        List<String> dxCodes = new ArrayList<>();
+        Integer tp=null;
         EquipmentRRUAAU rru;
         for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
-            Row row = (Row) sheet.getRow(i);
-            if(row ==null){
-                break;//整行为空，跳出
-            }
-            //错误原因
-            String reason = "";
-            //获取每个单元格
-            /**
-             * "电信编码,rru编码,rru名称,网管员id,网管员,类型编码"
-             */
-            //电信编码
-            String dxCode = getCellVal(row.getCell(0));//第一个单元格
-            //bbu编码
-            String rruCode = getCellVal(row.getCell(1));
-            //bbu名称
-            String rruName = getCellVal(row.getCell(2));
-            //网管员id
-            String userId = getCellVal(row.getCell(3));
-            //网管员
-            String userName = getCellVal(row.getCell(4));
-            //类型编码
-            String type = getCellVal(row.getCell(5));
-            if(dxCode==null ||rruCode==null){
+            try {
+                Row row = (Row) sheet.getRow(i);
+                if(row ==null){
+                    break;//整行为空，跳出
+                }
+                //获取每个单元格
+                /**
+                 * "电信编码,rru编码,rru名称,网管员id,网管员,类型编码"
+                 */
+                //电信编码
+                String dxCode = getCellVal(row.getCell(0));//第一个单元格
+                //bbu编码
+                String rruCode = getCellVal(row.getCell(1));
+                //bbu名称
+                String rruName = getCellVal(row.getCell(2));
+                //耗电量
+                String power = getCellVal(row.getCell(3));
+                //网管员id
+                String userId = getCellVal(row.getCell(4));
+                if(userId==null || userId.equals("")){
+                    userId="1";
+                }
+                //网管员
+                String userName = getCellVal(row.getCell(5));
+                //类型编码
+                String type = getCellVal(row.getCell(6));
+                if(tp==null){
+                    try{
+                        tp=Integer.valueOf(type);
+                    }catch (Exception e){
+                    }
+                }
+                if(dxCode==null ||rruCode==null){
+                    continue;
+                }
+                rru=new EquipmentRRUAAU();
+                if(power==null ||power.isEmpty()){
+                    Double bbu1 = getPower(type, "rru");
+                    rru.setPower(bbu1);
+                }else {
+                    rru.setPower(Double.valueOf(power));
+                }
+                rru.setDxCode(dxCode);
+                rru.setRruCode(rruCode);
+                rru.setRruName(rruName);
+                rru.setNetCareId(Integer.valueOf(userId));
+                rru.setNetCareName(userName);
+                rru.setNetworkType(Integer.valueOf(type));
+                RRUList.add(rru);
+                dxCodes.add(dxCode);
+            } catch (HandlerException e){
                 continue;
             }
-            rru=new EquipmentRRUAAU();
-            rru.setDxCode(dxCode);
-            rru.setRruCode(rruCode);
-            rru.setRruName(rruName);
-            rru.setNetCareId(Integer.valueOf(userId));
-            rru.setNetCareName(userName);
-            rru.setNetworkType(Integer.valueOf(type));
-            RRUList.add(rru);
         }
-        return siteMapper.add3GRRU(RRUList);
+        if(siteMapper.add3GRRU(RRUList)){
+           List<SitManager> sitManager=siteMapper.queryRruInfo(dxCodes,tp);
+           siteMapper.updateRruCountAndPower(sitManager);
+        }
+        return true;
     }
 
     public boolean addBBUList(Sheet sheet) {
         List<EquipmentBBU> BBUList = new ArrayList<>();
+        List<String> dxCodes = new ArrayList<>();
+        Integer tp=null;
         EquipmentBBU bbu;
-        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 break;//整行为空，跳出
@@ -195,16 +226,33 @@ public class SiteServiceImpl implements SiteService{
             String rruCode = getCellVal(row.getCell(1));
             //bbu名称
             String rruName = getCellVal(row.getCell(2));
+            //bbu耗电量
+            String power = getCellVal(row.getCell(3));
             //网管员id
-            String userId = getCellVal(row.getCell(3));
+            String userId = getCellVal(row.getCell(4));
+            if(userId==null || userId.equals("")){
+                userId="1";
+            }
             //网管员
-            String userName = getCellVal(row.getCell(4));
+            String userName = getCellVal(row.getCell(5));
             //类型编码
-            String type = getCellVal(row.getCell(5));
+            String type = getCellVal(row.getCell(6));
+            if(tp==null){
+                try{
+                    tp=Integer.valueOf(type);
+                }catch (Exception e){
+                }
+            }
             if(dxCode==null ||rruCode==null){
                 continue;
             }
             bbu=new EquipmentBBU();
+            if(power==null ||power.isEmpty()){
+                Double bbu1 = getPower(type, "bbu");
+                bbu.setPower(bbu1);
+            }else {
+                bbu.setPower(Double.valueOf(power));
+            }
             bbu.setDxCode(dxCode);
             bbu.setBbuCode(rruCode);
             bbu.setBbuName(rruName);
@@ -212,18 +260,49 @@ public class SiteServiceImpl implements SiteService{
             bbu.setNetCareName(userName);
             bbu.setNetworkType(Integer.valueOf(type));
             BBUList.add(bbu);
+            dxCodes.add(dxCode);
         }
-        return siteMapper.add3GBBU(BBUList);
+        if(siteMapper.add3GBBU(BBUList)){
+            List<SitManager> sitManager=siteMapper.queryBBUInfo(dxCodes,tp);
+            System.out.println(JSON.toJSONString(sitManager));
+            siteMapper.updateRruCountAndPower(sitManager);
+        }
+        return true;
     }
+
+    /**
+     *默认耗电量
+     */
+    private Double getPower(String type,String bbu) {
+        if("bbu".equals(bbu)){
+            if(type.equals(SiteEnum.T_BBU.getKey())){
+                return PowerEnum.T_BBU_POWER.getKey();
+            }else if (type.equals(SiteEnum.F_BBU.getKey())){
+                return PowerEnum.T_BBU_POWER.getKey();
+            }else if(type.equals(SiteEnum.FIVE_BBU.getKey())){
+                return PowerEnum.FIVE_BBU_POWER.getKey();
+            }
+        }else {
+            if(type.equals(SiteEnum.T_RRU.getKey())){
+                return PowerEnum.T_RRU_POWER.getKey();
+            }else if (type.equals(SiteEnum.F_RRU.getKey())){
+                return PowerEnum.T_RRU_POWER.getKey();
+            }else if(type.equals(SiteEnum.FIVE_AAU.getKey())){
+                return PowerEnum.FIVE_AAU_POWER.getKey();
+            }
+        }
+        return null;
+    }
+
     /**
      * 获取单元格内容
      * @param cell 指定单元格
      * @return
      */
     private String getCellVal(Cell cell){
-        if(cell == null){
-            return "";
-        }
-        return cell.getStringCellValue().trim();
+        if(cell != null){
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            return cell.getStringCellValue().trim();
+        }else {  return "";}
     }
 }
