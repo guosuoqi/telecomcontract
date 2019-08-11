@@ -83,7 +83,7 @@
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[5, 10, 20, 50],//分页组件
+            pageList:[10,50,100,500],//分页组件
             pageNumber:1,
             pageSize:5,//默认每页条数
             //search:true,//是否显示搜索框
@@ -293,7 +293,7 @@
     function doUpload() {
         var formData = new FormData($( "#uploadForm" )[0]);
         $.ajax({
-            url: '/poi/importBBUFile',
+            url: '/poi/importRRUFile',
             type: 'post',
             data: formData,
             async: false,
@@ -301,7 +301,7 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                $('#myTable').bootstrapTable('refresh');
+                $('#4GRRUTable').bootstrapTable('refresh');
             },
             error: function () {
                 alert(result.msg);

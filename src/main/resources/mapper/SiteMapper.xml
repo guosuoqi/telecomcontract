@@ -21,27 +21,25 @@
 		select
 			*
 		from t_equipment_bbu
-		where id in(#{ids})
+		where id in (${ids})
 	</select>
 	<!--3/4/5GRRUpoi获取-->
 	<select id="queryRRByIdsAndType"  resultType="com.dx.model.site.EquipmentRRUAAU">
 		select
 			*
 		from t_equipment_rru_aau
-		where id in (#{ids})
+		where id in (${ids})
 	</select>
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >
-        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=";">
-             insert into t_equipment_bbu (
-                   dx_code,bbu_code,bbu_name,power,
-                   Net_Care_id,Net_Care_name,network_type
-              )
-            values (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},#{equipmentBBU.power},
-                    #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType}
-
-              )
+		insert into t_equipment_bbu (
+		dx_code,bbu_code,bbu_name,power,
+		Net_Care_id,Net_Care_name,network_type
+		)   values
+        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=",">
+      		 (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},#{equipmentBBU.power},
+                    #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType})
         </foreach>
 	</insert>
 
@@ -143,12 +141,11 @@
 	<insert id="add3GRRU" >
         <foreach collection="list" item="EquipmentRRUAAU" index="index" open="" close="" separator=";">
              insert into t_equipment_rru_aau (
-                   dx_code,rru_code,rru_name,power
+                   dx_code,rru_code,rru_name,power,
                    net_Care_id,net_Care_name,network_type
               )
-            values (#{equipmentRRUAAU.dxCode},#{equipmentRRUAAU.rruCode},#{equipmentRRUAAU.rruName},#{equipmentRRUAAU.power},
-                    #{equipmentRRUAAU.netCareId},#{equipmentRRUAAU.netCareName},#{equipmentRRUAAU.networkType}
-
+            values (#{EquipmentRRUAAU.dxCode},#{EquipmentRRUAAU.rruCode},#{EquipmentRRUAAU.rruName},#{EquipmentRRUAAU.power},
+                    #{EquipmentRRUAAU.netCareId},#{EquipmentRRUAAU.netCareName},#{EquipmentRRUAAU.networkType}
               )
         </foreach>
 	</insert>
@@ -259,7 +256,7 @@
 			<if test="item.fiveAauCount !=null and item.fiveAauCount !=''">
 				five_aau_count=#{item.fiveAauCount},five_aau_power=#{item.power},
 			</if>
-			Power_Consume=three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power
+			Power_Consume=(three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power)
 			where dx_code =#{item.dxCode}
 		</foreach>
 	</update>

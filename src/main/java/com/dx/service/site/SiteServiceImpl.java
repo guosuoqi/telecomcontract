@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -142,7 +143,7 @@ public class SiteServiceImpl implements SiteService{
         List<String> dxCodes = new ArrayList<>();
         Integer tp=null;
         EquipmentRRUAAU rru;
-        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             try {
                 Row row = (Row) sheet.getRow(i);
                 if(row ==null){
@@ -197,13 +198,15 @@ public class SiteServiceImpl implements SiteService{
                 continue;
             }
         }
+        System.out.println("================================================="+JSON.toJSONString(RRUList));
+
         if(siteMapper.add3GRRU(RRUList)){
            List<SitManager> sitManager=siteMapper.queryRruInfo(dxCodes,tp);
            siteMapper.updateRruCountAndPower(sitManager);
         }
         return true;
     }
-
+    @Transactional
     public boolean addBBUList(Sheet sheet) {
         List<EquipmentBBU> BBUList = new ArrayList<>();
         List<String> dxCodes = new ArrayList<>();
@@ -262,6 +265,7 @@ public class SiteServiceImpl implements SiteService{
             BBUList.add(bbu);
             dxCodes.add(dxCode);
         }
+        System.out.println("================================================="+JSON.toJSONString(BBUList));
         if(siteMapper.add3GBBU(BBUList)){
             List<SitManager> sitManager=siteMapper.queryBBUInfo(dxCodes,tp);
             System.out.println(JSON.toJSONString(sitManager));
@@ -274,20 +278,21 @@ public class SiteServiceImpl implements SiteService{
      *默认耗电量
      */
     private Double getPower(String type,String bbu) {
+        Integer ty=Integer.valueOf(type);
         if("bbu".equals(bbu)){
-            if(type.equals(SiteEnum.T_BBU.getKey())){
+            if(ty.equals(SiteEnum.T_BBU.getKey())){
                 return PowerEnum.T_BBU_POWER.getKey();
-            }else if (type.equals(SiteEnum.F_BBU.getKey())){
+            }else if (ty.equals(SiteEnum.F_BBU.getKey())){
                 return PowerEnum.T_BBU_POWER.getKey();
-            }else if(type.equals(SiteEnum.FIVE_BBU.getKey())){
+            }else if(ty.equals(SiteEnum.FIVE_BBU.getKey())){
                 return PowerEnum.FIVE_BBU_POWER.getKey();
             }
         }else {
-            if(type.equals(SiteEnum.T_RRU.getKey())){
+            if(ty.equals(SiteEnum.T_RRU.getKey())){
                 return PowerEnum.T_RRU_POWER.getKey();
-            }else if (type.equals(SiteEnum.F_RRU.getKey())){
+            }else if (ty.equals(SiteEnum.F_RRU.getKey())){
                 return PowerEnum.T_RRU_POWER.getKey();
-            }else if(type.equals(SiteEnum.FIVE_AAU.getKey())){
+            }else if(ty.equals(SiteEnum.FIVE_AAU.getKey())){
                 return PowerEnum.FIVE_AAU_POWER.getKey();
             }
         }
