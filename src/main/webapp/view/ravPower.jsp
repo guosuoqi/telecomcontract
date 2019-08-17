@@ -26,7 +26,8 @@
 <body>
 <div>
 	<table id="myRoles"></table>
-	<input type="text" type="hidden" id="roleHideId">
+	<input type="hidden" id="navHideId">
+	<table id="detailMenu"></table>
 </div>
 
 
@@ -107,6 +108,7 @@
    }
 	var nodeCheckedSilent = false;
 	var nodeUncheckedSilent = false;
+
 	//初始化权限树
 	function bindPower(roleId){
 		$("#roleHideId").val(roleId);
