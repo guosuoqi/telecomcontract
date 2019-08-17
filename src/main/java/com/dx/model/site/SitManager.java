@@ -4,34 +4,75 @@ public class SitManager {
 
 
     private Integer id;
-
+    /**
+     *基站编码
+     */
     private String baseCode;
-
+    /**
+     *基站产权
+     */
     private String baseProperty;
-
+    /**
+     *电信编码 唯一关联标识
+     */
     private String dxCode;
-
+    /**
+     *铁塔站址编码
+     */
     private String ttCode;
-
+    /**
+     *3Gbbu个数
+     */
     private Integer threeBbuCount;
-
+    /**
+     *4Gbbu个数
+     */
     private Integer fourBbuCount;
-
+    /**
+     *5Gbbu个数
+     */
     private Integer fiveBbuCount;
-
+    /**
+     *3Grru个数
+     */
     private Integer threeRruCount;
-
+    /**
+     *4Grru个数
+     */
     private Integer fourRruCount;
-
+    /**
+     *5Grru个数
+     */
     private Integer fiveAauCount;
-
+    /**
+     *olt 个数
+     */
     private Integer oltCount;
-
+    /**
+     *直流耗电量
+     */
     private Integer tributaryPowerConsume;
-
+    /**
+     *pue值
+     */
     private Integer pue;
-
+    /**
+     *总耗电量
+     */
     private String PowerConsume;
+
+    /**
+     * 耗電量VO
+     */
+    private Double power;
+
+    public Double getPower() {
+        return power;
+    }
+
+    public void setPower(Double power) {
+        this.power = power;
+    }
 
     public Integer getId() {
         return id;

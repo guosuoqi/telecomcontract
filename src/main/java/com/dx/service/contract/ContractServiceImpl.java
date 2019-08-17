@@ -69,7 +69,7 @@ public class ContractServiceImpl implements ContractService {
         List<SysCode> typeList=contractMapper.queryType();
         List<Contract> contractList = new ArrayList<>();
         Contract contract;
-        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 break;//整行为空，跳出

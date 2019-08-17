@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,6 +56,11 @@ public class ContractController {
         return pageResult;
     }
 
+    public static void main(String[] args) {
+        Date date1 = new Date();
+        Date date2=new Date("2019-07-30 10:55:09");
+        date1.before(date2);
+    }
 
     //合同管理页面新增
     @RequestMapping("addContract")

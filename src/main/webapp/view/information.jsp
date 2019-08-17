@@ -214,6 +214,29 @@
 <button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
+
+<!-- daoruDialog弹框 -->
+<div class="modal fade" id="daoruDialog" tabindex="-1" role="dialog" aria-labelledby="importModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="importModal">导入</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <form id="uploadForm">
+                        <input type="file" name="file">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                <button type="button" onclick="doUpload()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+            </div>
+        </div>
+    </div>
 </div>
 <table id="myTable"></table>
 </body>
@@ -242,7 +265,7 @@
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[5, 10, 20, 50],//分页组件
+            pageList:[10,50,100,500,1000],//分页组件
             pageNumber:1,
             pageSize:5,//默认每页条数
             //search:true,//是否显示搜索框
@@ -582,6 +605,64 @@
                     location.href="/poi/createExcel?ids="+ids+"&&type=1"
                 }
         })
+    }
+    /**
+     * 文件上传
+     */
+    function initFile(){
+        $("#fileUpload").fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: '/addressBook/uploadBookFileData', //上传的地址
+            allowedFileExtensions: ['xls', 'xlsx', 'csv'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: true,//是否显示标题
+            showPreview :false, //是否显示预览
+            dropZoneEnabled: false,//是否显示拖拽区域
+            browseClass: "btn btn-primary", //按钮样式
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+        }).on('fileuploaded', function(event, data, previewId, index) {
+            if(data.response.code == "1"){
+                alert(data.response.remark);
+            }else {
+                alert("操作成功！");
+                $("#bookFileData").bootstrapTable('refresh');
+            }
+            // $(this).fileinput("reset").fileinput('unlock');
+            $(this).fileinput('clear').fileinput('enable');
+        });
+    }
+    //打开导入弹框
+    $("#daoru").click(function(){
+        $('#daoruDialog').modal();
+    })
+    function doUpload() {
+        var formData = new FormData($("#uploadForm" )[0]);
+        $.ajax({
+            url: '/poi/importContractFile',
+            type: 'post',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                $('#myTable').bootstrapTable('refresh');
+            },
+            error: function () {
+                alert(result.msg);
+            }
+        });
     }
 </script>
 </html>

@@ -7,7 +7,10 @@ public enum SiteEnum {
 
 	T_BBU(3,"3GBBu"),
 	F_BBU(4,"4GBBu"),
-	FIVE_BBU(5,"5GBBu");
+	FIVE_BBU(5,"5GBBu"),
+    T_RRU(3,"3GRRu"),
+    F_RRU(4,"4GRRu"),
+    FIVE_AAU(5,"5GAAu");
 
     private Integer key;
 

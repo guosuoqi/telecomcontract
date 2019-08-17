@@ -3,19 +3,42 @@ package com.dx.model.site;
 public class EquipmentRRUAAU {
 
     private Integer id;
-
+    /**
+     *电信编码 唯一关联标识
+     */
     private String dxCode;
-
+    /**
+     *rru编码
+     */
     private String rruCode;
-
+    /**
+     *rru名字
+     */
     private String rruName;
-
+    /**
+     *管理员id
+     */
     private Integer netCareId;
-
+    /**
+     *管理员名字
+     */
     private String netCareName;
-
+    /**
+     *工作类型 3/4/5  G
+     */
     private Integer networkType;
+    /**
+     * 耗电量
+     */
+    private Double power;
 
+    public Double getPower() {
+        return power;
+    }
+
+    public void setPower(Double power) {
+        this.power = power;
+    }
     public Integer getId() {
         return id;
     }
