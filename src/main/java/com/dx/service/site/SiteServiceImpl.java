@@ -322,7 +322,7 @@ public class SiteServiceImpl implements SiteService{
         for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
-                break;//整行为空，跳出
+                continue;//整行为空，跳出
             }
             //错误原因
             String reason = "";
