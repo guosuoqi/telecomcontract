@@ -128,6 +128,18 @@
 		and network_type=#{type}
 		GROUP BY dx_code ,network_type
 	</select>
+	<!--olt每个电信编号下的个数与耗电量-->
+	<select id="queryOLTInfo"  resultType="com.dx.model.site.SitManager">
+		SELECT dx_code as dxCode,
+			count(0) as oltCount,
+		sum(power) as power
+		FROM t_equipment_olt
+		WHERE dx_code IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		GROUP BY dx_code
+	</select>
 	<!--3/4/5GRRU页面查询-->
 	<select id="queryRRU"  resultType="com.dx.model.site.EquipmentRRUAAU">
 		select
@@ -256,8 +268,43 @@
 			<if test="item.fiveAauCount !=null and item.fiveAauCount !=''">
 				five_aau_count=#{item.fiveAauCount},five_aau_power=#{item.power},
 			</if>
-			Power_Consume=(three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power)
+			<if test="item.oltCount !=null and item.oltCount !=''">
+				olt_count=#{item.oltCount},olt_power=#{item.power},
+			</if>
+			<if test="item.ipranCount !=null and item.ipranCount !=''">
+				ipran_count=#{item.ipranCount},ipran_power=#{item.power},
+			</if>
+			Power_Consume=(three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+ipran_power+olt_power)
 			where dx_code =#{item.dxCode}
 		</foreach>
 	</update>
+
+
+	<!--olt查询总条数-->
+	<select id="queryOLTCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_olt
+	</select>
+	<!--olt页面查询-->
+	<select id="queryOLT"  resultType="com.dx.model.site.EquipmentOLT">
+		select
+		*
+		from t_equipment_olt
+		limit #{startIndex},#{endIndex}
+	</select>
+	<!--olt导出查询-->
+	<select id="queryOLTByIds"  resultType="com.dx.model.site.EquipmentOLT">
+		select
+		*
+		from t_equipment_olt
+		where id in (${ids})
+	</select>
+	<!--ipran导出查询-->
+	<select id="queryIPRANByIds"  resultType="com.dx.model.site.EquipmentIPRAN">
+		select
+		*
+		from t_equipment_ipran
+		where id in (${ids})
+	</select>
 </mapper>

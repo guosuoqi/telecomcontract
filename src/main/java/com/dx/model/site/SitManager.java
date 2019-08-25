@@ -66,13 +66,10 @@ public class SitManager {
      */
     private Double power;
 
-    public Double getPower() {
-        return power;
-    }
-
-    public void setPower(Double power) {
-        this.power = power;
-    }
+    /**
+     * ipRan个数
+     */
+    private Integer ipranCount;
 
     public Integer getId() {
         return id;
@@ -192,5 +189,21 @@ public class SitManager {
 
     public void setPowerConsume(String powerConsume) {
         PowerConsume = powerConsume;
+    }
+
+    public Double getPower() {
+        return power;
+    }
+
+    public void setPower(Double power) {
+        this.power = power;
+    }
+
+    public Integer getIpranCount() {
+        return ipranCount;
+    }
+
+    public void setIpranCount(Integer ipranCount) {
+        this.ipranCount = ipranCount;
     }
 }

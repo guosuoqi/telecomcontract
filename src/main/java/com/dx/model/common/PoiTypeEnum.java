@@ -11,7 +11,9 @@ public enum PoiTypeEnum {
     POI_TYPE_5G_BBU(4,5,"5GBBU"),
     POI_TYPE_3G_RRU(5,3,"3GRRU"),
     POI_TYPE_4G_RRU(6,4,"4GRRU"),
-    POI_TYPE_5G_AAU(7,5,"5GAAU");
+    POI_TYPE_5G_AAU(7,5,"5GAAU"),
+    POI_TYPE_OLT(8,0,"OLT"),
+    POI_TYPE_IPRAN(9,5,"ipran");
 
     private Integer key;
 

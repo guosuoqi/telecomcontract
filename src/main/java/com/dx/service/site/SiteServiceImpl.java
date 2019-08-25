@@ -5,9 +5,7 @@ import com.dx.mapper.site.SiteMapper;
 import com.dx.model.common.PowerEnum;
 import com.dx.model.common.SiteEnum;
 import com.dx.model.contract.Contract;
-import com.dx.model.site.EquipmentBBU;
-import com.dx.model.site.EquipmentRRUAAU;
-import com.dx.model.site.SitManager;
+import com.dx.model.site.*;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
@@ -198,7 +196,6 @@ public class SiteServiceImpl implements SiteService{
                 continue;
             }
         }
-        System.out.println("================================================="+JSON.toJSONString(RRUList));
 
         if(siteMapper.add3GRRU(RRUList)){
            List<SitManager> sitManager=siteMapper.queryRruInfo(dxCodes,tp);
@@ -287,7 +284,7 @@ public class SiteServiceImpl implements SiteService{
             }else if(ty.equals(SiteEnum.FIVE_BBU.getKey())){
                 return PowerEnum.FIVE_BBU_POWER.getKey();
             }
-        }else {
+        }else if("rru".equals(bbu)){
             if(ty.equals(SiteEnum.T_RRU.getKey())){
                 return PowerEnum.T_RRU_POWER.getKey();
             }else if (ty.equals(SiteEnum.F_RRU.getKey())){
@@ -309,5 +306,67 @@ public class SiteServiceImpl implements SiteService{
             cell.setCellType(Cell.CELL_TYPE_STRING);
             return cell.getStringCellValue().trim();
         }else {  return "";}
+    }
+
+    public List<EquipmentOLT> queryOLTByIds(String ids) {
+      return  siteMapper.queryOLTByIds(ids);
+    }
+    public List<EquipmentIPRAN> queryIPRANByIds(String ids) {
+      return  siteMapper.queryIPRANByIds(ids);
+    }
+
+    public boolean addOLTList(Sheet sheet) {
+        List<EquipmentOLT> OLTList = new ArrayList<>();
+        List<String> dxCodes = new ArrayList<>();
+        EquipmentOLT olt;
+        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+            Row row = (Row) sheet.getRow(i);
+            if(row ==null){
+                break;//整行为空，跳出
+            }
+            //错误原因
+            String reason = "";
+            //获取每个单元格
+            /**
+             * "电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码"
+             */
+            //电信编码
+            String dxCode = getCellVal(row.getCell(0));//第一个单元格
+            //bbu编码
+            String oltCode = getCellVal(row.getCell(1));
+            //bbu名称
+            String oltName = getCellVal(row.getCell(2));
+            //bbu耗电量
+            String power = getCellVal(row.getCell(3));
+            //网管员id
+            String userId = getCellVal(row.getCell(4));
+            if(userId==null || userId.equals("")){
+                userId="1";
+            }
+            //网管员
+            String userName = getCellVal(row.getCell(5));
+            if(dxCode==null ||oltCode==null){
+                continue;
+            }
+            olt=new EquipmentOLT();
+            if(power==null ||power.isEmpty()){
+                Double olt1 = getPower("0", "olt");
+                olt.setPower(olt1);
+            }else {
+                olt.setPower(Double.valueOf(power));
+            }
+            olt.setDxCode(dxCode);
+            olt.setOltCode(oltCode);
+            olt.setOltName(oltName);
+            olt.setNetCareId(Integer.valueOf(userId));
+            olt.setNetCareName(userName);
+            OLTList.add(olt);
+            dxCodes.add(dxCode);
+        }
+        if(siteMapper.addOLT(OLTList)){
+            List<SitManager> sitManager=siteMapper.queryOLTInfo(dxCodes);
+            siteMapper.updateRruCountAndPower(sitManager);
+        }
+        return true;
     }
 }

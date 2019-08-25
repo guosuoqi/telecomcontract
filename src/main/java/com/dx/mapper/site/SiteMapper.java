@@ -1,8 +1,6 @@
 package com.dx.mapper.site;
 
-import com.dx.model.site.EquipmentBBU;
-import com.dx.model.site.EquipmentRRUAAU;
-import com.dx.model.site.SitManager;
+import com.dx.model.site.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -48,4 +46,12 @@ public interface SiteMapper {
 
     List<SitManager> queryBBUInfo(@Param("list") List<String> dxCodes, @Param("type")Integer type);
     List<SitManager> queryRruInfo(@Param("list") List<String> dxCodes, @Param("type")Integer type);
+
+    List<EquipmentOLT> queryOLTByIds(String ids);
+
+    List<EquipmentIPRAN> queryIPRANByIds(String ids);
+
+    boolean addOLT(List<EquipmentOLT> oltList);
+
+    List<SitManager> queryOLTInfo(@Param("list")List<String> dxCodes);
 }

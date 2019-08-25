@@ -152,12 +152,6 @@ public class UserController {
             return false;
         }
     }
-
-    public static void main(String[] args) {
-        UserMain user = new UserMain();
-        System.out.println(user==null);
-    }
-
     //用户页面新增
     @RequestMapping("addUser")
     @ResponseBody

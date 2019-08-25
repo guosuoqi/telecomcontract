@@ -10,6 +10,7 @@ import com.dx.model.nav.RoleNavBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.service.nav.NavService;
 import com.dx.util.StringUtil;
+import com.dx.util.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
 import com.dx.model.Task.TaskModel;
@@ -127,6 +128,7 @@ public class UserServiceImpl implements UserService {
 //新增用户
     @Override
     public int addUser(UserMain userMain) {
+        userMain.setPassword(StringUtils.getMD5String(userMain.getPassword()));
         return userMapper.addUser(userMain);
     }
 //删除用户

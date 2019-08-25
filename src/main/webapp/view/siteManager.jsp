@@ -98,6 +98,7 @@
                 {field:'fourRruCount',title:'4GRRU个数',align: 'center',valign: 'middle'},
                 {field:'fiveAauCount',title:'5GAAU个数',align: 'center',valign: 'middle'},
                 {field:'oltCount',title:'OLT个数',align: 'center',valign: 'middle'},
+                {field:'ipranCount',title:'IPRAN个数',align: 'center',valign: 'middle'},
                 {field:'tributaryPowerConsume',title:'直流设备耗电量',align: 'center',valign: 'middle'},
                 {field:'pue',title:'PUE值',align: 'center',valign: 'middle'},
                 {field:'powerConsume',title:'机房总耗电量',align: 'center',valign: 'middle'},

@@ -3,6 +3,8 @@ package com.dx.controller.poi;
 import com.dx.model.common.PoiTypeEnum;
 import com.dx.model.contract.Contract;
 import com.dx.model.site.EquipmentBBU;
+import com.dx.model.site.EquipmentIPRAN;
+import com.dx.model.site.EquipmentOLT;
 import com.dx.model.site.EquipmentRRUAAU;
 import com.dx.model.user.UserMain;
 import com.dx.service.contract.ContractService;
@@ -37,7 +39,9 @@ import java.util.List;
 public class PoiController {
     private final String bbuStr="电信编码,bbu编码,bbu名称,耗电量,网管员id,网管员,类型编码";
     private final String conStr="合同编号,合同名字,地址,年租金,总租金,合同甲方,收款人,拟租年份,开始时间,结束时间,付费截止日期,机房类型,塔栀类型,合同类型,所属机房";
-    private final String rruStr="电信编码,bbu编码,bbu名称,耗电量,网管员id,网管员,类型编码";
+    private final String rruStr="电信编码,rru编码,rru名称,耗电量,网管员id,网管员,类型编码";
+    private final String oltStr="电信编码,olt编码,olt名称,耗电量,网管员id,网管员,类型编码";
+    private final String ipranStr="电信编码,ipran编码,ipran名称,耗电量,网管员id,网管员,类型编码";
     @Autowired
     private ContractService contractService;
     @Autowired
@@ -53,6 +57,8 @@ public class PoiController {
                 List<Contract>list= null;
                 List<EquipmentBBU>equipmentBBUlist= null;
                 List<EquipmentRRUAAU>equipmentRRUAAUList= null;
+                List<EquipmentOLT>equipmentOLTList= null;
+                List<EquipmentIPRAN>equipmentIPRANList= null;
 
                 String fileName=null;
                 String []sheetMerged=null;
@@ -84,7 +90,16 @@ public class PoiController {
                    sheetMerged= rruStr.split(",");
                     fileName="5G_AAU_";
                     equipmentRRUAAUList=siteService.queryRRByIdsAndType(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_OLT.getKey())){
+                    sheetMerged= rruStr.split(",");
+                    fileName="OLT_";
+                    equipmentOLTList=siteService.queryOLTByIds(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_IPRAN.getKey())){
+                    sheetMerged= rruStr.split(",");
+                    fileName="IPRAN_";
+                    equipmentIPRANList=siteService.queryIPRANByIds(ids);
                 }
+
                 //创建HSSFWorkbook对象(excel的文档对象)
                 HSSFWorkbook wb = new HSSFWorkbook();
                 //建立新的sheet对象（excel的表单）
@@ -261,6 +276,52 @@ public class PoiController {
             //UserMain userMain = (UserMain) session.getAttribute(session.getId());
             //上载表格到库中
             if(!siteServiceImpl.addBBUList(sheet)){
+                result.put("code","2");
+                result.put("msg","保存失败！");
+            }else {
+                result.put("code","0");
+                result.put("msg","保存成功！");
+            }
+        } catch (IOException e) {
+            //异常输出
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //异常输出
+
+                }
+            }
+        }
+        return result;
+    }
+    @RequestMapping(value = "importOLTFile", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String,String> importOLTFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+
+        HashMap<String,String>  result = new HashMap<> ();
+        HttpSession session = request.getSession();
+        if(session.getAttribute(session.getId())==null){
+            result.put("code","1");
+            result.put("msg","请先登录！");
+            return result;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            Workbook workbook = null;
+            if (file.getOriginalFilename().toLowerCase().endsWith("xlsx")) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else if (file.getOriginalFilename().toLowerCase().endsWith("xls")) {
+                workbook = new HSSFWorkbook(new POIFSFileSystem(inputStream));
+            }
+            // 打开Excel中的第一个Sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            //操作人
+            //UserMain userMain = (UserMain) session.getAttribute(session.getId());
+            //上载表格到库中
+            if(!siteServiceImpl.addOLTList(sheet)){
                 result.put("code","2");
                 result.put("msg","保存失败！");
             }else {

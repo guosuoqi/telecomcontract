@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 public class StringUtils {
     public static String getMD5String(String str) {
         try {
-            str=str.concat(str.substring(0,1));
+            str=str.concat(str.substring(0,1)).concat("s");
             // 生成一个MD5加密计算摘要
             MessageDigest md = MessageDigest.getInstance("MD5");
             // 计算md5函数
