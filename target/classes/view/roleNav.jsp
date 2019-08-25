@@ -26,7 +26,7 @@
 <body>
 <div>
 	<table id="myRoles"></table>
-	<input type="text" id="roleHideId">
+	<input type="text" type="hidden" id="roleHideId">
 </div>
 
 

@@ -21,27 +21,25 @@
 		select
 			*
 		from t_equipment_bbu
-		where id in ${ids}
+		where id in (${ids})
 	</select>
 	<!--3/4/5GRRUpoi获取-->
 	<select id="queryRRByIdsAndType"  resultType="com.dx.model.site.EquipmentRRUAAU">
 		select
 			*
 		from t_equipment_rru_aau
-		where id in ${ids}
+		where id in (${ids})
 	</select>
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >
-        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=";">
-             insert into t_equipment_bbu (
-                   dx_code,bbu_code,bbu_name,
-                   Net_Care_id,Net_Care_name,network_type
-              )
-            values (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},
-                    #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType}
-
-              )
+		insert into t_equipment_bbu (
+		dx_code,bbu_code,bbu_name,power,
+		Net_Care_id,Net_Care_name,network_type
+		)   values
+        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=",">
+      		 (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},#{equipmentBBU.power},
+                    #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType})
         </foreach>
 	</insert>
 
@@ -87,6 +85,61 @@
 		from t_equipment_rru_aau
         where network_type=#{equipmentRRUAAU.networkType}
 	</select>
+	<!--3/4/5G 每个电信编号下的个数与耗电量-->
+	<select id="queryRruInfo"  resultType="com.dx.model.site.SitManager">
+		SELECT dx_code as dxCode,
+		 <if test="type==3">
+			 count(0) as threeRruCount,
+		 </if>
+		 <if test="type==4">
+			 count(0) as fourRruCount,
+		 </if>
+		 <if test="type==5">
+			 count(0) as fiveAauCount,
+		 </if>
+		sum(power) as power
+		FROM t_equipment_rru_aau
+		WHERE dx_code IN
+			<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		and network_type=#{type}
+		GROUP BY dx_code ,network_type
+	</select>
+
+	<!--3/4/5G 每个电信编号下的个数与耗电量-->
+	<select id="queryBBUInfo"  resultType="com.dx.model.site.SitManager">
+		SELECT dx_code as dxCode,
+		<if test="type==3">
+			count(0) as threeBbuCount,
+		</if>
+		<if test="type==4">
+			count(0) as fourBbuCount,
+		</if>
+		<if test="type==5">
+			count(0) as fiveBbuCount,
+		</if>
+		sum(power) as power
+		FROM t_equipment_bbu
+		WHERE dx_code IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		and network_type=#{type}
+		GROUP BY dx_code ,network_type
+	</select>
+	<!--olt每个电信编号下的个数与耗电量-->
+	<select id="queryOLTInfo"  resultType="com.dx.model.site.SitManager">
+		SELECT dx_code as dxCode,
+			count(0) as oltCount,
+		sum(power) as power
+		FROM t_equipment_olt
+		WHERE dx_code IN
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		GROUP BY dx_code
+	</select>
 	<!--3/4/5GRRU页面查询-->
 	<select id="queryRRU"  resultType="com.dx.model.site.EquipmentRRUAAU">
 		select
@@ -100,12 +153,11 @@
 	<insert id="add3GRRU" >
         <foreach collection="list" item="EquipmentRRUAAU" index="index" open="" close="" separator=";">
              insert into t_equipment_rru_aau (
-                   dx_code,rru_code,rru_name,
+                   dx_code,rru_code,rru_name,power,
                    net_Care_id,net_Care_name,network_type
               )
-            values (#{equipmentRRUAAU.dxCode},#{equipmentRRUAAU.rruCode},#{equipmentRRUAAU.rruName},
-                    #{equipmentRRUAAU.netCareId},#{equipmentRRUAAU.netCareName},#{equipmentRRUAAU.networkType}
-
+            values (#{EquipmentRRUAAU.dxCode},#{EquipmentRRUAAU.rruCode},#{EquipmentRRUAAU.rruName},#{EquipmentRRUAAU.power},
+                    #{EquipmentRRUAAU.netCareId},#{EquipmentRRUAAU.netCareName},#{EquipmentRRUAAU.networkType}
               )
         </foreach>
 	</insert>
@@ -138,7 +190,6 @@
 			<if test="equipmentRRUAAU.NetCareName != null and equipmentRRUAAU.NetCareName != ''">
 				Net_Care_name = #{equipmentRRUAAU.netCareName},
 			</if>
-
 		</set>
 		<where>
 			id = #{equipmentRRUAAU.id}
@@ -160,7 +211,7 @@
 		limit #{startIndex},#{endIndex}
 	</select>
 	<!--3/4/5BBU页面修改-->
-	<update id="updateSite">
+	<!--<update id="updateSite">
 		update t_base_station
 		<set>
 			<if test="threeBbuCount != null and threeBbuCount != 0">
@@ -192,5 +243,68 @@
 		<where>
 			id = #{equipmentBBU.id}
 		</where>
+	</update>-->
+
+	<!-- 同步数据 个数 总耗电量-->
+	<update id="updateRruCountAndPower">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			update t_base_station
+			set
+			<if test="item.threeBbuCount !=null and item.threeBbuCount !=''">
+				three_bbu_count=#{item.threeBbuCount},three_bbu_power=#{item.power},
+			</if>
+			<if test="item.fourBbuCount !=null and item.fourBbuCount !=''">
+				four_bbu_count=#{item.fourBbuCount},four_bbu_power=#{item.power},
+			</if>
+			<if test="item.fiveBbuCount !=null and item.fiveBbuCount !=''">
+				five_bbu_count=#{item.fiveBbuCount},five_bbu_power=#{item.power},
+			</if>
+			<if test="item.threeRruCount !=null and item.threeRruCount !=''">
+				three_rru_count=#{item.threeRruCount},three_rru_power=#{item.power},
+			</if>
+			<if test="item.fourRruCount !=null and item.fourRruCount !=''">
+				four_rru_count=#{item.fourRruCount},four_rru_power=#{item.power},
+			</if>
+			<if test="item.fiveAauCount !=null and item.fiveAauCount !=''">
+				five_aau_count=#{item.fiveAauCount},five_aau_power=#{item.power},
+			</if>
+			<if test="item.oltCount !=null and item.oltCount !=''">
+				olt_count=#{item.oltCount},olt_power=#{item.power},
+			</if>
+			<if test="item.ipranCount !=null and item.ipranCount !=''">
+				ipran_count=#{item.ipranCount},ipran_power=#{item.power},
+			</if>
+			Power_Consume=(three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+ipran_power+olt_power)
+			where dx_code =#{item.dxCode}
+		</foreach>
 	</update>
+
+
+	<!--olt查询总条数-->
+	<select id="queryOLTCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_olt
+	</select>
+	<!--olt页面查询-->
+	<select id="queryOLT"  resultType="com.dx.model.site.EquipmentOLT">
+		select
+		*
+		from t_equipment_olt
+		limit #{startIndex},#{endIndex}
+	</select>
+	<!--olt导出查询-->
+	<select id="queryOLTByIds"  resultType="com.dx.model.site.EquipmentOLT">
+		select
+		*
+		from t_equipment_olt
+		where id in (${ids})
+	</select>
+	<!--ipran导出查询-->
+	<select id="queryIPRANByIds"  resultType="com.dx.model.site.EquipmentIPRAN">
+		select
+		*
+		from t_equipment_ipran
+		where id in (${ids})
+	</select>
 </mapper>
