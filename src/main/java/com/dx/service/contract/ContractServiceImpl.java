@@ -178,7 +178,7 @@ public class ContractServiceImpl implements ContractService {
             contract.setStartTime(startTime);
             contract.setEndTime(endTime);
             contract.setPayEndTime(payEndTim);
-            contract.setRoomType(Integer.valueOf(roomType));
+            contract.setRoomType(roomType.isEmpty() ? null: Integer.valueOf(roomType));
             contract.setRoomTypeName(roomTypeName);
             contract.setTowerType(Integer.valueOf(towerType));
             contract.setTowerTypeName(towerTypeName);
