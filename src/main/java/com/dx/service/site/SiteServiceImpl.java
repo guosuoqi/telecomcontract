@@ -1,6 +1,8 @@
 package com.dx.service.site;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dx.mapper.site.SiteMapper;
 import com.dx.model.common.PowerEnum;
 import com.dx.model.common.SiteEnum;
@@ -368,5 +370,76 @@ public class SiteServiceImpl implements SiteService{
             siteMapper.updateRruCountAndPower(sitManager);
         }
         return true;
+    }
+
+    public boolean addIpranList(Sheet sheet) {
+        List<EquipmentIPRAN> ipranList = new ArrayList<>();
+        List<String> dxCodes = new ArrayList<>();
+        EquipmentIPRAN olt;
+        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+            Row row = (Row) sheet.getRow(i);
+            if(row ==null){
+                continue;//整行为空，跳出
+            }
+            //错误原因
+            String reason = "";
+            //获取每个单元格
+            /**
+             * "电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码"
+             */
+            //电信编码
+            String dxCode = getCellVal(row.getCell(0));//第一个单元格
+            //bbu编码
+            String oltCode = getCellVal(row.getCell(1));
+            //bbu名称
+            String oltName = getCellVal(row.getCell(2));
+            //bbu耗电量
+            String power = getCellVal(row.getCell(3));
+            //网管员id
+            String userId = getCellVal(row.getCell(4));
+            if(userId==null || userId.equals("")){
+                userId="1";
+            }
+            //网管员
+            String userName = getCellVal(row.getCell(5));
+            if(dxCode==null ||oltCode==null){
+                continue;
+            }
+            olt=new EquipmentIPRAN();
+            if(power==null ||power.isEmpty()){
+                Double olt1 = getPower("0", "olt");
+                olt.setPower(olt1);
+            }else {
+                olt.setPower(Double.valueOf(power));
+            }
+            olt.setDxCode(dxCode);
+            olt.setIprancode(oltCode);
+            olt.setIpranName(oltName);
+            olt.setNetCareId(Integer.valueOf(userId));
+            olt.setNetCareName(userName);
+            ipranList.add(olt);
+            dxCodes.add(dxCode);
+        }
+        /*if(siteMapper.addIpran(EquipmentIPRAN)){
+            List<SitManager> sitManager=siteMapper.queryOLTInfo(dxCodes);
+            siteMapper.updateRruCountAndPower(sitManager);
+        }*/
+        return true;
+    }
+
+
+    public static void main(String[] args) {
+        JSONObject body = new JSONObject();
+        JSONArray array = new JSONArray();
+        body.put("name","chu");
+        body.put("name","chu");
+        body.put("name","chu");
+        body.put("nide","chu");
+        JSONObject o = new JSONObject();
+        o.put("id",1);
+        o.put("name","nu");
+        array.add(o);
+        body.put("array",array);
+        System.out.println(JSON.toJSONString(body));
     }
 }
