@@ -36,7 +36,7 @@ public interface UserMapper {
 
     void updateUserByUserId(UserMain user);
 
-    UserMain queryUserByName(@Param("userName")String userName);
+    List<UserMain> queryUserByCounty(@Param("county")String county);
 
     void deleteRole(@Param("userId")String userId);
 

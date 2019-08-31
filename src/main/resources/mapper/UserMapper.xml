@@ -22,9 +22,9 @@
             </if>
         </where>
     </select>
-    <select id="queryUserByName"  resultType="com.dx.model.user.UserMain">
+    <select id="queryUserByCounty"  resultType="com.dx.model.user.UserMain">
         select * from sys_user
-        where user_name =#{userName}
+        where user_county =#{county}
     </select>
 <!--查询用户管理列表-->
     <select id="queryUser"  resultType="com.dx.model.user.UserMain">

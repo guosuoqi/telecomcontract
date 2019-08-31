@@ -177,8 +177,8 @@ public class UserServiceImpl implements UserService {
         userMapper.saveRoleNav(params);
     }
 
-    public UserMain queryUserByName(String userName){
-       return userMapper.queryUserByName(userName);
+    public List<UserMain> queryUserByCounty(String userName){
+        return userMapper.queryUserByCounty(userName);
     }
     public void sendContractTaskToEmail() {
         TaskModel model;
@@ -190,7 +190,8 @@ public class UserServiceImpl implements UserService {
         }
     }
     public void sendTaskToEmail(List<Contract>list){
-        UserMain user=null;
+        List<UserMain> users=null;
+        List<TaskModel> taskModels=new ArrayList<>();
         TaskModel taskModel=null;
         JSONObject body=null;
         for (Contract con:list) {
@@ -198,21 +199,33 @@ public class UserServiceImpl implements UserService {
                 continue;
             }
             if(!con.getRenewOperator().isEmpty()){
-                user=userMapper.queryUserByName(con.getRenewOperator());
-                body= getCommJson(user,1,con.getNumber());
+                users=userMapper.queryUserByCounty(con.getCounty());
+                for (UserMain user:users) {
+                    body= getCommJson(user,1,con.getNumber());
+                    SendTask(taskModel,user,body,taskModels);
+                }
+
             }else if(!con.getExtenxionOperator().isEmpty()){
-                user=userMapper.queryUserByName(con.getExtenxionOperator());
-                body= getCommJson(user,2,con.getNumber());
+                users=userMapper.queryUserByCounty(con.getCounty());
+                for (UserMain user:users) {
+                    body= getCommJson(user,2,con.getNumber());
+                    SendTask(taskModel,user,body,taskModels);
+                }
             }
-            if(user==null){
-                continue;
-            }
-            taskModel.setStatus(0);
-            taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
-            taskModel.setUser(user.getUserName());
-            taskModel.setContent(body.toJSONString());
+            //todo 新增任务落库
+            //insertTaskModels(taskModels);
         }
     }
+
+    private void SendTask(TaskModel taskModel, UserMain user, JSONObject body,List<TaskModel>taskModels) {
+        taskModel=new TaskModel();
+        taskModel.setStatus(0);
+        taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
+        taskModel.setUser(user.getUserName());
+        taskModel.setContent(body.toJSONString());
+        taskModels.add(taskModel);
+    }
+
     private JSONObject getCommJson(UserMain user, int type,Integer number) {
         JSONObject body =new JSONObject();
         body.put("userEmail",user.getEmail());

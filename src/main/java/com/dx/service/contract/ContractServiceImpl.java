@@ -72,7 +72,7 @@ public class ContractServiceImpl implements ContractService {
         for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
-                break;//整行为空，跳出
+                continue;//整行为空，跳出
             }
             //错误原因
             String reason = "";
@@ -315,31 +315,39 @@ public class ContractServiceImpl implements ContractService {
         }
     }
     public void sendTaskToEmail(List<Contract>list){
-        UserMain user=null;
+        List<UserMain> users=null;
+        List<TaskModel> taskModels=new ArrayList<>();
         TaskModel taskModel=null;
         JSONObject body=null;
         for (Contract con:list) {
             if(con.getNumber()==0){
                 continue;
             }
-            if(!con.getRenewOperator().isEmpty()){
-                user=userMapper.queryUserByName(con.getRenewOperator());
-                body= getCommJson(user,1,con);
-            }else if(!con.getExtenxionOperator().isEmpty()){
-                user=userMapper.queryUserByName(con.getExtenxionOperator());
-                body= getCommJson(user,2,con);
-            }
-            if(user==null){
-                continue;
-            }
-            taskModel.setStatus(0);
-            taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
-            taskModel.setUser(user.getUserName());
-            taskModel.setContent(body.toJSONString());
+            if(con.getExtenxionStatus()==1){
+                users=userMapper.queryUserByCounty(con.getCounty());
+                for (UserMain user:users) {
+                    body= getCommJson(user,1,con);
+                    SendTask(taskModel,user,body,taskModels);
+                }
 
+            }else if(con.getRenewStatus()==1){
+                users=userMapper.queryUserByCounty(con.getCounty());
+                for (UserMain user:users) {
+                    body= getCommJson(user,1,con);
+                    SendTask(taskModel,user,body,taskModels);
+                }
+
+            }
         }
     }
-
+    private void SendTask(TaskModel taskModel, UserMain user, JSONObject body,List<TaskModel>taskModels) {
+        taskModel=new TaskModel();
+        taskModel.setStatus(0);
+        taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
+        taskModel.setUser(user.getUserName());
+        taskModel.setContent(body.toJSONString());
+        taskModels.add(taskModel);
+    }
     private JSONObject getCommJson(UserMain user, int type,Contract con) {
         JSONObject body =new JSONObject();
         body.put("userEmail",user.getEmail());

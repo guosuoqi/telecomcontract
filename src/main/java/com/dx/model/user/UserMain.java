@@ -20,6 +20,8 @@ public class UserMain {
 
     private String role;//用户角色
 
+    private String county;//负责地区
+
     public Integer getId() {
         return id;
     }
@@ -90,5 +92,13 @@ public class UserMain {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
     }
 }
