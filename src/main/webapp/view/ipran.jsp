@@ -41,7 +41,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    新增olt
+                    新增IPRAN
                 </h4>
             </div>
             <div class="modal-body">
@@ -50,16 +50,16 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
                     </div>
-                    <div class="col-xs-2">olt编码:</div>
+                    <div class="col-xs-2">ipran编码:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="oltCode" id="bbuCode" type="text"/>
+                        <input class="form-control" name="ipranCode" id="bbuCode" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">olt名字:</div>
+                    <div class="col-xs-2">ipran名字:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="oltName" id="bbuName" type="text"/>
+                        <input class="form-control" name="ipranName" id="bbuName" type="text"/>
                     </div>
                     <div class="col-xs-2">电信网管编码:</div>
                     <div class="col-xs-4">
@@ -77,7 +77,7 @@
             <div class="modal-footer">
                 <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitOlt()">
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitIpran()">
                     提交更改
                 </button>
             </div>
@@ -86,8 +86,8 @@
 </div>
 
 
-<button type="button" onclick="openAddOlt()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
-<button type="button" onclick="delOlt()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+<button type="button" onclick="openAddIpran()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<button type="button" onclick="delIpran()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 
@@ -113,7 +113,7 @@
         </div>
     </div>
 </div>
-<table id="oltTable"></table>
+<table id="ipranTable"></table>
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
@@ -131,9 +131,9 @@
     });
 
     function initBBU(){
-        $('#oltTable').bootstrapTable('destroy');
-        $("#oltTable").bootstrapTable({
-            url:'/site/queryOLT',//获取数据地址
+        $('#ipranTable').bootstrapTable('destroy');
+        $("#ipranTable").bootstrapTable({
+            url:'/site/queryIpran',//获取数据地址
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
@@ -160,10 +160,9 @@
             },
             columns:[
                 {field:'111',checkbox:true},
-                {field:'id',title:'OLTId'},
                 {field:'dxCode',title:'电信编码'},
-                {field:'bbuCode',title:'OLT编码'},
-                {field:'bbuName',title:'OLT名字'},
+                {field:'bbuCode',title:'IPRAN编码'},
+                {field:'bbuName',title:'IPRAN名字'},
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
@@ -185,7 +184,7 @@
     }
     //打开新增合同续约的弹框
 
-    function openAddOlt(){
+    function openAddIpran(){
         $('#myModal').modal();
     }
    /* function openAdd3GBBU(){
@@ -225,15 +224,15 @@
     }*/
 
     //提交用户
-    function submitOlt(){
+    function submitIpran(){
         document.getElementById('buttonAdd').disabled=true;
         $.ajax({
-            url: '/site/addOlt',
+            url: '/site/addIpran',
             type: "post",
             data : {
                 dxCode:$("#dxCode").val(),
-                bbuCode:$("#oltCode").val(),
-                bbuName:$("#oltName").val(),
+                bbuCode:$("#ipranCode").val(),
+                bbuName:$("#ipranName").val(),
                 netCareId:$("#netCareId").val(),
                 netCareName:$("#netCareName").val(),
                 networkType:3
@@ -250,11 +249,11 @@
         })
     }
     //打开修改的弹框
-    function editOlt(id){
+    function editIpran(id){
         bootbox.dialog({
             size:"big",
             title:"修改BBU信息",
-            message:createAddContent("/page/toUpdateOlt?id="+id),
+            message:createAddContent("/page/toUpdateIpran?id="+id),
             closeButton:true,
             buttons:{
                 'success':{
@@ -262,9 +261,9 @@
                     "className" : "btn-sm btn-success",
                     "callback" : function() {
                         $.ajax({
-                            url:'/site/updateOlt',
+                            url:'/site/updateIpran',
                             type:'post',
-                            data:$("#oltForm").serialize(),
+                            data:$("#ipranForm").serialize(),
                             dataType:'json',
                             success:function(data){
                                 bootbox.alert({
@@ -272,7 +271,7 @@
                                     title:"提示",
                                     message:"修改成功！"
                                 }),
-                                    $('#oltTable').bootstrapTable('refresh');
+                                    $('#ipranTable').bootstrapTable('refresh');
                             }
                         })
                     }
@@ -286,8 +285,8 @@
     }
 
     //批量删除
-    function delOlt(){
-        var arr = $('#oltTable').bootstrapTable('getSelections');
+    function delIpran(){
+        var arr = $('#ipranTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -323,7 +322,7 @@
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#oltTable').bootstrapTable('refresh');
+                                $('#ipranTable').bootstrapTable('refresh');
                             }
 
                         },
@@ -337,7 +336,7 @@
     }
     //导出数据
     function EXPContract(){
-        var arr = $('#oltTable').bootstrapTable('getSelections');
+        var arr = $('#ipranTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -366,7 +365,7 @@
                 for (var i = 0; i < arr.length; i++) {
                     ids += ids == "" ? arr[i].id : ","+arr[i].id;
                 }
-                location.href="/poi/createExcel?ids="+ids+"&&type=8"
+                location.href="/poi/createExcel?ids="+ids+"&&type=9"
             }
         })
     }
@@ -421,7 +420,7 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                $('#oltTable').bootstrapTable('refresh');
+                $('#ipranTable').bootstrapTable('refresh');
             },
             error: function () {
                 alert(result.msg);

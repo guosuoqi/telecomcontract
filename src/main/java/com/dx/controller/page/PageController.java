@@ -111,6 +111,12 @@ public class PageController {
 		return "/view/add3GRRU";
 	}
 
+	//去新增navMenu的页面
+	@RequestMapping("toAddNavMenu")
+	public String toAddNavMenu() {
+		return "/view/addNavMenu";
+	}
+
 	//去修改3/4/5GBBU页面
 	@RequestMapping("toUpdate3GRRU")
 	public String toUpdate3GRRU(Integer id, ModelMap modelMap) {

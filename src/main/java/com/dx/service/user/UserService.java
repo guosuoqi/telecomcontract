@@ -1,5 +1,6 @@
 package com.dx.service.user;
 
+import com.dx.model.nav.NavMenuBean;
 import com.dx.model.nav.NavTree;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
@@ -31,4 +32,10 @@ public interface UserService {
     List<NavTree> queryRoleNav(HashMap<String, Object> param);
 
     void saveRoleNav(String roleId, Integer[] navIds);
+
+    List<NavMenuBean> queryPowerMenuList(NavMenuBean navMenuBean);
+
+    void delPowerMenu(NavMenuBean navMenuBean);
+
+    int addMenu(NavMenuBean navMenuBean);
 }

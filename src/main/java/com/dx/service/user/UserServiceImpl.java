@@ -5,9 +5,7 @@ import com.dx.mapper.nav.NavMapper;
 import com.dx.mapper.user.UserMapper;
 import com.alibaba.fastjson.JSONObject;
 import com.dx.model.contract.Contract;
-import com.dx.model.nav.NavTree;
-import com.dx.model.nav.RoleNavBean;
-import com.dx.model.nav.UserRoleBean;
+import com.dx.model.nav.*;
 import com.dx.service.nav.NavService;
 import com.dx.util.StringUtil;
 import com.dx.util.StringUtils;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
-import com.dx.model.nav.RoleBean;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,6 +173,22 @@ public class UserServiceImpl implements UserService {
         System.out.println(params);
         userMapper.saveRoleNav(params);
     }
+
+    @Override
+    public List<NavMenuBean> queryPowerMenuList(NavMenuBean navMenuBean) {
+        // TODO Auto-generated method stub
+        return userMapper.queryPowerMenuList(navMenuBean);
+    }
+    @Override
+    public void delPowerMenu(NavMenuBean navMenuBean) {
+         userMapper.delPowerMenu(navMenuBean);
+    }
+
+    @Override
+    public int addMenu(NavMenuBean navMenuBean) {
+        return userMapper.addMenu(navMenuBean);
+    }
+
 
     public List<UserMain> queryUserByCounty(String userName){
         return userMapper.queryUserByCounty(userName);

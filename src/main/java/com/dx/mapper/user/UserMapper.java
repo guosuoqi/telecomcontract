@@ -1,9 +1,6 @@
 package com.dx.mapper.user;
 
-import com.dx.model.nav.NavTree;
-import com.dx.model.nav.RoleBean;
-import com.dx.model.nav.RoleNavBean;
-import com.dx.model.nav.UserRoleBean;
+import com.dx.model.nav.*;
 import com.dx.model.user.UserMain;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -55,4 +52,10 @@ public interface UserMapper {
     void deleteRoleNav(@Param("roleId") String roleId);
 
     void saveRoleNav(ArrayList<RoleNavBean> params);
+
+    List<NavMenuBean> queryPowerMenuList(NavMenuBean navMenuBean);
+
+    void delPowerMenu(NavMenuBean navMenuBean);
+
+    int addMenu(NavMenuBean navMenuBean);
 }

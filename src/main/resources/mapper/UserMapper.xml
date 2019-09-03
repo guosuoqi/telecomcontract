@@ -122,13 +122,13 @@
 			from  sys_nav
 	</select>
 
-    <select id="queryRoleNavById" resultType="roleNavBean">
+    <select id="queryRoleNavById" resultType="com.dx.model.nav.RoleNavBean">
 		select * from sys_role_power  where role_id=#{roleId}
 	</select>
 
 
     <delete id="deleteRoleNav">
-	delete from sys_role_power where role_id=#{roleId}
+	    delete from sys_role_power where role_id=#{roleId}
 	</delete>
 
     <insert id="saveRoleNav">
@@ -137,4 +137,18 @@
             (#{item.id},#{item.roleId},#{item.navId})
         </foreach>
     </insert>
+
+    <insert id="addMenu">
+        insert into sys_power_menu(id,name,url,nav_id) values
+            (#{id},#{name},#{url},#{navId})
+    </insert>
+
+
+    <select id="queryPowerMenuList" resultType="com.dx.model.nav.NavMenuBean">
+			select * from sys_power_menu  where nav_id=#{navId}
+	</select>
+
+    <delete id="delPowerMenu">
+        delete from sys_power_menu where id=#{id}
+    </delete>
 </mapper>

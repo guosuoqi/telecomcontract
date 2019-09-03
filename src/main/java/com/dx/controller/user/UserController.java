@@ -1,6 +1,7 @@
 package com.dx.controller.user;
 
 
+import com.dx.model.nav.NavMenuBean;
 import com.dx.model.nav.NavTree;
 import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
@@ -57,9 +58,10 @@ public class UserController {
         }
 
         if (!userInfo.getPassword().equals(StringUtils.getMD5String(user.getPassword()))){
+            System.out.println("user = [" + user.getPassword() + "], request = [" + userInfo.getPassword() + "]");
             result.put("code", "2");
-            result.put("msg", "用户名或密码错误");
-            logger.info(this.getClass() + "，用户名或密码错误！");
+            result.put("msg", "密码错误");
+            logger.info(this.getClass() + "，密码错误！");
             return result;
         }
         session.setAttribute(session.getId(), userInfo);
@@ -67,7 +69,6 @@ public class UserController {
         result.put("msg", "登录成功");
         return result;
     }
-
     //注销
     @RequestMapping(value = "exitLogin")
     public String exitLogin(HttpServletRequest request){
@@ -236,5 +237,22 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping("queryPowerMenuList")
+    @ResponseBody
+    public List<NavMenuBean>queryPowerMenuList(NavMenuBean navMenuBean){
+        return userService.queryPowerMenuList(navMenuBean);
+    }
+    @RequestMapping("delPowerMenu")
+    @ResponseBody
+    public void delPowerMenu(NavMenuBean navMenuBean){
+        userService.delPowerMenu(navMenuBean);
+    }
+    @RequestMapping("addMenu")
+    @ResponseBody
+    public int addMenu(NavMenuBean navMenuBean){
+        return userService.addMenu(navMenuBean);
+    }
+
 
 }
