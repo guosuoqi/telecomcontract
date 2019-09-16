@@ -355,9 +355,9 @@ public class PoiController {
         }
         return result;
     }
-    @RequestMapping(value = "importIpranFile", method = RequestMethod.POST)
+    @RequestMapping(value = "importIPRANFile", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String,String> importIpranFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+    public HashMap<String,String> importIPRANFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
 
         HashMap<String,String>  result = new HashMap<> ();
         HttpSession session = request.getSession();
@@ -466,7 +466,7 @@ public class PoiController {
     }
     private void setIPRANPoi(HSSFRow row3, EquipmentIPRAN equipmentIPRAN) {
         row3.createCell(0).setCellValue(equipmentIPRAN.getDxCode());
-        row3.createCell(1).setCellValue(equipmentIPRAN.getIprancode());
+        row3.createCell(1).setCellValue(equipmentIPRAN.getIpranCode());
         row3.createCell(2).setCellValue(equipmentIPRAN.getIpranName());
         row3.createCell(3).setCellValue(equipmentIPRAN.getPower());
         row3.createCell(4).setCellValue(equipmentIPRAN.getNetCareId());

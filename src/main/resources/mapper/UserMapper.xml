@@ -151,4 +151,18 @@
     <delete id="delPowerMenu">
         delete from sys_power_menu where id=#{id}
     </delete>
+
+    <select id="findUserPowerUrl" resultType="string">
+	select DISTINCT spm.url from  sys_user_role sur
+     left join sys_role_power srp on sur.role_Id=srp.role_id
+     left join sys_power_menu spm on srp.nav_id=spm.nav_id
+    where sur.user_id=#{value} and spm.url !=''
+
+	UNION
+	select DISTINCT sn.url from sys_user_role sur
+	left join sys_role_power srp on sur.role_Id=srp.role_id
+	left join sys_nav sn on srp.nav_id=sn.id
+	where sur.user_id=#{value} and sn.url!=''
+
+	</select>
 </mapper>

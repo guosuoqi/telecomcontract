@@ -1,8 +1,6 @@
 package com.dx.service.site;
 
-import com.dx.model.site.EquipmentBBU;
-import com.dx.model.site.EquipmentRRUAAU;
-import com.dx.model.site.SitManager;
+import com.dx.model.site.*;
 import com.dx.util.PageResult;
 
 public interface SiteService {
@@ -27,4 +25,24 @@ public interface SiteService {
     EquipmentRRUAAU query3GRRUById(Integer id);
 
     PageResult queryStieManager(Integer page, Integer rows, SitManager sitManager);
+
+    PageResult queryOlt(Integer page, Integer rows, EquipmentOLT equipmentOLT);
+
+    boolean addOlt(EquipmentOLT equipmentOLT);
+
+    EquipmentOLT queryOltById(Integer id);
+
+    void updateOlt(EquipmentOLT equipmentOLT);
+
+    int delAllOlt(String ids);
+
+    int delAllIPRAN(String ids);
+
+    void updateIPRAN(EquipmentIPRAN equipmentIPRAN);
+
+    boolean addIPRAN(EquipmentIPRAN equipmentIPRAN);
+
+    PageResult queryIPRAN(Integer page, Integer rows, EquipmentIPRAN equipmentIPRAN);
+
+    EquipmentIPRAN queryIPRANById(Integer id);
 }

@@ -10,7 +10,7 @@ public class EquipmentIPRAN {
     /**
      *ipran编码
      */
-    private String iprancode;
+    private String ipranCode;
     /**
      *ipran名称
      */
@@ -48,12 +48,12 @@ public class EquipmentIPRAN {
         this.dxCode = dxCode;
     }
 
-    public String getIprancode() {
-        return iprancode;
+    public String getIpranCode() {
+        return ipranCode;
     }
 
-    public void setIprancode(String iprancode) {
-        this.iprancode = iprancode;
+    public void setIpranCode(String ipranCode) {
+        this.ipranCode = ipranCode;
     }
 
     public String getIpranName() {

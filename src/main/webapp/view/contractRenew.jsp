@@ -81,7 +81,7 @@
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function(){
-        initExtension();
+        initRenew();
     })
     //事件转中文
     $('.date').datetimepicker({
@@ -174,7 +174,7 @@
                                     title:"提示",
                                     message:data.msg
                                 })
-                                $('#contractExtension').bootstrapTable('refresh');
+                                initRenew();
                             }
                         })
                     }
@@ -210,7 +210,7 @@
                                     title:"提示",
                                     message:"修改成功！"
                                 }),
-                                    $('#contractExtension').bootstrapTable('refresh');
+                                    initRenew();
                             }
                         })
                     }
@@ -261,7 +261,7 @@
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#contractExtension').bootstrapTable('refresh');
+                                initRenew();
                             }
 
                         },

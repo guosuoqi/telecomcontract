@@ -18,7 +18,6 @@ import java.util.List;
 public class MyConfing implements WebMvcConfigurer {
 
     @Bean
-
     public LoginInterceptor LoginInterceptor(){
 
         return new LoginInterceptor();
@@ -52,7 +51,7 @@ public class MyConfing implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**");
+        registry.addInterceptor(LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**","/user/toIndex","/nav/toShowTree");
 
     }
 

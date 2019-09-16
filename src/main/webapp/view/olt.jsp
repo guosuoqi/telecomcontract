@@ -49,17 +49,18 @@
                     <div class="col-xs-2">电信编码:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
+                        <input class="form-control" name="dxCode" id="id" type="hidden"/>
                     </div>
                     <div class="col-xs-2">olt编码:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="oltCode" id="bbuCode" type="text"/>
+                        <input class="form-control" name="oltCode" id="oltCode" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-2">olt名字:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="oltName" id="bbuName" type="text"/>
+                        <input class="form-control" name="oltName" id="oltName" type="text"/>
                     </div>
                     <div class="col-xs-2">电信网管编码:</div>
                     <div class="col-xs-4">
@@ -113,12 +114,15 @@
         </div>
     </div>
 </div>
+
+
+
 <table id="oltTable"></table>
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function(){
-        initBBU();
+        initOlt();
     })
     //事件转中文
     $('.date').datetimepicker({
@@ -130,10 +134,10 @@
         todayBtn: true//显示今日按钮
     });
 
-    function initBBU(){
+    function initOlt(){
         $('#oltTable').bootstrapTable('destroy');
         $("#oltTable").bootstrapTable({
-            url:'/site/queryOLT',//获取数据地址
+            url:'/site/queryOlt',//获取数据地址
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
@@ -155,19 +159,18 @@
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
-                    networkType:3,
                 }
             },
             columns:[
                 {field:'111',checkbox:true},
-                {field:'id',title:'OLTId'},
+                {field:'id',title:'OLTId',visible:false},
                 {field:'dxCode',title:'电信编码'},
-                {field:'bbuCode',title:'OLT编码'},
-                {field:'bbuName',title:'OLT名字'},
+                {field:'oltCode',title:'OLT编码'},
+                {field:'oltName',title:'OLT名字'},
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editBBu('+row.id+');">修改</a>  ';
+                        return  ' <a href="javascript:editOlt('+row.id+',\'' + row.dxCode + '\',\'' + row.oltCode + '\',\'' + row.oltName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\');">修改</a>  ';
                     }}
             ]
         })
@@ -188,42 +191,17 @@
     function openAddOlt(){
         $('#myModal').modal();
     }
-   /* function openAdd3GBBU(){
-        bootbox.dialog({
-            size:"big",
-            title:"添加3GBBU",
-            message:createAddContent("/page/toAdd3GBBU"),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&networkType="+3
-                        $.ajax({
-                            url:'/site/add3GBBU',
-                            type:'post',
-                            data: $("#3GBBUForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:data.msg
-                                })
-                                $('#3GBBUTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }*/
 
+
+    function editOlt(id,dxCode,bbuCode,bbuName,netCareId,netCareName){
+        $("#id").val(id);
+        $("#dxCode").val(dxCode);
+        $("#oltCode").val(bbuCode);
+        $("#oltName").val(bbuName);
+        $("#netCareId").val(netCareId);
+        $("#netCareName").val(netCareName);
+        $('#myModal').modal();
+    }
     //提交用户
     function submitOlt(){
         document.getElementById('buttonAdd').disabled=true;
@@ -231,26 +209,29 @@
             url: '/site/addOlt',
             type: "post",
             data : {
+                id:$("#id").val(),
                 dxCode:$("#dxCode").val(),
-                bbuCode:$("#oltCode").val(),
-                bbuName:$("#oltName").val(),
+                oltCode:$("#oltCode").val(),
+                oltName:$("#oltName").val(),
                 netCareId:$("#netCareId").val(),
                 netCareName:$("#netCareName").val(),
-                networkType:3
             },
             success:function (data){
-                initBBU();
+                document.getElementById('buttonAdd').disabled=false;
+                initOlt();
                 alert(data.msg)
                 $("#myModal").modal('hide');
-                document.getElementById('buttonAdd').disabled=false;
+
             },
             error:function (){
                 alert("新增失败");
             }
         })
     }
+
+
     //打开修改的弹框
-    function editOlt(id){
+   /* function editOlt(id){
         bootbox.dialog({
             size:"big",
             title:"修改BBU信息",
@@ -265,14 +246,13 @@
                             url:'/site/updateOlt',
                             type:'post',
                             data:$("#oltForm").serialize(),
-                            dataType:'json',
                             success:function(data){
                                 bootbox.alert({
                                     size:"small",
                                     title:"提示",
                                     message:"修改成功！"
                                 }),
-                                    $('#oltTable').bootstrapTable('refresh');
+                                    initOlt();
                             }
                         })
                     }
@@ -283,7 +263,7 @@
                 }
             }
         })
-    }
+    }*/
 
     //批量删除
     function delOlt(){
@@ -318,12 +298,12 @@
                         ids += ids == "" ? arr[i].id : ","+arr[i].id;
                     }
                     $.ajax({
-                        url:"/site/delAll",
+                        url:"/site/delAllOlt",
                         data:{ids:ids},
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#oltTable').bootstrapTable('refresh');
+                                initOlt();
                             }
 
                         },
@@ -413,7 +393,7 @@
     function doUpload() {
         var formData = new FormData($( "#uploadForm" )[0]);
         $.ajax({
-            url: '/poi/importBBUFile',
+            url: '/poi/importOLTFile',
             type: 'post',
             data: formData,
             async: false,
@@ -421,7 +401,7 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                $('#oltTable').bootstrapTable('refresh');
+                initOlt();
             },
             error: function () {
                 alert(result.msg);

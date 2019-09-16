@@ -51,7 +51,27 @@ public interface SiteMapper {
 
     List<EquipmentIPRAN> queryIPRANByIds(String ids);
 
-    boolean addOLT(List<EquipmentOLT> oltList);
-
     List<SitManager> queryOLTInfo(@Param("list")List<String> dxCodes);
+
+    List<EquipmentOLT> queryOlt(HashMap<String, Object> params);
+
+    boolean addOlt(List<EquipmentOLT> oltList);
+
+    EquipmentOLT queryOltById(Integer id);
+
+    void updateOlt(@Param("equipmentOLT") EquipmentOLT equipmentOLT);
+
+    int delAllOlt(@Param("ids") String ids);
+
+    List<EquipmentIPRAN> queryIPRAN(HashMap<String, Object> params);
+
+    int queryIPRANCount(HashMap<String, Object> params);
+
+    boolean addIPRAN(List<EquipmentIPRAN> ipranList);
+
+    void updateIPRAN(@Param("equipmentIPRAN")EquipmentIPRAN equipmentIPRAN);
+
+    int delAllIPRAN(@Param("ids")String ids);
+
+    EquipmentIPRAN queryIPRANById(Integer id);
 }

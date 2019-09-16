@@ -50,16 +50,17 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
                     </div>
-                    <div class="col-xs-2">ipran编码:</div>
+                    <div class="col-xs-2">IPRAN编码:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="ipranCode" id="bbuCode" type="text"/>
+                        <input class="form-control" name="id" id="id" type="hidden"/>
+                        <input class="form-control" name="ipranCode" id="ipranCode" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">ipran名字:</div>
+                    <div class="col-xs-2">IPRAN名字:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="ipranName" id="bbuName" type="text"/>
+                        <input class="form-control" name="ipranName" id="ipranName" type="text"/>
                     </div>
                     <div class="col-xs-2">电信网管编码:</div>
                     <div class="col-xs-4">
@@ -77,7 +78,7 @@
             <div class="modal-footer">
                 <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitIpran()">
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitIPRAN()">
                     提交更改
                 </button>
             </div>
@@ -86,9 +87,9 @@
 </div>
 
 
-<button type="button" onclick="openAddIpran()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
-<button type="button" onclick="delIpran()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
-<button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" onclick="openAddIPRAN()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<button type="button" onclick="delIPRAN()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+<button type="button" onclick="EXPipran()" class="btn btn-danger glyphicon">导出</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 
 <!-- daoruDialog弹框 -->
@@ -113,12 +114,15 @@
         </div>
     </div>
 </div>
-<table id="ipranTable"></table>
+
+
+
+<table id="IPRANTable"></table>
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function(){
-        initBBU();
+        initIPRAN();
     })
     //事件转中文
     $('.date').datetimepicker({
@@ -130,10 +134,10 @@
         todayBtn: true//显示今日按钮
     });
 
-    function initBBU(){
-        $('#ipranTable').bootstrapTable('destroy');
-        $("#ipranTable").bootstrapTable({
-            url:'/site/queryIpran',//获取数据地址
+    function initIPRAN(){
+        $('#IPRANTable').bootstrapTable('destroy');
+        $("#IPRANTable").bootstrapTable({
+            url:'/site/queryIPRAN',//获取数据地址
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
@@ -155,90 +159,54 @@
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
-                    networkType:3,
                 }
             },
             columns:[
                 {field:'111',checkbox:true},
+                {field:'id',title:'IPRANId',visible:false},
                 {field:'dxCode',title:'电信编码'},
-                {field:'bbuCode',title:'IPRAN编码'},
-                {field:'bbuName',title:'IPRAN名字'},
+                {field:'ipranCode',title:'IPRAN编码'},
+                {field:'ipranName',title:'IPRAN名字'},
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editBBu('+row.id+');">修改</a>  ';
+                        return  ' <a href="javascript:editOlt('+row.id+',\'' + row.dxCode + '\',\'' + row.ipranCode + '\',\'' + row.ipranName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\');">修改</a>  ';
                     }}
             ]
         })
     }
-    var res;
-    function createAddContent(url){
-        $.ajax({
-            url:url,
-            async:false,
-            success:function(data){
-                res = data;
-            }
-        });
-        return res;
-    }
-    //打开新增合同续约的弹框
 
-    function openAddIpran(){
+
+    function openAddIPRAN(){
         $('#myModal').modal();
     }
-   /* function openAdd3GBBU(){
-        bootbox.dialog({
-            size:"big",
-            title:"添加3GBBU",
-            message:createAddContent("/page/toAdd3GBBU"),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&networkType="+3
-                        $.ajax({
-                            url:'/site/add3GBBU',
-                            type:'post',
-                            data: $("#3GBBUForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:data.msg
-                                })
-                                $('#3GBBUTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }*/
+
+    function editOlt(id,dxCode,ipranCode,ipranName,netCareId,netCareName){
+        $("#id").val(id);
+        $("#dxCode").val(dxCode);
+        $("#ipranCode").val(ipranCode);
+        $("#ipranName").val(ipranName);
+        $("#netCareId").val(netCareId);
+        $("#netCareName").val(netCareName);
+        $('#myModal').modal();
+    }
 
     //提交用户
-    function submitIpran(){
+    function submitIPRAN(){
         document.getElementById('buttonAdd').disabled=true;
         $.ajax({
-            url: '/site/addIpran',
+            url: '/site/addIPRAN',
             type: "post",
             data : {
+                id:$("#id").val(),
                 dxCode:$("#dxCode").val(),
-                bbuCode:$("#ipranCode").val(),
-                bbuName:$("#ipranName").val(),
+                ipranCode:$("#ipranCode").val(),
+                ipranName:$("#ipranName").val(),
                 netCareId:$("#netCareId").val(),
                 netCareName:$("#netCareName").val(),
-                networkType:3
             },
             success:function (data){
-                initBBU();
+                initIPRAN();
                 alert(data.msg)
                 $("#myModal").modal('hide');
                 document.getElementById('buttonAdd').disabled=false;
@@ -248,45 +216,10 @@
             }
         })
     }
-    //打开修改的弹框
-    function editIpran(id){
-        bootbox.dialog({
-            size:"big",
-            title:"修改BBU信息",
-            message:createAddContent("/page/toUpdateIpran?id="+id),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        $.ajax({
-                            url:'/site/updateIpran',
-                            type:'post',
-                            data:$("#ipranForm").serialize(),
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:"修改成功！"
-                                }),
-                                    $('#ipranTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }
 
     //批量删除
-    function delIpran(){
-        var arr = $('#ipranTable').bootstrapTable('getSelections');
+    function delIPRAN(){
+        var arr = $('#IPRANTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -317,12 +250,12 @@
                         ids += ids == "" ? arr[i].id : ","+arr[i].id;
                     }
                     $.ajax({
-                        url:"/site/delAll",
+                        url:"/site/delAllIPRAN",
                         data:{ids:ids},
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#ipranTable').bootstrapTable('refresh');
+                                initIPRAN();
                             }
 
                         },
@@ -335,8 +268,8 @@
         })
     }
     //导出数据
-    function EXPContract(){
-        var arr = $('#ipranTable').bootstrapTable('getSelections');
+    function EXPipran(){
+        var arr = $('#IPRANTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -399,7 +332,7 @@
                 alert(data.response.remark);
             }else {
                 alert("操作成功！");
-                $("#bookFileData").bootstrapTable('refresh');
+                initIPRAN();
             }
             // $(this).fileinput("reset").fileinput('unlock');
             $(this).fileinput('clear').fileinput('enable');
@@ -412,7 +345,7 @@
     function doUpload() {
         var formData = new FormData($( "#uploadForm" )[0]);
         $.ajax({
-            url: '/poi/importBBUFile',
+            url: '/poi/importIPRANFile',
             type: 'post',
             data: formData,
             async: false,
@@ -420,7 +353,7 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                $('#ipranTable').bootstrapTable('refresh');
+                initIPRAN();
             },
             error: function () {
                 alert(result.msg);

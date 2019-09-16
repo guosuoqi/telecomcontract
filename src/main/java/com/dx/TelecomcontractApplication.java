@@ -14,4 +14,6 @@ public class TelecomcontractApplication {
 		SpringApplication.run(TelecomcontractApplication.class, args);
 	}
 
+
+
 }

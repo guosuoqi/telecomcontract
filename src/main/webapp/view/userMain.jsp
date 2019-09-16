@@ -377,7 +377,7 @@
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#myTable').bootstrapTable('refresh');
+                                initUser();
                             }
 
                         },

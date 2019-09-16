@@ -1,5 +1,6 @@
 package com.dx.service.user;
 
+import com.alibaba.fastjson.JSON;
 import com.dx.mapper.contract.ContractMapper;
 import com.dx.mapper.nav.NavMapper;
 import com.dx.mapper.user.UserMapper;
@@ -9,6 +10,7 @@ import com.dx.model.nav.*;
 import com.dx.service.nav.NavService;
 import com.dx.util.StringUtil;
 import com.dx.util.StringUtils;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
 import com.dx.model.Task.TaskModel;
@@ -142,12 +144,12 @@ public class UserServiceImpl implements UserService {
         List<RoleNavBean>roleNavBeans=userMapper.queryRoleNavById(param);
         for (NavTree navTree : list) {
             for (RoleNavBean roleNavBean : roleNavBeans) {
-                if(navTree.getId()==roleNavBean.getNavId()){
+                if(navTree.getId().equals( roleNavBean.getNavId())){
                     navTree.setState();
                 }
                 List<NavTree> nodes = navTree.getNodes();
                 for (NavTree nav : nodes){
-                    if(nav.getId()==roleNavBean.getNavId()){
+                    if(nav.getId().equals( roleNavBean.getNavId()) ){
                         nav.setState();
                     }
                 }
@@ -187,6 +189,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addMenu(NavMenuBean navMenuBean) {
         return userMapper.addMenu(navMenuBean);
+    }
+
+    @Override
+    public List<String> findUserPowerUrl(Integer userId) {
+        List<String> userPowerUrl = userMapper.findUserPowerUrl(userId);
+        return userPowerUrl;
     }
 
 

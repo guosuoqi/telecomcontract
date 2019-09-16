@@ -41,6 +41,15 @@
       		 (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},#{equipmentBBU.power},
                     #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType})
         </foreach>
+		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+			dx_code=#{dxCode},
+			bbu_code=#{bbuCode},
+			bbu_name=#{bbuName},
+			power=#{power},
+			net_Care_id=#{netCareId},
+			net_Care_name=#{netCareName},
+			network_type=#{networkType}
+		</trim>
 	</insert>
 
 	<!-- 3/4/5BBU批量删除 -->
@@ -160,6 +169,35 @@
                     #{EquipmentRRUAAU.netCareId},#{EquipmentRRUAAU.netCareName},#{EquipmentRRUAAU.networkType}
               )
         </foreach>
+		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+			dx_code=#{dxCode},
+			rru_code=#{rruCode},
+			rru_name=#{rruName},
+			power=#{power},
+			net_Care_id=#{netCareId},
+			net_Care_name=#{netCareName},
+			network_type=#{networkType}
+		</trim>
+	</insert>
+	<!--OLT页面新增-->
+	<insert id="addOlt" >
+        <foreach collection="list" item="EquipmentOLT" index="index" open="" close="" separator=";">
+             insert into t_equipment_olt (
+                   dx_code,olt_code,olt_name,power,
+                   net_Care_id,net_Care_name
+              )
+            values (#{EquipmentOLT.dxCode},#{EquipmentOLT.oltCode},#{EquipmentOLT.oltName},#{EquipmentOLT.power},
+                    #{EquipmentOLT.netCareId},#{EquipmentOLT.netCareName}
+              )
+        </foreach>
+		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+			dx_code=#{dxCode},
+			olt_code=#{oltCode},
+			olt_name=#{oltName},
+			power=#{power},
+			net_Care_id=#{netCareId},
+			net_Care_name=#{netCareName},
+		</trim>
 	</insert>
 
 	<!-- 3/4/5GRRU批量删除 -->
@@ -210,8 +248,8 @@
 		from t_base_station
 		limit #{startIndex},#{endIndex}
 	</select>
-	<!--3/4/5BBU页面修改-->
-	<!--<update id="updateSite">
+	<!--页面修改-->
+	<update id="updateSite">
 		update t_base_station
 		<set>
 			<if test="threeBbuCount != null and threeBbuCount != 0">
@@ -243,7 +281,7 @@
 		<where>
 			id = #{equipmentBBU.id}
 		</where>
-	</update>-->
+	</update>
 
 	<!-- 同步数据 个数 总耗电量-->
 	<update id="updateRruCountAndPower">
@@ -300,6 +338,77 @@
 		from t_equipment_olt
 		where id in (${ids})
 	</select>
+
+	<!--olt回显-->
+	<select id="queryOltById"  resultType="com.dx.model.site.EquipmentOLT">
+		select * from t_equipment_olt where id =#{id}
+	</select>
+
+	<!--olt页面修改-->
+	<update id="updateOlt">
+		update t_equipment_olt
+		<set>
+			<if test="equipmentOLT.dxCode != null and equipmentOLT.dxCode != ''">
+				dx_code = #{equipmentOLT.dxCode},
+			</if>
+			<if test="equipmentOLT.oltCode != null and equipmentOLT.oltCode != ''">
+				olt_code = #{equipmentOLT.oltCode},
+			</if>
+			<if test="equipmentOLT.oltName != null and equipmentOLT.oltName != ''">
+				olt_name = #{equipmentOLT.oltName},
+			</if>
+			<if test="equipmentOLT.netCareId != null and equipmentOLT.netCareId != ''">
+				Net_care_id = #{equipmentOLT.netCareId},
+			</if>
+			<if test="equipmentOLT.netCareName != null and equipmentOLT.netCareName != ''">
+				Net_Care_name = #{equipmentOLT.netCareName},
+			</if>
+		</set>
+		<where>
+			id = #{equipmentOLT.id}
+		</where>
+	</update>
+
+    <!-- olt批量删除 -->
+    <delete id="delAllOlt">
+		delete from t_equipment_olt where id in (${ids})
+	</delete>
+
+	<!--olt导出查询-->
+	<select id="queryOltByIds"  resultType="com.dx.model.site.EquipmentOLT">
+		select
+		*
+		from t_equipment_olt
+		where id in (${ids})
+	</select>
+
+	<!--Olt页面查询-->
+	<select id="queryOlt"  resultType="com.dx.model.site.EquipmentOLT">
+		select
+		*
+		from t_equipment_olt
+		limit #{startIndex},#{endIndex}
+	</select>
+
+
+
+
+
+
+
+	<!--olt查询总条数-->
+	<select id="queryIPRANCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_ipran
+	</select>
+	<!--olt页面查询-->
+	<select id="queryIPRAN"  resultType="com.dx.model.site.EquipmentIPRAN">
+		select
+		*
+		from t_equipment_ipran
+		limit #{startIndex},#{endIndex}
+	</select>
 	<!--ipran导出查询-->
 	<select id="queryIPRANByIds"  resultType="com.dx.model.site.EquipmentIPRAN">
 		select
@@ -307,4 +416,60 @@
 		from t_equipment_ipran
 		where id in (${ids})
 	</select>
+
+	<!--ipran回显-->
+	<select id="queryIPRANById"  resultType="com.dx.model.site.EquipmentIPRAN">
+		select * from t_equipment_ipran where id =#{id}
+	</select>
+
+	<!--ipran页面修改-->
+	<update id="updateIPRAN">
+		update t_equipment_ipran
+		<set>
+			<if test="equipmentIPRAN.dxCode != null and equipmentIPRAN.dxCode != ''">
+				dx_code = #{equipmentIPRAN.dxCode},
+			</if>
+			<if test="equipmentIPRAN.ipranCode != null and equipmentIPRAN.ipranCode != ''">
+				ipran_code = #{equipmentIPRAN.ipranCode},
+			</if>
+			<if test="equipmentIPRAN.ipranName != null and equipmentIPRAN.ipranName != ''">
+				ipran_name = #{equipmentIPRAN.ipranName},
+			</if>
+			<if test="equipmentIPRAN.netCareId != null and equipmentIPRAN.netCareId != ''">
+				Net_care_id = #{equipmentIPRAN.netCareId},
+			</if>
+			<if test="equipmentIPRAN.netCareName != null and equipmentIPRAN.netCareName != ''">
+				Net_Care_name = #{equipmentIPRAN.netCareName},
+			</if>
+		</set>
+		<where>
+			id = #{equipmentIPRAN.id}
+		</where>
+	</update>
+
+	<!-- olt批量删除 -->
+	<delete id="delAllIPRAN">
+		delete from t_equipment_ipran where id in (${ids})
+	</delete>
+
+	<!--OLT页面新增-->
+	<insert id="addIPRAN" >
+		<foreach collection="list" item="equipmentIPRAN" index="index" open="" close="" separator=";">
+			insert into t_equipment_ipran (
+			dx_code,ipran_code,ipran_name,power,
+			net_Care_id,net_Care_name
+			)
+			values (#{equipmentIPRAN.dxCode},#{equipmentIPRAN.ipranCode},#{equipmentIPRAN.ipranName},#{equipmentIPRAN.power},
+			#{equipmentIPRAN.netCareId},#{equipmentIPRAN.netCareName}
+			)
+			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+				dx_code=#{dxCode},
+				ipran_code=#{ipranCode},
+				ipran_name=#{ipranName},
+				power=#{power},
+				net_Care_id=#{netCareId},
+				net_Care_name=#{netCareName},
+			</trim>
+		</foreach>
+	</insert>
 </mapper>

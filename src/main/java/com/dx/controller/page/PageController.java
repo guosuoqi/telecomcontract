@@ -10,6 +10,8 @@ package com.dx.controller.page;
 import com.dx.model.contract.Contract;
 import com.dx.model.contract.ContractExtension;
 import com.dx.model.nav.RoleBean;
+import com.dx.model.site.EquipmentIPRAN;
+import com.dx.model.site.EquipmentOLT;
 import com.dx.service.user.UserService;
 import org.springframework.ui.Model;
 import com.dx.model.site.EquipmentBBU;
@@ -125,4 +127,20 @@ public class PageController {
 		return "view/update3GRRU";
 	}
 
+	//去修改3/4/5GBBU页面
+	@RequestMapping("toUpdateOlt")
+	public String toUpdateOlt(Integer id, ModelMap modelMap) {
+		EquipmentOLT equipmentOLT = siteService.queryOltById(id);
+		modelMap.put("equipmentOLT", equipmentOLT);
+		return "view/updateOlt";
+	}
+
+
+    //去修改3/4/5GBBU页面
+    @RequestMapping("toUpdateIPRAN")
+    public String toUpdateIPRAN(Integer id, ModelMap modelMap) {
+        EquipmentIPRAN equipmentIPRAN = siteService.queryIPRANById(id);
+        modelMap.put("equipmentIPRAN", equipmentIPRAN);
+        return "view/updateIPRAN";
+    }
 }

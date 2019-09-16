@@ -27,10 +27,6 @@
 </head>
 
 <body>
-<!-- 按钮触发模态框 -->
-<%--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    开始演示模态框
-</button>--%>
 <!-- 模态框（Modal） -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -48,6 +44,7 @@
                 <div class="row">
                     <div class="col-xs-2">电信编码:</div>
                     <div class="col-xs-4">
+                        <input class="form-control" name="dxCode" id="id" type="hidden"/>
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
                     </div>
                     <div class="col-xs-2">BBU编码:</div>
@@ -167,12 +164,12 @@
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editBBu('+row.id+');">修改</a>  ';
+                        return  ' <a href="javascript:editBBu('+row.id+',\'' + row.dxCode + '\',\'' + row.bbuCode + '\',\'' + row.bbuName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\');">修改</a>  ';
                     }}
             ]
         })
     }
-    var res;
+/*    var res;
     function createAddContent(url){
         $.ajax({
             url:url,
@@ -182,49 +179,22 @@
             }
         });
         return res;
-    }
+    }*/
     //打开新增合同续约的弹框
 
     function openAdd3GBBU(){
         $('#myModal').modal();
     }
-   /* function openAdd3GBBU(){
-        bootbox.dialog({
-            size:"big",
-            title:"添加3GBBU",
-            message:createAddContent("/page/toAdd3GBBU"),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&networkType="+3
-                        $.ajax({
-                            url:'/site/add3GBBU',
-                            type:'post',
-                            data: $("#3GBBUForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:data.msg
-                                })
-                                $('#3GBBUTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }*/
 
-
+    function editBBu(id,dxCode,bbuCode,bbuName,netCareId,netCareName){
+        $("#id").val(id);
+        $("#dxCode").val(dxCode);
+        $("#bbuCode").val(bbuCode);
+        $("#bbuName").val(bbuName);
+        $("#netCareId").val(netCareId);
+        $("#netCareName").val(netCareName);
+        $('#myModal').modal();
+    }
     //提交用户
     function submit3GBBU(){
         document.getElementById('buttonAdd').disabled=true;
@@ -232,6 +202,7 @@
             url: '/site/add3GBBU',
             type: "post",
             data : {
+                id:$("#id").val(),
                 dxCode:$("#dxCode").val(),
                 bbuCode:$("#bbuCode").val(),
                 bbuName:$("#bbuName").val(),
@@ -250,41 +221,8 @@
             }
         })
     }
-    //打开修改的弹框
-    function editBBu(id){
-        bootbox.dialog({
-            size:"big",
-            title:"修改BBU信息",
-            message:createAddContent("/page/toUpdate3GBBU?id="+id),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        $.ajax({
-                            url:'/site/update3GBBU',
-                            type:'post',
-                            data:$("#3GBBUForm").serialize(),
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:"修改成功！"
-                                }),
-                                    $('#3GBBUTable').bootstrapTable('refresh');
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }
+
+
 
     //批量删除
     function del3GBBU(){

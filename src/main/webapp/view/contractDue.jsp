@@ -177,7 +177,7 @@
                                     title:"提示",
                                     message:"修改成功！"
                                 }),
-                                    $('#contractExtension').bootstrapTable('refresh');
+                                    initContract();
                             }
                         })
                     }
@@ -228,7 +228,7 @@
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#contractExtension').bootstrapTable('refresh');
+                                initContract();
                             }
 
                         },

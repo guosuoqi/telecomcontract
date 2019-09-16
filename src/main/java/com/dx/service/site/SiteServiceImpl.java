@@ -101,6 +101,66 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Override
+    public boolean addOlt(EquipmentOLT equipmentOLT) {
+        List<EquipmentOLT> oltList=new ArrayList<>();
+        oltList.add(equipmentOLT);
+        return siteMapper.addOlt(oltList);
+    }
+
+    @Override
+    public EquipmentOLT queryOltById(Integer id) {
+        return siteMapper.queryOltById(id);
+    }
+
+    @Override
+    public void updateOlt(EquipmentOLT equipmentOLT) {
+        siteMapper.updateOlt(equipmentOLT);
+    }
+
+    @Override
+    public int delAllOlt(String ids) {
+        return siteMapper.delAllOlt(ids);
+    }
+
+    @Override
+    public int delAllIPRAN(String ids) {
+        return siteMapper.delAllIPRAN(ids);
+    }
+
+    @Override
+    public void updateIPRAN(EquipmentIPRAN equipmentIPRAN) {
+        siteMapper.updateIPRAN(equipmentIPRAN);
+    }
+
+    @Override
+    public boolean addIPRAN(EquipmentIPRAN equipmentIPRAN) {
+        List<EquipmentIPRAN> ipranList=new ArrayList<>();
+        ipranList.add(equipmentIPRAN);
+        return siteMapper.addIPRAN(ipranList);
+    }
+
+    @Override
+    public PageResult queryIPRAN(Integer page, Integer rows, EquipmentIPRAN equipmentIPRAN) {
+        PageResult pageResult = new PageResult();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("equipmentIPRAN",equipmentIPRAN);
+        int  count=siteMapper.queryIPRANCount(params);
+        pageResult.setTotal(count);
+        PageUtil<EquipmentIPRAN> pageUtil = new PageUtil<EquipmentIPRAN>(count,page,rows);
+        params.put("startIndex", pageUtil.getStartIndex());
+        params.put("endIndex",rows);
+        List<EquipmentIPRAN> list = siteMapper.queryIPRAN(params);
+        pageResult.setRows(list);
+        return pageResult;
+    }
+
+    @Override
+    public EquipmentIPRAN queryIPRANById(Integer id) {
+        return siteMapper.queryIPRANById(id);
+    }
+
+
+    @Override
     public int delAllRRU(String ids) {
         return siteMapper.delAllRRU(ids);
     }
@@ -129,6 +189,22 @@ public class SiteServiceImpl implements SiteService{
         pageResult.setRows(list);
         return pageResult;
     }
+
+    @Override
+    public PageResult queryOlt(Integer page, Integer rows, EquipmentOLT equipmentOLT) {
+        PageResult pageResult = new PageResult();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("equipmentOLT",equipmentOLT);
+        int  count=siteMapper.queryRRUCount(params);
+        pageResult.setTotal(count);
+        PageUtil<EquipmentOLT> pageUtil = new PageUtil<EquipmentOLT>(count,page,rows);
+        params.put("startIndex", pageUtil.getStartIndex());
+        params.put("endIndex",rows);
+        List<EquipmentOLT> list = siteMapper.queryOlt(params);
+        pageResult.setRows(list);
+        return pageResult;
+    }
+
 
     public List<EquipmentBBU> queryBBUByIdsAndType(String ids) {
         return siteMapper.queryBBUByIdsAndType(ids);
@@ -365,7 +441,7 @@ public class SiteServiceImpl implements SiteService{
             OLTList.add(olt);
             dxCodes.add(dxCode);
         }
-        if(siteMapper.addOLT(OLTList)){
+        if(siteMapper.addOlt(OLTList)){
             List<SitManager> sitManager=siteMapper.queryOLTInfo(dxCodes);
             siteMapper.updateRruCountAndPower(sitManager);
         }
@@ -413,7 +489,7 @@ public class SiteServiceImpl implements SiteService{
                 olt.setPower(Double.valueOf(power));
             }
             olt.setDxCode(dxCode);
-            olt.setIprancode(oltCode);
+            olt.setIpranCode(oltCode);
             olt.setIpranName(oltName);
             olt.setNetCareId(Integer.valueOf(userId));
             olt.setNetCareName(userName);

@@ -96,32 +96,74 @@
 	        contract_num,contract_first,payee,
 	        plan_year,start_time,end_time,pay_end_time,
 	        room_type,room_type_name,tower_type,
-	        tower_type_name,contract_type,contract_type_name
+	        tower_type_name,contract_type,contract_type_name,
+	        city,county
       )
     values (#{contract.contractName},#{contract.yearRental}, #{contract.sunRental},
             #{contract.contractNum},#{contract.contractFirst},#{contract.payee},
             #{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
             #{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
-            #{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName}
+            #{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
+            #{city},#{county}
       )
+		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+			contract_name=#{contractName},
+			year_rental=#{yearRental},
+			sun_rental=#{sunRental},
+			contract_first=#{contractFirst},
+			payee=#{payee},
+			plan_year = #{planYear},
+			start_time=#{startTime},
+			end_time=#{endTime},
+			pay_end_time=#{payEndTime},
+			room_type=#{roomType},
+			room_type_name=#{roomTypeName},
+			tower_type=#{towerType},
+			tower_type_name=#{towerTypeName},
+			contract_type=#{contractType},
+			contract_type_name=#{contractTypeName},
+			city=#{city},
+			county=#{county}
+		</trim>
 	</insert>
 	<!--合同管理页面查导入-->
 	<insert id="addContractList" >
 		<foreach collection="list" item="contract" index="index" open="" close="" separator=";">
-			 insert into contract_manage (
-					contract_name, year_rental, sun_rental,
-					contract_num,contract_first,payee,
-					plan_year,start_time,end_time,pay_end_time,
-					room_type,room_type_name,tower_type,
-					tower_type_name,contract_type,contract_type_name
-			  )
+			insert into contract_manage (
+			contract_name, year_rental, sun_rental,
+			contract_num,contract_first,payee,
+			plan_year,start_time,end_time,pay_end_time,
+			room_type,room_type_name,tower_type,
+			tower_type_name,contract_type,contract_type_name,
+			city,county
+			)
 			values (#{contract.contractName},#{contract.yearRental}, #{contract.sunRental},
-					#{contract.contractNum},#{contract.contractFirst},#{contract.payee},
-					#{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
-					#{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
-					#{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName}
-			  )
+			#{contract.contractNum},#{contract.contractFirst},#{contract.payee},
+			#{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
+			#{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
+			#{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
+			#{city},#{county}
+			)
 		</foreach>
+		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+			contract_name=#{contractName},
+			year_rental=#{yearRental},
+			sun_rental=#{sunRental},
+			contract_first=#{contractFirst},
+			payee=#{payee},
+			plan_year = #{planYear},
+			start_time=#{startTime},
+			end_time=#{endTime},
+			pay_end_time=#{payEndTime},
+			room_type=#{roomType},
+			room_type_name=#{roomTypeName},
+			tower_type=#{towerType},
+			tower_type_name=#{towerTypeName},
+			contract_type=#{contractType},
+			contract_type_name=#{contractTypeName},
+			city=#{city},
+			county=#{county}
+		</trim>
 	</insert>
 	<!--合同管理页面修改-->
 	<update id="updateContract">

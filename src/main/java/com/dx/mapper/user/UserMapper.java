@@ -58,4 +58,6 @@ public interface UserMapper {
     void delPowerMenu(NavMenuBean navMenuBean);
 
     int addMenu(NavMenuBean navMenuBean);
+
+    List<String> findUserPowerUrl(Integer userId);
 }

@@ -147,7 +147,7 @@
                                     title:"提示",
                                     message:data.msg
                                 })
-                                $('#myTable').bootstrapTable('refresh');
+                                initSiteManager();
                             }
                         })
                     }
@@ -188,7 +188,7 @@
                                     title:"提示",
                                     message:"修改成功！"
                                 }),
-                                    $('#myTable').bootstrapTable('refresh');
+                                    initSiteManager();
                             }
                         })
                     }
@@ -238,7 +238,7 @@
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                $('#myTable').bootstrapTable('refresh');
+                                initSiteManager();
                             }
 
                         },
