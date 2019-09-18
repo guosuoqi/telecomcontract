@@ -4,19 +4,19 @@ public class TaskModel {
 
     private Integer id;
     private Integer type;
-    private String user; //执行人
+    private String userEmail; //执行人邮箱
     private String remark;
-    private Integer status=0;  //0待执行 1完成
+    private Integer status;  //0待执行 1完成
     private String content;
     private String createTime;
     private String updateTime;
 
-    public String getUser() {
-        return user;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public Integer getId() {

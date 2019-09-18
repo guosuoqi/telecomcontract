@@ -201,63 +201,7 @@ public class UserServiceImpl implements UserService {
     public List<UserMain> queryUserByCounty(String userName){
         return userMapper.queryUserByCounty(userName);
     }
-    public void sendContractTaskToEmail() {
-        TaskModel model;
-        Contract contract = new Contract();
-        contract.setExtenxionStatus(1);
-        List<Contract>list=contractMapper.queryContractByStatus(contract);
-        if(list!=null && !list.isEmpty()){
 
-        }
-    }
-    public void sendTaskToEmail(List<Contract>list){
-        List<UserMain> users=null;
-        List<TaskModel> taskModels=new ArrayList<>();
-        TaskModel taskModel=null;
-        JSONObject body=null;
-        for (Contract con:list) {
-            if(con.getNumber()==0){
-                continue;
-            }
-            if(!con.getRenewOperator().isEmpty()){
-                users=userMapper.queryUserByCounty(con.getCounty());
-                for (UserMain user:users) {
-                    body= getCommJson(user,1,con.getNumber());
-                    SendTask(taskModel,user,body,taskModels);
-                }
 
-            }else if(!con.getExtenxionOperator().isEmpty()){
-                users=userMapper.queryUserByCounty(con.getCounty());
-                for (UserMain user:users) {
-                    body= getCommJson(user,2,con.getNumber());
-                    SendTask(taskModel,user,body,taskModels);
-                }
-            }
-            //todo 新增任务落库
-            //insertTaskModels(taskModels);
-        }
-    }
-
-    private void SendTask(TaskModel taskModel, UserMain user, JSONObject body,List<TaskModel>taskModels) {
-        taskModel=new TaskModel();
-        taskModel.setStatus(0);
-        taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
-        taskModel.setUser(user.getUserName());
-        taskModel.setContent(body.toJSONString());
-        taskModels.add(taskModel);
-    }
-
-    private JSONObject getCommJson(UserMain user, int type,Integer number) {
-        JSONObject body =new JSONObject();
-        body.put("userEmail",user.getEmail());
-        if(type==1){
-            body.put("subject","续费待处理通知");
-            body.put("content",user.getUserName()+"您好：有"+number+"笔合同已进入续费阶段，请尽快进行处理！！！\n \n \n  本条信息为系统信息，请勿回复！");
-        }else {
-            body.put("subject","续约待处理通知");
-            body.put("subject",user.getUserName()+"您好：有"+number+"笔合同已进入续费阶段，请尽快进行处理！！！\n \n \n  本条信息为系统信息，请勿回复！");
-        }
-        return body;
-    }
 
 }

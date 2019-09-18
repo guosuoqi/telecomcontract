@@ -19,4 +19,8 @@ public class TaskServeceImpl implements TaskServece {
     public void updateTask(TaskModel task) {
         taskMapper.updateTask(task);
     }
+
+    public void addTask(List<TaskModel>taskModels){
+        taskMapper.addTask(taskModels);
+    }
 }

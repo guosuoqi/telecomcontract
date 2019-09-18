@@ -335,7 +335,7 @@
                     class: 'table-width',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.city + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.city + '\',\'' + row.county + '\')">修改</a>  ';
+                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.city + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\')">修改</a>  ';
 
                     }
                 }
@@ -348,8 +348,7 @@
         $('#myModal').modal();
     }
 
-    function editContract(contractId, contractName,city,county, yearRental,sunRental,contractNum, contractFirst, payee, planYear,payEndTime,startTime,endTime,roomTypeName,towerTypeName,contractTypeName,roomType,towerType,contractType,city ,county ) {
-        alert(contractId)
+    function editContract(contractId, contractName,city,county, yearRental,sunRental,contractNum, contractFirst, payee, planYear,payEndTime,startTime,endTime,roomTypeName,towerTypeName,contractTypeName,roomType,towerType,contractType) {
         $.ajax({
             url: "/contract/queryType",
             success: function (data) {

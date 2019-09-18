@@ -104,26 +104,26 @@
             #{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
             #{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
             #{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
-            #{city},#{county}
+            #{contract.city},#{contract.county}
       )
 		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			contract_name=#{contractName},
-			year_rental=#{yearRental},
-			sun_rental=#{sunRental},
-			contract_first=#{contractFirst},
-			payee=#{payee},
-			plan_year = #{planYear},
-			start_time=#{startTime},
-			end_time=#{endTime},
-			pay_end_time=#{payEndTime},
-			room_type=#{roomType},
-			room_type_name=#{roomTypeName},
-			tower_type=#{towerType},
-			tower_type_name=#{towerTypeName},
-			contract_type=#{contractType},
-			contract_type_name=#{contractTypeName},
-			city=#{city},
-			county=#{county}
+			contract_name=#{contract.contractName},
+			year_rental=#{contract.yearRental},
+			sun_rental=#{contract.sunRental},
+			contract_first=#{contract.contractFirst},
+			payee=#{contract.payee},
+			plan_year = #{contract.planYear},
+			start_time=#{contract.startTime},
+			end_time=#{contract.endTime},
+			pay_end_time=#{contract.payEndTime},
+			room_type=#{contract.roomType},
+			room_type_name=#{contract.roomTypeName},
+			tower_type=#{contract.towerType},
+			tower_type_name=#{contract.towerTypeName},
+			contract_type=#{contract.contractType},
+			contract_type_name=#{contract.contractTypeName},
+			city=#{contract.city},
+			county=#{contract.county}
 		</trim>
 	</insert>
 	<!--合同管理页面查导入-->

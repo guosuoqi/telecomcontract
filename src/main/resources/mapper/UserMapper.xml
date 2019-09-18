@@ -24,7 +24,7 @@
     </select>
     <select id="queryUserByCounty"  resultType="com.dx.model.user.UserMain">
         select * from sys_user
-        where user_county =#{county}
+        where county like '%${county}%'
     </select>
 <!--查询用户管理列表-->
     <select id="queryUser"  resultType="com.dx.model.user.UserMain">
@@ -107,8 +107,8 @@
     </update>
 
     <insert id="addUser">
-        insert into sys_user(login_Number,password,user_Name,mobile,email,role) values
-            (#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role})
+        insert into sys_user(login_Number,password,user_Name,mobile,email,role,county) values
+            (#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role},#{userMain.county})
     </insert>
 
     <!-- 合同管理页面批量删除 -->

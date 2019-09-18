@@ -34,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 	}
 
-	/*@Override
+	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		HttpSession session = request.getSession();
 		Object token = session.getAttribute(session.getId());
@@ -42,7 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			response.sendRedirect("/login.jsp");
 			return false;
 		}else {
-			*//*UserMain userBean = (UserMain) session.getAttribute(session.getId());
+			UserMain userBean = (UserMain) session.getAttribute(session.getId());
 			//取出userid
 			Integer userId = userBean.getId();
 			//获取浏览器请求的地址
@@ -64,9 +64,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			}
 			//如果上面没有return 则表明没有权限访问，拦截到提示页面，return false
 			response.sendRedirect("/nopower.jsp");
-			return false;*//*
-			return true;
+			return false;
 		}
-	}*/
+	}
 
 }

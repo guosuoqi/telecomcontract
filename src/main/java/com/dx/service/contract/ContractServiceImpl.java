@@ -10,6 +10,7 @@ import com.dx.model.contract.Contract;
 import com.dx.model.contract.ContractExtension;
 import com.dx.model.contract.SysCode;
 import com.dx.model.user.UserMain;
+import com.dx.service.task.TaskServeceImpl;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
@@ -34,6 +35,8 @@ public class ContractServiceImpl implements ContractService {
     private ContractMapper contractMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private TaskServeceImpl taskServeceImpl;
 
     private String XU_YUE_Content="NAME-机房 合同待续费 ！！ 现缴费截止日期为-YYYYMMDD,请尽快完成续费";
     private String XU_FEI_Content="NAME-机房 合同待续签 ！！ 现合同截止日期为-YYYYMMDD,请尽快完成续签";
@@ -320,31 +323,30 @@ public class ContractServiceImpl implements ContractService {
         TaskModel taskModel=null;
         JSONObject body=null;
         for (Contract con:list) {
-            if(con.getNumber()==0){
-                continue;
-            }
             if(con.getExtenxionStatus()==1){
                 users=userMapper.queryUserByCounty(con.getCounty());
                 for (UserMain user:users) {
                     body= getCommJson(user,1,con);
                     SendTask(taskModel,user,body,taskModels);
                 }
-
             }else if(con.getRenewStatus()==1){
                 users=userMapper.queryUserByCounty(con.getCounty());
                 for (UserMain user:users) {
                     body= getCommJson(user,1,con);
                     SendTask(taskModel,user,body,taskModels);
                 }
-
             }
         }
+        taskServeceImpl.addTask(taskModels);
     }
     private void SendTask(TaskModel taskModel, UserMain user, JSONObject body,List<TaskModel>taskModels) {
+        if(user.getEmail()==null){
+            return;
+        }
         taskModel=new TaskModel();
         taskModel.setStatus(0);
         taskModel.setType(TaskEnum.SEND_EMAIL.getKey());
-        taskModel.setUser(user.getUserName());
+        taskModel.setUserEmail(user.getEmail());
         taskModel.setContent(body.toJSONString());
         taskModels.add(taskModel);
     }

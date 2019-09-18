@@ -11,4 +11,6 @@ public interface TaskMapper {
     List<TaskModel> queryTask(TaskModel taskModel);
 
     void updateTask(TaskModel task);
+
+    void addTask(List<TaskModel> taskModels);
 }
