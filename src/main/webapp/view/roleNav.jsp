@@ -181,6 +181,7 @@
 			data:{id:roleId},
 			success:function(data) {
 				$('#myModal').modal();
+				debugger
 				$("#navTreeTable").treeview({
 					showCheckbox: true,
 					state:{checked:true},
@@ -205,13 +206,6 @@
 
 					},
 					onNodeSelected:function(event, node) {
-						/*$.addtabs({iframeHeight: 650});
-						//addtabs(event, node)
-						$.addtabs.add({
-							id:node.id,
-							title:node.text,
-							url:node.href
-						});*/
 						//alert(node.id)
 						//$('#myMenuModal').modal();
 						initDetailMenu(node.id);
@@ -219,11 +213,6 @@
 
 				});
 			}
-
-					/*onDblClick:function(node){
-						$('#navHideId').val(node.id);
-						initDetailMenu(node.id);
-					}*/
 		})
 	}
 	//初始化权限

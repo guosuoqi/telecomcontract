@@ -173,6 +173,12 @@
     }
 
     function openAdd5GBBU(){
+        $("#id").val("");
+        $("#dxCode").val("");
+        $("#rruCode").val("");
+        $("#rruName").val("");
+        $("#netCareId").val("");
+        $("#netCareName").val("");
         $('#myModal').modal();
     }
 

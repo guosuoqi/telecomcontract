@@ -41,7 +41,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		if (token == null) {
 			response.sendRedirect("/login.jsp");
 			return false;
-		}else {
+		}/*else {
 			UserMain userBean = (UserMain) session.getAttribute(session.getId());
 			//取出userid
 			Integer userId = userBean.getId();
@@ -65,7 +65,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 			//如果上面没有return 则表明没有权限访问，拦截到提示页面，return false
 			response.sendRedirect("/nopower.jsp");
 			return false;
-		}
+		}*/
+		return true;
 	}
 
 }

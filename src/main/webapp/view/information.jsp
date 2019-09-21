@@ -46,7 +46,7 @@
                 <div class="row">
                     <div class="col-xs-2">合同名称:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="contractId" id="contractId" type="text"/>
+                        <input class="form-control" name="contractId" id="contractId" type="hidden"/>
                         <input class="form-control" name="contractName" id="contractName" type="text"/>
                     </div>
                     <div class="col-xs-2">合同编号:</div>
@@ -141,9 +141,6 @@
 </div>
 
 
-<input type="hidden" id="typeHidIdOne">
-<input type="hidden" id="typeHidIdTwo">
-<input type="hidden" id="typeHidIdThree">
 <style type="text/css">
     table {
         table-layout: auto;
@@ -263,7 +260,7 @@
     <!--初始化加载页面-->
     $(function () {
         initCodeType();
-        initCodeTypeAdd();
+        //initCodeTypeAdd();
         initContract();
 
     })
@@ -335,7 +332,7 @@
                     class: 'table-width',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.city + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\')">修改</a>  ';
+                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.city + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\')">修改</a>  ';
 
                     }
                 }
@@ -345,6 +342,19 @@
 
     //打开新增合同的弹框
     function openAddDialog() {
+        $("#contractId").val(""),
+        $("#contractName").val(""),
+        $("#city").val(""),
+        $("#county").val(""),
+        $("#yearRental").val(""),
+        $("#contractNum").val(""),
+        $("#sunRental").val(""),
+        $("#contractFirst").val(""),
+        $("#payee").val(""),
+        $("#planYear").val(""),
+        $("#payEndTime").val(""),
+        $("#startTimeAdd").val(""),
+        $("#endTimeAdd").val(""),
         $('#myModal').modal();
     }
 
@@ -440,7 +450,7 @@
         })
     }
 
-    function initCodeTypeAdd() {
+   /* function initCodeTypeAdd() {
         $(".selectpicker").selectpicker({
             noneSelectedText: '--请选择--' //默认显示内容  
         });
@@ -469,7 +479,7 @@
                 alert("指定人员下拉有误,请调试 ！！！");
             }
         })
-    }
+    }*/
 
     function initCodeType() {
         $(".selectpicker").selectpicker({
@@ -501,47 +511,6 @@
             }
         })
     }
-    //打开修改的弹框
-    /*   function editContract(contractId,roomType,towerType,contractType){
-           $("#typeHidIdOne").val(roomType);
-           $("#typeHidIdTwo").val(towerType);
-           $("#typeHidIdThree").val(contractType);
-           bootbox.dialog({
-               size:"big",
-               title:"修改合同信息",
-               message:createAddContent("/page/toUpdateContract?contractId="+contractId),
-               closeButton:true,
-               buttons:{
-                   'success':{
-                       "label" : "<i class='icon-ok'></i> 保存",
-                       "className" : "btn-sm btn-success",
-                       "callback" : function() {
-                           var str = "&towerTypeName="+$("#towerUp option:selected").text()+
-                               "&contractTypeName="+$("#contractUp option:selected").text()+
-                               "&roomTypeName="+$("#roomUp option:selected").text();
-                           $.ajax({
-                               url:'/contract/updateContract',
-                               type:'post',
-                               data:$("#contractForm").serialize()+str,
-                               dataType:'json',
-                               success:function(data){
-                                   bootbox.alert({
-                                       size:"small",
-                                       title:"提示",
-                                       message:"修改成功！"
-                                   });
-
-                               }
-                           })
-                       }
-                   },
-                   'cancel':{
-                       "label" : "<i class='icon-info'></i> 取消",
-                       "className" : "btn-sm btn-danger",
-                   }
-               }
-           })
-       }*/
     //批量删除
     function delContract() {
         var arr = $('#myTable').bootstrapTable('getSelections');

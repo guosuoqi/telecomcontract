@@ -1,6 +1,7 @@
 package com.dx.config;
 
 import com.dx.interceptor.LoginInterceptor;
+import com.dx.interceptor.SecurityInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -18,9 +19,9 @@ import java.util.List;
 public class MyConfing implements WebMvcConfigurer {
 
     @Bean
-    public LoginInterceptor LoginInterceptor(){
+    public SecurityInterceptor LoginInterceptor(){
 
-        return new LoginInterceptor();
+        return new SecurityInterceptor();
 
     }
 
@@ -51,7 +52,7 @@ public class MyConfing implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**","/user/toIndex","/nav/toShowTree");
+        registry.addInterceptor(LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**");
 
     }
 

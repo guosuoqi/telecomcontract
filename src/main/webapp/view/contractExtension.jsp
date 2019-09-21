@@ -155,7 +155,6 @@
 
     //打开修改的弹框
     function editContractExtendion(contractId){
-        alert(contractId)
         bootbox.dialog({
             size:"big",
             title:"修改合同信息",

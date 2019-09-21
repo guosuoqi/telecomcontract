@@ -178,6 +178,12 @@
 
 
     function openAddIPRAN(){
+        $("#id").val("");
+        $("#dxCode").val("");
+        $("#ipranCode").val("");
+        $("#ipranName").val("");
+        $("#netCareId").val("");
+        $("#netCareName").val("");
         $('#myModal').modal();
     }
 

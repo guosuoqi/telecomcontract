@@ -172,6 +172,12 @@
     }
 
     function openAdd3GRRU(){
+        $("#id").val("");
+        $("#dxCode").val("");
+        $("#rruCode").val("");
+        $("#rruName").val("");
+        $("#netCareId").val("");
+        $("#netCareName").val("");
         $('#myModal').modal();
     }
 

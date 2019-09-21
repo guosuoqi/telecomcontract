@@ -183,6 +183,12 @@
     //打开新增合同续约的弹框
 
     function openAdd3GBBU(){
+        $("#id").val("");
+        $("#dxCode").val("");
+        $("#bbuCode").val("");
+        $("#bbuName").val("");
+        $("#netCareId").val("");
+        $("#netCareName").val("");
         $('#myModal').modal();
     }
 

@@ -189,15 +189,21 @@
     //打开新增合同续约的弹框
 
     function openAddOlt(){
+        $("#id").val("");
+        $("#dxCode").val("");
+        $("#oltCode").val("");
+        $("#oltName").val("");
+        $("#netCareId").val("");
+        $("#netCareName").val("");
         $('#myModal').modal();
     }
 
 
-    function editOlt(id,dxCode,bbuCode,bbuName,netCareId,netCareName){
+    function editOlt(id,dxCode,oltCode,oltName,netCareId,netCareName){
         $("#id").val(id);
         $("#dxCode").val(dxCode);
-        $("#oltCode").val(bbuCode);
-        $("#oltName").val(bbuName);
+        $("#oltCode").val(oltCode);
+        $("#oltName").val(oltName);
         $("#netCareId").val(netCareId);
         $("#netCareName").val(netCareName);
         $('#myModal').modal();
