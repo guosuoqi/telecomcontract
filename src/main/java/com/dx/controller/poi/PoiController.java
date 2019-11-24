@@ -2,10 +2,7 @@ package com.dx.controller.poi;
 
 import com.dx.model.common.PoiTypeEnum;
 import com.dx.model.contract.Contract;
-import com.dx.model.site.EquipmentBBU;
-import com.dx.model.site.EquipmentIPRAN;
-import com.dx.model.site.EquipmentOLT;
-import com.dx.model.site.EquipmentRRUAAU;
+import com.dx.model.site.*;
 import com.dx.model.user.UserMain;
 import com.dx.service.contract.ContractService;
 import com.dx.service.site.SiteServiceImpl;
@@ -42,6 +39,7 @@ public class PoiController {
     private final String rruStr="电信编码,rru编码,rru名称,耗电量,网管员id,网管员,类型编码";
     private final String oltStr="电信编码,olt编码,olt名称,耗电量,网管员id,网管员";
     private final String ipranStr="电信编码,ipran编码,ipran名称,耗电量,网管员id,网管员";
+    private final String siteStr="基站编码,基站产权,电信编码,铁塔站址编码";
     @Autowired
     private ContractService contractService;
     @Autowired
@@ -59,6 +57,7 @@ public class PoiController {
                 List<EquipmentRRUAAU>equipmentRRUAAUList= null;
                 List<EquipmentOLT>equipmentOLTList= null;
                 List<EquipmentIPRAN>equipmentIPRANList= null;
+                List<SitManager>siteList= null;
 
                 String fileName=null;
                 String []sheetMerged=null;
@@ -98,6 +97,10 @@ public class PoiController {
                     sheetMerged= ipranStr.split(",");
                     fileName="IPRAN_";
                     equipmentIPRANList=siteService.queryIPRANByIds(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_SITE.getKey())){
+                    sheetMerged= siteStr.split(",");
+                    fileName="SITE_";
+                    siteList=siteService.querySiteByIds(ids);
                 }
 
                 //创建HSSFWorkbook对象(excel的文档对象)
@@ -111,7 +114,7 @@ public class PoiController {
                 //设置单元格内容
                 cell.setCellValue(fileName+"一览表");
                 //合并单元格CellRangeAddress构造参数依次表示起始行，截至行，起始列， 截至列
-                sheet.addMergedRegion(new CellRangeAddress(0,0,0,sheetMerged.length));
+                sheet.addMergedRegion(new CellRangeAddress(0,0,0,sheetMerged.length-1));
                 HSSFRow row2=sheet.createRow(1);
                 for (int i = 0; i < sheetMerged.length; i++) {
                     row2.createCell(i).setCellValue(sheetMerged[i]);
@@ -145,6 +148,12 @@ public class PoiController {
                         //在sheet里创建第三行
                         HSSFRow row3=sheet.createRow(2+i);
                         setIPRANPoi(row3,equipmentIPRANList.get(i));
+                    }
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_SITE.getKey())){
+                    for (int i = 0; i <siteList.size() ; i++) {
+                        //在sheet里创建第三行
+                        HSSFRow row3=sheet.createRow(2+i);
+                        setSitePoi(row3,siteList.get(i));
                     }
                 }
                 //输出Excel文件
@@ -309,6 +318,52 @@ public class PoiController {
         }
         return result;
     }
+    @RequestMapping(value = "importSite", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String,String> importSite(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+
+        HashMap<String,String>  result = new HashMap<> ();
+        HttpSession session = request.getSession();
+        if(session.getAttribute(session.getId())==null){
+            result.put("code","1");
+            result.put("msg","请先登录！");
+            return result;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            Workbook workbook = null;
+            if (file.getOriginalFilename().toLowerCase().endsWith("xlsx")) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else if (file.getOriginalFilename().toLowerCase().endsWith("xls")) {
+                workbook = new HSSFWorkbook(new POIFSFileSystem(inputStream));
+            }
+            // 打开Excel中的第一个Sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            //操作人
+            //UserMain userMain = (UserMain) session.getAttribute(session.getId());
+            //上载表格到库中
+            if(!siteServiceImpl.addSitManager(sheet)){
+                result.put("code","2");
+                result.put("msg","保存失败！");
+            }else {
+                result.put("code","0");
+                result.put("msg","保存成功！");
+            }
+        } catch (IOException e) {
+            //异常输出
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //异常输出
+
+                }
+            }
+        }
+        return result;
+    }
     @RequestMapping(value = "importOLTFile", method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String,String> importOLTFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
@@ -395,7 +450,6 @@ public class PoiController {
                     inputStream.close();
                 } catch (IOException e) {
                     //异常输出
-
                 }
             }
         }
@@ -442,7 +496,7 @@ public class PoiController {
     private void setContractPoi(HSSFRow row3, Contract contract) {
         row3.createCell(0).setCellValue(contract.getContractNum());
         row3.createCell(1).setCellValue(contract.getContractName());
-        row3.createCell(2).setCellValue(contract.getCity()+"-"+contract.getCounty());
+        row3.createCell(2).setCellValue(contract.getCounty());
         row3.createCell(3).setCellValue(contract.getYearRental());
         row3.createCell(4).setCellValue(contract.getSunRental());
         row3.createCell(5).setCellValue(contract.getContractFirst());
@@ -471,6 +525,12 @@ public class PoiController {
         row3.createCell(3).setCellValue(equipmentIPRAN.getPower());
         row3.createCell(4).setCellValue(equipmentIPRAN.getNetCareId());
         row3.createCell(5).setCellValue(equipmentIPRAN.getNetCareName());
+    }
+    private void setSitePoi(HSSFRow row3, SitManager site) {
+        row3.createCell(0).setCellValue(site.getBaseCode());
+        row3.createCell(1).setCellValue(site.getBaseProperty());
+        row3.createCell(2).setCellValue(site.getDxCode());
+        row3.createCell(3).setCellValue(site.getTtCode());
     }
 
 }

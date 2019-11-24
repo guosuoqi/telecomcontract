@@ -4,7 +4,7 @@
 
 
 	<sql id="Base_Column_List">
-        contract_id,contract_name,city,county,year_rental,sun_rental,contract_num,contract_first,payee,plan_year,start_time,end_time,pay_end_time,room_type,room_type_name,tower_type,tower_type_name,contract_type,contract_type_name
+        contract_id,contract_name,county,year_rental,sun_rental,contract_num,contract_first,payee,plan_year,start_time,end_time,pay_end_time,room_type,room_type_name,tower_type,tower_type_name,contract_type,contract_type_name,renew_operator,extenxion_operator,remark
     </sql>
 	<!--合同管理页面查询总条数-->
     <select id="queryContractCount"  resultType="int">
@@ -71,6 +71,9 @@
 			<if test="contract.contractName != null and contract.contractName != '' ">
 				and contract_name like  '${contract.contractName}%'
 			</if>
+			<if test="contract.county != null and contract.county != '' ">
+				and county = #{contract.county}
+			</if>
 		</where>
 		order by contract_id desc
 		limit #{startIndex},#{endIndex}
@@ -80,12 +83,8 @@
         select *
         from contract_manage
         <where>
-            <if test="contract.renewStatus != null">
-                and renew_status =#{contract.renewStatus}
-            </if>
-            <if test="contract.extenxionStatus != null">
-                and extenxion_status =#{contract.extenxionStatus}
-            </if>
+        renew_status =#{contract.renewStatus}
+        or extenxion_status =#{contract.extenxionStatus}
         </where>
 
     </select>
@@ -93,37 +92,72 @@
 	<insert id="addContract" >
 	 insert into contract_manage (
 	        contract_name, year_rental, sun_rental,
-	        contract_num,contract_first,payee,
+			contract_num,contract_first,payee,
 	        plan_year,start_time,end_time,pay_end_time,
 	        room_type,room_type_name,tower_type,
 	        tower_type_name,contract_type,contract_type_name,
-	        city,county
+	        county,remark
       )
     values (#{contract.contractName},#{contract.yearRental}, #{contract.sunRental},
             #{contract.contractNum},#{contract.contractFirst},#{contract.payee},
             #{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
             #{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
             #{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
-            #{contract.city},#{contract.county}
+            #{contract.county},#{remark}
       )
 		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			contract_name=#{contract.contractName},
-			year_rental=#{contract.yearRental},
-			sun_rental=#{contract.sunRental},
-			contract_first=#{contract.contractFirst},
-			payee=#{contract.payee},
-			plan_year = #{contract.planYear},
-			start_time=#{contract.startTime},
-			end_time=#{contract.endTime},
-			pay_end_time=#{contract.payEndTime},
-			room_type=#{contract.roomType},
-			room_type_name=#{contract.roomTypeName},
-			tower_type=#{contract.towerType},
-			tower_type_name=#{contract.towerTypeName},
-			contract_type=#{contract.contractType},
-			contract_type_name=#{contract.contractTypeName},
-			city=#{contract.city},
-			county=#{contract.county}
+            <if test="contract.contractName != null and contract.contractName != ''">
+                contract_name=#{contract.contractName},
+            </if>
+            <if test="contract.yearRental != null and contract.yearRental != ''">
+                year_rental=#{contract.yearRental},
+            </if>
+            <if test="contract.sunRental != null and contract.sunRental != ''">
+                sun_rental=#{contract.sunRental},
+            </if>
+            <if test="contract.sunRental != null and contract.sunRental != ''">
+                contract_first=#{contract.contractFirst},
+            </if>
+            <if test="contract.payee != null and contract.payee != ''">
+            payee=#{contract.payee},
+            </if>
+            <if test="contract.planYear != null and contract.planYear != ''">
+            plan_year = #{contract.planYear},
+            </if>
+            <if test="contract.startTime != null and contract.startTime != ''">
+            start_time=#{contract.startTime},
+            </if>
+            <if test="contract.endTime != null and contract.endTime != ''">
+            end_time=#{contract.endTime},
+            </if>
+            <if test="contract.payEndTime != null and contract.payEndTime != ''">
+            pay_end_time=#{contract.payEndTime},
+            </if>
+            <if test="contract.roomType != null and contract.roomType != ''">
+            room_type=#{contract.roomType},
+            </if>
+            <if test="contract.roomTypeName != null and contract.roomTypeName != ''">
+            room_type_name=#{contract.roomTypeName},
+            </if>
+            <if test="contract.towerType != null and contract.towerType != ''">
+            tower_type=#{contract.towerType},
+            </if>
+            <if test="contract.towerTypeName != null and contract.towerTypeName != ''">
+            tower_type_name=#{contract.towerTypeName},
+            </if>
+            <if test="contract.contractType != null and contract.contractType != ''">
+            contract_type=#{contract.contractType},
+            </if>
+            <if test="contract.contractTypeName != null and contract.contractTypeName != ''">
+            contract_type_name=#{contract.contractTypeName},
+            </if>
+            <if test="contract.county != null and contract.county != ''">
+            county=#{contract.county},
+            </if>
+            <if test="contract.remark != null and contract.remark != ''">
+            remark=#{contract.remark},
+            </if>
+                contract_num=#{contract.contractNum}
 		</trim>
 	</insert>
 	<!--合同管理页面查导入-->
@@ -135,35 +169,69 @@
 			plan_year,start_time,end_time,pay_end_time,
 			room_type,room_type_name,tower_type,
 			tower_type_name,contract_type,contract_type_name,
-			city,county
-			)
+			county)
 			values (#{contract.contractName},#{contract.yearRental}, #{contract.sunRental},
 			#{contract.contractNum},#{contract.contractFirst},#{contract.payee},
 			#{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
 			#{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
 			#{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
-			#{city},#{county}
-			)
+			#{contract.county})
+			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+				<if test="contract.contractName != null and contract.contractName != ''">
+					contract_name=#{contract.contractName},
+				</if>
+				<if test="contract.yearRental != null and contract.yearRental != ''">
+					year_rental=#{contract.yearRental},
+				</if>
+				<if test="contract.sunRental != null and contract.sunRental != ''">
+					sun_rental=#{contract.sunRental},
+				</if>
+				<if test="contract.sunRental != null and contract.sunRental != ''">
+					contract_first=#{contract.contractFirst},
+				</if>
+				<if test="contract.payee != null and contract.payee != ''">
+					payee=#{contract.payee},
+				</if>
+				<if test="contract.planYear != null and contract.planYear != ''">
+					plan_year = #{contract.planYear},
+				</if>
+				<if test="contract.startTime != null and contract.startTime != ''">
+					start_time=#{contract.startTime},
+				</if>
+				<if test="contract.endTime != null and contract.endTime != ''">
+					end_time=#{contract.endTime},
+				</if>
+				<if test="contract.payEndTime != null and contract.payEndTime != ''">
+					pay_end_time=#{contract.payEndTime},
+				</if>
+				<if test="contract.roomType != null and contract.roomType != ''">
+					room_type=#{contract.roomType},
+				</if>
+				<if test="contract.roomTypeName != null and contract.roomTypeName != ''">
+					room_type_name=#{contract.roomTypeName},
+				</if>
+				<if test="contract.towerType != null and contract.towerType != ''">
+					tower_type=#{contract.towerType},
+				</if>
+				<if test="contract.towerTypeName != null and contract.towerTypeName != ''">
+					tower_type_name=#{contract.towerTypeName},
+				</if>
+				<if test="contract.contractType != null and contract.contractType != ''">
+					contract_type=#{contract.contractType},
+				</if>
+				<if test="contract.contractTypeName != null and contract.contractTypeName != ''">
+					contract_type_name=#{contract.contractTypeName},
+				</if>
+				<if test="contract.county != null and contract.county != ''">
+					county=#{contract.county},
+				</if>
+				<if test="contract.remark != null and contract.remark != ''">
+					remark=#{contract.remark},
+				</if>
+				contract_num=#{contract.contractNum}
+			</trim>
 		</foreach>
-		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			contract_name=#{contractName},
-			year_rental=#{yearRental},
-			sun_rental=#{sunRental},
-			contract_first=#{contractFirst},
-			payee=#{payee},
-			plan_year = #{planYear},
-			start_time=#{startTime},
-			end_time=#{endTime},
-			pay_end_time=#{payEndTime},
-			room_type=#{roomType},
-			room_type_name=#{roomTypeName},
-			tower_type=#{towerType},
-			tower_type_name=#{towerTypeName},
-			contract_type=#{contractType},
-			contract_type_name=#{contractTypeName},
-			city=#{city},
-			county=#{county}
-		</trim>
+
 	</insert>
 	<!--合同管理页面修改-->
 	<update id="updateContract">
@@ -229,6 +297,12 @@
 			<if test="contract.extenxionOperator != null and contract.extenxionOperator != ''">
 				extenxion_operator = #{contract.extenxionOperator},
 			</if>
+			<if test="contract.county != null and contract.county != ''">
+				county=#{contract.county},
+			</if>
+			<if test="contract.remark != null and contract.remark != ''">
+				remark=#{contract.remark},
+			</if>
 		</set>
 	        where contract_id=#{contract.contractId}
 	</update>
@@ -264,10 +338,10 @@
 		</set>
 		<where>
 			<if test="contract.endTime != null and contract.endTime != ''">
-				end_time &lt;#{contract.endTime}
+			 	and	end_time &lt;#{contract.endTime}
 			</if>
 			<if test="contract.payEndTime != null and contract.payEndTime != ''">
-				pay_end_time &lt;#{contract.payEndTime}
+				and	pay_end_time &lt;#{contract.payEndTime}
 			</if>
 		</where>
 	</update>
@@ -289,12 +363,15 @@
 
 	<!--合同管理页面待续约查询总条数-->
 	<select id="queryContractExtensionCount"  resultType="int">
-		select
-		count(1)
-		from contract_manage
-		<where>
-		extenxion_status = 1
-		</where>
+		select count(1) from contract_manage where extenxion_status = 1
 	</select>
+	<!--合同管理页面待续费查询总条数-->
+	<select id="queryContractRenewCount"  resultType="int">
+		select count(1) from contract_manage where renew_status = 1
 
+	</select>
+	<!--设备总数-->
+	<select id="querySheBeiSum"  resultType="int">
+	SELECT sum(three_bbu_count+four_bbu_count+five_bbu_count+three_rru_count+four_rru_count+five_aau_count+olt_count+ipran_count)  FROM t_base_station
+	</select>
 </mapper>

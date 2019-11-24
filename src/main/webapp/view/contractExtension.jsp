@@ -27,7 +27,56 @@
 </head>
 
 <body>
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    合同续费
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2">合同名称:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="contractId" id="contractId" type="hidden"/>
+                        <input class="form-control" name="renewStatus" id="renewStatus" type="hidden"/>
+                        <input class="form-control" name="contractName"  id="contractNameEdit" type="text"/>
+                    </div>
+                    <div class="col-xs-2">续费截止日期:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control date" name="payEndTime"  id="payEndTime" type="text"/>
+                    </div>
+                </div>
 
+                <div class="row">
+
+                    <div class="col-xs-2">经办人:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="extenxionOperator"  id="extenxionOperator" type="text"/>
+                    </div>
+                    <div class="col-xs-2">备注:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="remark"  id="remark" type="text"/>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitContractExtension()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+</div>
 <div class="panel">
     <div class="panel-body" style="padding-bottom: 1px;">
         <form class="form-horizontal">
@@ -62,7 +111,7 @@
                     </div>
 
                     <div class="col-xs-12">
-                        <button type="button" class="btn btn-primary btn-w-m" onclick="initExtension()" id="queryBtn" style="float: right;margin-right:20px;">
+                        <button type="button" class="btn btn-primary btn-w-m" onclick="initContract()" id="queryBtn" style="float: right;margin-right:20px;">
                             <span class="glyphicon glyphicon-search"></span> 搜索
                         </button>
                     </div>
@@ -72,7 +121,7 @@
     </div>
 </div>
 
-<button type="button" onclick="openAddDialogExtension()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<%--<button type="button" onclick="openAddDialogExtension()" class="btn btn-info glyphicon glyphicon-plus">新增</button>--%>
 <button type="button" onclick="delContractExtension()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 
 </div>
@@ -118,7 +167,7 @@
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
-                    contractName:$('#contractName1').val(),
+                    contractName:$('#contractName').val(),
                     startTime:$('#startTime').val(),
                     endTime:$('#endTime1').val(),
                     towerTypeName:$('#towerType1').text(),
@@ -129,66 +178,101 @@
             },
             columns:[
                 {field:'111',checkbox:true},
-                {field:'contractId',title:'合同id'},
+                {field:'contractNum',title:'合同編碼'},
                 {field:'contractName',title:'合同名字'},
                 {field:'yearRental',title:'年租金'},
                 {field:'payEndTime',title:'续费截止日期'},
                 {field:'extenxionOperator',title:'经办人'},
                 {field:'remark',title:'备注'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editContractExtendion('+row.contractId+');">修改</a>  ';
+                        return  ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.payEndTime + '\',\'' + row.extenxionOperator + '\',\'' + row.remark + '\')">修改</a>  ';
                     }}
             ]
         })
     }
-    var res;
-    function createAddContent(url){
-        $.ajax({
-            url:url,
-            async:false,
-            success:function(data){
-                res = data;
-            }
-        });
-        return res;
-    }
 
-    //打开修改的弹框
-    function editContractExtendion(contractId){
-        bootbox.dialog({
-            size:"big",
-            title:"修改合同信息",
-            message:createAddContent("/page/toUpdateContractExtension?contractId="+contractId),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        $.ajax({
-                            url:'/contract/updateContract',
-                            type:'post',
-                            data:$("#contractFormExtension").serialize(),
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:"修改成功！"
-                                }),
-                                    initContract();
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
+
+
+    function editContract(contractId,contractName,payEndTime,extenxionOperator,remark){
+        $("#contractId").val(contractId);
+        $("#contractNameEdit").val(contractName);
+        $("#payEndTime").val(payEndTime);
+        $("#extenxionOperator").val(extenxionOperator);
+        $("#remark").val(remark);
+        $('#myModal').modal();
+    }
+    //提交用户
+    function submitContractExtension(){
+        document.getElementById('buttonAdd').disabled=true;
+        $.ajax({
+            url: '/contract/addContract',
+            type: "post",
+            data : {
+                contractId:$("#contractId").val(),
+                contractName:$("#contractNameEdit").val(),
+                payEndTime:$("#payEndTime").val(),
+                extenxionOperator:$("#extenxionOperator").val(),
+                remark:$("#remark").val(),
+            },
+            success:function (data){
+                initContract();
+                alert(data.msg)
+                $("#myModal").modal('hide');
+                document.getElementById('buttonAdd').disabled=false;
+            },
+            error:function (){
+                alert("修改失败");
             }
         })
     }
 
+    /* var res;
+        function createAddContent(url){
+            $.ajax({
+                url:url,
+                async:false,
+                success:function(data){
+                    res = data;
+                }
+            });
+            return res;
+        }*/
+
+    /*  //打开修改的弹框
+      function editContractExtendion(contractId){
+          bootbox.dialog({
+              size:"big",
+              title:"修改合同信息",
+              message:createAddContent("/page/toUpdateContractExtension?contractId="+contractId),
+              closeButton:true,
+              buttons:{
+                  'success':{
+                      "label" : "<i class='icon-ok'></i> 保存",
+                      "className" : "btn-sm btn-success",
+                      "callback" : function() {
+                          $.ajax({
+                              url:'/contract/updateContract',
+                              type:'post',
+                              data:$("#contractFormExtension").serialize(),
+                              success:function(data){
+                                  bootbox.alert({
+                                      size:"small",
+                                      title:"提示",
+                                      message:"修改成功！"
+                                  }),
+                                      initContract();
+                              }
+                          })
+                      }
+                  },
+                  'cancel':{
+                      "label" : "<i class='icon-info'></i> 取消",
+                      "className" : "btn-sm btn-danger",
+                  }
+              }
+          })
+      }
+  */
     //批量删除
     function delContractExtension(){
         var arr = $('#contractExtension').bootstrapTable('getSelections');

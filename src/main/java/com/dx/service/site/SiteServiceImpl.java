@@ -11,7 +11,6 @@ import com.dx.model.site.*;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
-import com.sun.xml.internal.ws.handler.HandlerException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -45,6 +44,7 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Override
+    @Transactional
     public boolean add3GBBU(EquipmentBBU equipmentBBU) {
         List<EquipmentBBU> bbuList=new ArrayList<>();
         bbuList.add(equipmentBBU);
@@ -59,6 +59,7 @@ public class SiteServiceImpl implements SiteService{
         }else{
             return false;
         }
+        sit.setPower(equipmentBBU.getPower());
         siteMapper.updateSite(sit);
         return siteMapper.add3GBBU(bbuList);
     }
@@ -97,6 +98,19 @@ public class SiteServiceImpl implements SiteService{
     public boolean add3GRRU(EquipmentRRUAAU equipmentRRUAAU) {
         List<EquipmentRRUAAU> rruList=new ArrayList<>();
         rruList.add(equipmentRRUAAU);
+        SitManager sit = new SitManager();
+        sit.setDxCode(equipmentRRUAAU.getDxCode());
+        if(SiteEnum.T_RRU.getKey()==equipmentRRUAAU.getNetworkType()){
+            sit.setThreeRruCount(1);
+        }else if(SiteEnum.F_RRU.getKey()==equipmentRRUAAU.getNetworkType()){
+            sit.setFourRruCount(1);
+        }else if(SiteEnum.FIVE_AAU.getKey()==equipmentRRUAAU.getNetworkType()){
+            sit.setFiveAauCount(1);
+        }else{
+            return false;
+        }
+        sit.setPower(equipmentRRUAAU.getPower());
+        siteMapper.updateSite(sit);
         return siteMapper.add3GRRU(rruList);
     }
 
@@ -104,6 +118,11 @@ public class SiteServiceImpl implements SiteService{
     public boolean addOlt(EquipmentOLT equipmentOLT) {
         List<EquipmentOLT> oltList=new ArrayList<>();
         oltList.add(equipmentOLT);
+        SitManager sit = new SitManager();
+        sit.setDxCode(equipmentOLT.getDxCode());
+        sit.setPower(equipmentOLT.getPower());
+        sit.setOltCount(1);
+        siteMapper.updateSite(sit);
         return siteMapper.addOlt(oltList);
     }
 
@@ -136,6 +155,11 @@ public class SiteServiceImpl implements SiteService{
     public boolean addIPRAN(EquipmentIPRAN equipmentIPRAN) {
         List<EquipmentIPRAN> ipranList=new ArrayList<>();
         ipranList.add(equipmentIPRAN);
+        SitManager sit = new SitManager();
+        sit.setDxCode(equipmentIPRAN.getDxCode());
+        sit.setPower(equipmentIPRAN.getPower());
+        sit.setIpranCount(1);
+        siteMapper.updateSite(sit);
         return siteMapper.addIPRAN(ipranList);
     }
 
@@ -158,11 +182,19 @@ public class SiteServiceImpl implements SiteService{
     public EquipmentIPRAN queryIPRANById(Integer id) {
         return siteMapper.queryIPRANById(id);
     }
+    @Override
+    public boolean insertStation(List<SitManager> sitManagerList) {
+       return siteMapper.insertStation(sitManagerList);
+    }
 
 
     @Override
     public int delAllRRU(String ids) {
         return siteMapper.delAllRRU(ids);
+    }
+ @Override
+    public int delAllSit(String ids) {
+        return siteMapper.delAllSit(ids);
     }
 
     @Override
@@ -270,7 +302,7 @@ public class SiteServiceImpl implements SiteService{
                 rru.setNetworkType(Integer.valueOf(type));
                 RRUList.add(rru);
                 dxCodes.add(dxCode);
-            } catch (HandlerException e){
+            } catch (Exception e){
                 continue;
             }
         }
@@ -340,10 +372,8 @@ public class SiteServiceImpl implements SiteService{
             BBUList.add(bbu);
             dxCodes.add(dxCode);
         }
-        System.out.println("================================================="+JSON.toJSONString(BBUList));
         if(siteMapper.add3GBBU(BBUList)){
             List<SitManager> sitManager=siteMapper.queryBBUInfo(dxCodes,tp);
-            System.out.println(JSON.toJSONString(sitManager));
             siteMapper.updateRruCountAndPower(sitManager);
         }
         return true;
@@ -447,6 +477,39 @@ public class SiteServiceImpl implements SiteService{
         }
         return true;
     }
+    public boolean addSitManager(Sheet sheet) {
+        List<SitManager> sitList = new ArrayList<>();
+        SitManager sit;
+        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+            Row row = (Row) sheet.getRow(i);
+            if(row ==null){
+                continue;//整行为空，跳出
+            }
+            //获取每个单元格
+            /**
+             * 基站编码,基站产权,电信编码,铁塔站址编码
+             */
+            //基站编码
+            String baseCode = getCellVal(row.getCell(0));//第一个单元格
+            //基站产权
+            String baseProperty = getCellVal(row.getCell(1));
+            //电信编码
+            String dxCode = getCellVal(row.getCell(2));
+            //铁塔站址编码
+            String ttCode = getCellVal(row.getCell(3));
+
+            sit=new SitManager();
+            sit.setDxCode(dxCode);
+            sit.setTtCode(ttCode);
+            sit.setBaseProperty(baseProperty);
+            sit.setBaseCode(baseCode);
+            sitList.add(sit);
+        }
+        if(siteMapper.insertStation(sitList)){
+            siteMapper.updateRruCountAndPower(sitList);
+        }
+        return true;
+    }
 
     public boolean addIpranList(Sheet sheet) {
         List<EquipmentIPRAN> ipranList = new ArrayList<>();
@@ -496,26 +559,14 @@ public class SiteServiceImpl implements SiteService{
             ipranList.add(olt);
             dxCodes.add(dxCode);
         }
-        /*if(siteMapper.addIpran(EquipmentIPRAN)){
+        if(siteMapper.addIPRAN(ipranList)){
             List<SitManager> sitManager=siteMapper.queryOLTInfo(dxCodes);
             siteMapper.updateRruCountAndPower(sitManager);
-        }*/
+        }
         return true;
     }
 
-
-    public static void main(String[] args) {
-        JSONObject body = new JSONObject();
-        JSONArray array = new JSONArray();
-        body.put("name","chu");
-        body.put("name","chu");
-        body.put("name","chu");
-        body.put("nide","chu");
-        JSONObject o = new JSONObject();
-        o.put("id",1);
-        o.put("name","nu");
-        array.add(o);
-        body.put("array",array);
-        System.out.println(JSON.toJSONString(body));
+    public List<SitManager> querySiteByIds(String ids) {
+        return  siteMapper.querySiteByIds(ids);
     }
 }

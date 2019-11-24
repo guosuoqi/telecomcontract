@@ -2,7 +2,7 @@ package com.dx.model.user;
 
 public class UserMain {
 
-    private Integer id; //id
+    private String id; //id
 
     private String loginNumber; //账号
 
@@ -18,15 +18,25 @@ public class UserMain {
 
     private String makedate;//创建时间
 
+    private Integer[] roleId;//用户角色
+
     private String role;//用户角色
 
     private String county;//负责地区
 
-    public Integer getId() {
+    public Integer[] getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer[] roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

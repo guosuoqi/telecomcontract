@@ -48,18 +48,18 @@ public class SitManager {
      *olt 个数
      */
     private Integer oltCount;
-    /**
+  /*  *//**
      *直流耗电量
-     */
+     *//*
     private Integer tributaryPowerConsume;
-    /**
+    *//**
      *pue值
-     */
-    private Integer pue;
+     *//*
+    private Integer pue;*/
     /**
      *总耗电量
      */
-    private String PowerConsume;
+    private Double powerConsume;
 
     /**
      * 耗電量VO
@@ -167,43 +167,27 @@ public class SitManager {
         this.oltCount = oltCount;
     }
 
-    public Integer getTributaryPowerConsume() {
-        return tributaryPowerConsume;
-    }
-
-    public void setTributaryPowerConsume(Integer tributaryPowerConsume) {
-        this.tributaryPowerConsume = tributaryPowerConsume;
-    }
-
-    public Integer getPue() {
-        return pue;
-    }
-
-    public void setPue(Integer pue) {
-        this.pue = pue;
-    }
-
-    public String getPowerConsume() {
-        return PowerConsume;
-    }
-
-    public void setPowerConsume(String powerConsume) {
-        PowerConsume = powerConsume;
-    }
-
     public Double getPower() {
-        return power;
-    }
+            return power;
+            }
 
     public void setPower(Double power) {
-        this.power = power;
-    }
+            this.power = power;
+            }
 
     public Integer getIpranCount() {
-        return ipranCount;
-    }
+            return ipranCount;
+            }
 
     public void setIpranCount(Integer ipranCount) {
-        this.ipranCount = ipranCount;
+            this.ipranCount = ipranCount;
+            }
+
+    public Double getPowerConsume() {
+        return powerConsume;
+    }
+
+    public void setPowerConsume(Double powerConsume) {
+        this.powerConsume = powerConsume;
     }
 }

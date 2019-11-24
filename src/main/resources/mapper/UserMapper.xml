@@ -107,14 +107,45 @@
     </update>
 
     <insert id="addUser">
-        insert into sys_user(login_Number,password,user_Name,mobile,email,role,county) values
-            (#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role},#{userMain.county})
+        insert into sys_user(id,login_Number,password,user_Name,mobile,email,role,county) values
+            (#{userMain.id},#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role},#{userMain.county})
     </insert>
 
-    <!-- 合同管理页面批量删除 -->
+    <!-- 用户页面批量删除 -->
     <delete id="delUser">
-		delete from sys_user where id in(${ids})
+		delete from sys_user where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
 	</delete>
+  <!-- 角色页面批量删除 -->
+    <delete id="delRole">
+		delete from sys_role where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+	</delete>
+ <!-- 用户_角色批量删除 -->
+    <delete id="delUserRole">
+        delete from sys_user_role where user_id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- 角色_权限批量删除 -->
+    <delete id="delRoleNav">
+        delete from sys_role_power where nav_id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- 用户_角色批量删除 -->
+    <delete id="delUserRoleByRoleId">
+        delete from sys_user_role where role_id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 
 
     <select id="getNavList" parameterType="int" resultType="com.dx.model.nav.NavTree">
@@ -138,9 +169,21 @@
         </foreach>
     </insert>
 
+    <insert id="addUserRole">
+        insert into sys_user_role(id,user_id,role_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+
     <insert id="addMenu">
         insert into sys_power_menu(id,name,url,nav_id) values
             (#{id},#{name},#{url},#{navId})
+    </insert>
+
+    <insert id="addRole">
+        insert into  sys_role(id,name,remark)  values
+            (#{roleBean.id},#{roleBean.name},#{roleBean.remark})
     </insert>
 
 
@@ -156,13 +199,13 @@
 	select DISTINCT spm.url from  sys_user_role sur
      left join sys_role_power srp on sur.role_Id=srp.role_id
      left join sys_power_menu spm on srp.nav_id=spm.nav_id
-    where sur.user_id=#{value} and spm.url !=''
+    where sur.user_id=#{userId} and spm.url !=''
 
 	UNION
 	select DISTINCT sn.url from sys_user_role sur
 	left join sys_role_power srp on sur.role_Id=srp.role_id
 	left join sys_nav sn on srp.nav_id=sn.id
-	where sur.user_id=#{value} and sn.url!=''
+	where sur.user_id=#{userId} and sn.url!=''
 
 	</select>
 </mapper>

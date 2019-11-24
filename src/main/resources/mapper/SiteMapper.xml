@@ -33,23 +33,21 @@
 
 	<!--3/4/5GBBU页面新增-->
 	<insert id="add3GBBU" >
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
 		insert into t_equipment_bbu (
 		dx_code,bbu_code,bbu_name,power,
-		Net_Care_id,Net_Care_name,network_type
-		)   values
-        <foreach collection="list" item="equipmentBBU" index="index" open="" close="" separator=",">
-      		 (#{equipmentBBU.dxCode},#{equipmentBBU.bbuCode},#{equipmentBBU.bbuName},#{equipmentBBU.power},
-                    #{equipmentBBU.netCareId},#{equipmentBBU.netCareName},#{equipmentBBU.networkType})
+		Net_Care_id,Net_Care_name,network_type)
+		 values (#{item.dxCode},#{item.bbuCode},#{item.bbuName},#{item.power},
+                    #{item.netCareId},#{item.netCareName},#{item.networkType})
+			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+				dx_code=#{item.dxCode},
+				bbu_name=#{item.bbuName},
+				power=#{item.power},
+				Net_Care_id=#{item.netCareId},
+				Net_Care_name=#{item.netCareName},
+				network_type=#{item.networkType}
+			</trim>
         </foreach>
-		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			dx_code=#{dxCode},
-			bbu_code=#{bbuCode},
-			bbu_name=#{bbuName},
-			power=#{power},
-			net_Care_id=#{netCareId},
-			net_Care_name=#{netCareName},
-			network_type=#{networkType}
-		</trim>
 	</insert>
 
 	<!-- 3/4/5BBU批量删除 -->
@@ -160,44 +158,52 @@
 
 	<!--3/4/5GRRU页面新增-->
 	<insert id="add3GRRU" >
-        <foreach collection="list" item="EquipmentRRUAAU" index="index" open="" close="" separator=";">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
              insert into t_equipment_rru_aau (
                    dx_code,rru_code,rru_name,power,
-                   net_Care_id,net_Care_name,network_type
+                   Net_Care_id,Net_Care_name,network_type
               )
-            values (#{EquipmentRRUAAU.dxCode},#{EquipmentRRUAAU.rruCode},#{EquipmentRRUAAU.rruName},#{EquipmentRRUAAU.power},
-                    #{EquipmentRRUAAU.netCareId},#{EquipmentRRUAAU.netCareName},#{EquipmentRRUAAU.networkType}
+            values (#{item.dxCode},#{item.rruCode},#{item.rruName},#{item.power},
+                    #{item.netCareId},#{item.netCareName},#{item.networkType}
               )
-        </foreach>
-		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			dx_code=#{dxCode},
-			rru_code=#{rruCode},
-			rru_name=#{rruName},
-			power=#{power},
-			net_Care_id=#{netCareId},
-			net_Care_name=#{netCareName},
-			network_type=#{networkType}
-		</trim>
+			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+				dx_code=#{item.dxCode},
+				rru_name=#{item.rruName},
+				power=#{item.power},
+				Net_Care_id=#{item.netCareId},
+				Net_Care_name=#{item.netCareName},
+				network_type=#{item.networkType}
+			</trim>
+		</foreach>
 	</insert>
 	<!--OLT页面新增-->
 	<insert id="addOlt" >
-        <foreach collection="list" item="EquipmentOLT" index="index" open="" close="" separator=";">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
              insert into t_equipment_olt (
                    dx_code,olt_code,olt_name,power,
-                   net_Care_id,net_Care_name
+                   Net_Care_id,Net_Care_name)
+            values (#{item.dxCode},#{item.oltCode},#{item.oltName},#{item.power},
+                    #{item.netCareId},#{item.netCareName}
               )
-            values (#{EquipmentOLT.dxCode},#{EquipmentOLT.oltCode},#{EquipmentOLT.oltName},#{EquipmentOLT.power},
-                    #{EquipmentOLT.netCareId},#{EquipmentOLT.netCareName}
-              )
-        </foreach>
 		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			dx_code=#{dxCode},
-			olt_code=#{oltCode},
-			olt_name=#{oltName},
-			power=#{power},
-			net_Care_id=#{netCareId},
-			net_Care_name=#{netCareName},
+			<if test="dxCode != null and dxCode != ''">
+				dx_code=#{item.dxCode},
+			</if>
+			<if test="oltName != null and oltName != ''">
+				olt_name=#{item.oltName},
+			</if>
+			<if test="power != null and power != ''">
+				power=#{item.power},
+			</if>
+			<if test="netCareId != null and netCareId != ''">
+				Net_Care_id=#{item.netCareId},
+			</if>
+			<if test="netCareName != null and netCareName != ''">
+				Net_Care_name=#{item.netCareName},
+			</if>
+			olt_code=#{oltCode}
 		</trim>
+		</foreach>
 	</insert>
 
 	<!-- 3/4/5GRRU批量删除 -->
@@ -248,38 +254,50 @@
 		from t_base_station
 		limit #{startIndex},#{endIndex}
 	</select>
+	<!--站点导出查询-->
+	<select id="querySiteByIds"  resultType="com.dx.model.site.SitManager">
+		select * from t_base_station where id in(${ids})
+	</select>
 	<!--页面修改-->
 	<update id="updateSite">
 		update t_base_station
 		<set>
 			<if test="threeBbuCount != null and threeBbuCount != 0">
 				three_bbu_count = three_bbu_count + #{threeBbuCount},
+				three_bbu_power = three_bbu_power + #{power},
 			</if>
 			<if test="fourBbuCount!= null and fourBbuCount != 0">
 				four_bbu_count = four_bbu_count + #{fourBbuCount},
+				four_bbu_power = four_bbu_power + #{power},
 			</if>
 			<if test="fiveBbuCount != null and fiveBbuCount != 0">
 				five_bbu_count = five_bbu_count + #{fiveBbuCount},
+				five_bbu_power = five_bbu_power + #{power},
 			</if>
 			<if test="threeRruCount != null and threeRruCount != 0">
 				three_rru_count = three_rru_count + #{threeRruCount},
+				three_rru_power = three_rru_power + #{power},
 			</if>
 			<if test="fourRruCount!= null and fourRruCount != 0">
 				four_rru_count = four_rru_count + #{fourRruCount},
+				four_rru_power = four_rru_power + #{power},
 			</if>
 			<if test="fiveAauCount != null and fiveAauCount != 0">
 				five_aau_count = five_aau_count + #{fiveAauCount},
+				five_aau_power = five_aau_power + #{power},
 			</if>
-			<if test="equipmentBBU.NetCareId != null and equipmentBBU.NetCareId != ''">
-				Net_care_id = #{netCareId},
+			<if test="oltCount != null and oltCount != 0">
+				olt_count = olt_count + #{oltCount},
+				olt_power = olt_power + #{power},
 			</if>
-			<if test="equipmentBBU.NetCareName != null and equipmentBBU.NetCareName != ''">
-				Net_Care_name = #{netCareName},
+			<if test="ipranCount != null and ipranCount != 0">
+				ipran_count = ipran_count + #{ipranCount},
+				ipran_power = ipran_power + #{power},
 			</if>
-			Power_Consume =
+			power_Consume =three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+olt_power+ipran_power
 		</set>
 		<where>
-			id = #{equipmentBBU.id}
+			dx_code = #{dxCode}
 		</where>
 	</update>
 
@@ -312,12 +330,21 @@
 			<if test="item.ipranCount !=null and item.ipranCount !=''">
 				ipran_count=#{item.ipranCount},ipran_power=#{item.power},
 			</if>
-			Power_Consume=(three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+ipran_power+olt_power)
+			power_Consume=(three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+ipran_power+olt_power)
 			where dx_code =#{item.dxCode}
 		</foreach>
 	</update>
-
-
+	<insert id="insertStation">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			insert into t_base_station (base_code,base_property,dx_code,tt_code)
+			values(#{item.baseCode},#{item.baseProperty},#{item.dxCode},#{item.ttCode})
+			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+				base_code=#{item.baseCode},
+				base_property=#{item.baseProperty},
+				tt_code=#{item.ttCode}
+			</trim>
+		</foreach>
+	</insert>
 	<!--olt查询总条数-->
 	<select id="queryOLTCount"  resultType="int">
 		select
@@ -390,12 +417,6 @@
 		limit #{startIndex},#{endIndex}
 	</select>
 
-
-
-
-
-
-
 	<!--olt查询总条数-->
 	<select id="queryIPRANCount"  resultType="int">
 		select
@@ -451,24 +472,26 @@
 	<delete id="delAllIPRAN">
 		delete from t_equipment_ipran where id in (${ids})
 	</delete>
+	<!-- 站点批量删除 -->
+	<delete id="delAllSit">
+		delete from t_base_station where id in (${ids})
+	</delete>
 
 	<!--OLT页面新增-->
 	<insert id="addIPRAN" >
 		<foreach collection="list" item="equipmentIPRAN" index="index" open="" close="" separator=";">
 			insert into t_equipment_ipran (
 			dx_code,ipran_code,ipran_name,power,
-			net_Care_id,net_Care_name
-			)
+			Net_Care_id,Net_Care_name)
 			values (#{equipmentIPRAN.dxCode},#{equipmentIPRAN.ipranCode},#{equipmentIPRAN.ipranName},#{equipmentIPRAN.power},
 			#{equipmentIPRAN.netCareId},#{equipmentIPRAN.netCareName}
 			)
 			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
 				dx_code=#{dxCode},
-				ipran_code=#{ipranCode},
 				ipran_name=#{ipranName},
 				power=#{power},
-				net_Care_id=#{netCareId},
-				net_Care_name=#{netCareName},
+				Net_Care_id=#{netCareId},
+				Net_Care_name=#{netCareName},
 			</trim>
 		</foreach>
 	</insert>

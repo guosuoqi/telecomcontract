@@ -43,7 +43,7 @@ public interface UserMapper {
 
     int addUser(@Param("userMain")UserMain userMain);
 
-    int delUser(@Param("ids")String ids);
+    int delUser(@Param("ids")String[] ids);
 
     List<NavTree> getNavList();
 
@@ -59,5 +59,17 @@ public interface UserMapper {
 
     int addMenu(NavMenuBean navMenuBean);
 
-    List<String> findUserPowerUrl(Integer userId);
+    List<String> findUserPowerUrl(@Param("userId")String userId);
+
+    void addUserRole(List<UserRoleBean> urlist);
+
+    int addRole(@Param("roleBean")RoleBean roleBean);
+
+    int delRole(@Param("ids")String[] ids);
+
+    void delUserRole(@Param("ids")String[] ids);
+
+    void delRoleNav(@Param("ids")String[] roleIds);
+
+    void delUserRoleByRoleId(@Param("ids")String[] roleIds);
 }

@@ -97,7 +97,7 @@
                }
            },
            columns:[
-               {field:'id',title:'角色编号',align: 'center',width:"40px",valign: 'middle'},
+               {field:'id',title:'角色编号',align: 'center',width:"40px",valign: 'middle',visible:false},
                {field:'name',title:'角色',align: 'center',valign: 'middle'},
                {field:'remark',title:'备注',align: 'center',valign: 'middle'},
                {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){

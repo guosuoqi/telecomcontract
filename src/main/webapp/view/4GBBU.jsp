@@ -57,13 +57,17 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="bbuName" id="bbuName" type="text"/>
                     </div>
-                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-2">耗电量:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                        <input class="form-control" name="power"id="power" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
+                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                    </div>
                     <div class="col-xs-2">电信网管名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="netCareName" id="netCareName" type="text"/>
@@ -158,14 +162,15 @@
             },
             columns:[
                 {field:'111',checkbox:true},
-                {field:'id',title:'3GBBUId',visible:false},
+                {field:'id',title:'4GBBUId',visible:false},
                 {field:'dxCode',title:'电信编码'},
                 {field:'bbuCode',title:'BBU编码'},
                 {field:'bbuName',title:'BBU名字'},
+                {field:'power',title:'耗电量'},
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editBBu('+row.id+',\'' + row.dxCode + '\',\'' + row.bbuCode + '\',\'' + row.bbuName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\');">修改</a>  ';
+                        return  ' <a href="javascript:editBBu('+row.id+',\'' + row.dxCode + '\',\'' + row.bbuCode + '\',\'' + row.bbuName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\',\'' + row.power + '\');">修改</a>  ';
                     }}
             ]
         })
@@ -181,16 +186,18 @@
         $("#rruName").val("");
         $("#netCareId").val("");
         $("#netCareName").val("");
+        $("#power").val("");
         $('#myModal').modal();
     }
 
-    function editRRu(id,dxCode,rruCode,rruName,netCareId,netCareName){
+    function editBBu(id,dxCode,bbuCode,bbuName,netCareId,netCareName,power){
         $("#id").val(id);
         $("#dxCode").val(dxCode);
-        $("#rruCode").val(rruCode);
-        $("#rruName").val(rruName);
+        $("#bbuCode").val(bbuCode);
+        $("#bbuName").val(bbuName);
         $("#netCareId").val(netCareId);
         $("#netCareName").val(netCareName);
+        $("#power").val(power);
         $('#myModal').modal();
     }
 
@@ -198,42 +205,16 @@
     function submit4GBBU(){
         document.getElementById('buttonAdd').disabled=true;
         $.ajax({
-            url: '/site/add3GRRU',
-            type: "post",
-            data : {
-                id:$("#id").val(),
-                dxCode:$("#dxCode").val(),
-                rruCode:$("#rruCode").val(),
-                rruName:$("#rruName").val(),
-                netCareId:$("#netCareId").val(),
-                netCareName:$("#netCareName").val(),
-                networkType:3
-            },
-            success:function (data){
-                initRRU();
-                alert(data.msg)
-                $("#myModal").modal('hide');
-                document.getElementById('buttonAdd').disabled=false;
-            },
-            error:function (){
-                alert("新增失败");
-            }
-        })
-    }
-
-
-    //提交用户
-    function submit3GBBU(){
-        document.getElementById('buttonAdd').disabled=true;
-        $.ajax({
             url: '/site/add3GBBU',
             type: "post",
             data : {
+                id:$("#id").val(),
                 dxCode:$("#dxCode").val(),
                 bbuCode:$("#bbuCode").val(),
                 bbuName:$("#bbuName").val(),
                 netCareId:$("#netCareId").val(),
                 netCareName:$("#netCareName").val(),
+                power:$("#power").val(),
                 networkType:4
             },
             success:function (data){
@@ -244,78 +225,6 @@
             },
             error:function (){
                 alert("新增失败");
-            }
-        })
-    }
-
-    //打开新增合同续约的弹框
-   /* function openAdd4GBBU(){
-        bootbox.dialog({
-            size:"big",
-            title:"添加4GBBU",
-            message:createAddContent("/page/toAdd3GBBU"),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&networkType="+4
-                        $.ajax({
-                            url:'/site/add3GBBU',
-                            type:'post',
-                            data: $("#3GBBUForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:data.msg
-                                })
-                                initBBU();
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
-    }*/
-    //打开修改的弹框
-    function editBBu(id){
-        bootbox.dialog({
-            size:"big",
-            title:"修改BBU信息",
-            message:createAddContent("/page/toUpdate3GBBU?id="+id),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        $.ajax({
-                            url:'/site/update3GBBU',
-                            type:'post',
-                            data:$("#3GBBUForm").serialize(),
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:"修改成功！"
-                                }),
-                                    initBBU();
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
             }
         })
     }

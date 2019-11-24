@@ -183,6 +183,11 @@ public class ContractController {
         params.put("siteCountNum",siteCountNum);
         int extensionNum = contractService.queryContractExtensionCount();
         params.put("extensionNum",extensionNum);
+        int renewNum = contractService.queryContractRenewCount();
+        params.put("renewNum",renewNum);
+        int shebeiSum = contractService.querySheBeiSum();
+        System.out.println("shebeiSum"+shebeiSum);
+        params.put("shebeiSum",shebeiSum);
         return params;
     }
 }

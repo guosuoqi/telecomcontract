@@ -62,13 +62,17 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="oltName" id="oltName" type="text"/>
                     </div>
-                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-2">耗电量:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                        <input class="form-control" name="power"id="power" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
+                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                    </div>
                     <div class="col-xs-2">电信网管名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="netCareName" id="netCareName" type="text"/>
@@ -167,10 +171,11 @@
                 {field:'dxCode',title:'电信编码'},
                 {field:'oltCode',title:'OLT编码'},
                 {field:'oltName',title:'OLT名字'},
+                {field:'power',title:'耗电量'},
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editOlt('+row.id+',\'' + row.dxCode + '\',\'' + row.oltCode + '\',\'' + row.oltName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\');">修改</a>  ';
+                        return  ' <a href="javascript:editOlt('+row.id+',\'' + row.dxCode + '\',\'' + row.oltCode + '\',\'' + row.oltName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\',\'' + row.power + '\');">修改</a>  ';
                     }}
             ]
         })
@@ -195,6 +200,7 @@
         $("#oltName").val("");
         $("#netCareId").val("");
         $("#netCareName").val("");
+        $("#power").val("");
         $('#myModal').modal();
     }
 
@@ -206,6 +212,7 @@
         $("#oltName").val(oltName);
         $("#netCareId").val(netCareId);
         $("#netCareName").val(netCareName);
+        $("#power").val("power");
         $('#myModal').modal();
     }
     //提交用户
@@ -221,6 +228,7 @@
                 oltName:$("#oltName").val(),
                 netCareId:$("#netCareId").val(),
                 netCareName:$("#netCareName").val(),
+                power:$("#power").val("")
             },
             success:function (data){
                 document.getElementById('buttonAdd').disabled=false;

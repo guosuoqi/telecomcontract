@@ -3,6 +3,8 @@ package com.dx.service.site;
 import com.dx.model.site.*;
 import com.dx.util.PageResult;
 
+import java.util.List;
+
 public interface SiteService {
     PageResult queryBBU(Integer page, Integer rows, EquipmentBBU equipmentBBU);
 
@@ -45,4 +47,8 @@ public interface SiteService {
     PageResult queryIPRAN(Integer page, Integer rows, EquipmentIPRAN equipmentIPRAN);
 
     EquipmentIPRAN queryIPRANById(Integer id);
+
+    boolean insertStation(List<SitManager> sitManagerList);
+
+    int delAllSit(String ids);
 }

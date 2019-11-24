@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("site")
@@ -255,6 +257,30 @@ public class SiteController {
             return result;
         }
     }
+    //sitManager页面新增
+    @RequestMapping("insertStation")
+    @ResponseBody
+    public HashMap<String, String> insertStation(SitManager sitManager) {
+        HashMap<String, String> result= new HashMap<String, String>();
+        if (sitManager != null ) {
+            List<SitManager> sitManagers = new ArrayList<>();
+            sitManagers.add(sitManager);
+            if (siteService.insertStation(sitManagers)) {
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }
+            result = new HashMap<String, String>();
+            result.put("code", "1");
+            result.put("msg", "失敗！");
+            return result;
+        }else{
+            result = new HashMap<String, String>();
+            result.put("code", "1");
+            result.put("msg", "操作失败！");
+            return result;
+        }
+    }
 
     //3/4/5GRRU页面批量删除
     @RequestMapping("delAllOlt")
@@ -264,6 +290,44 @@ public class SiteController {
         try {
             if ((ids != null || "".equals(ids))) {
                 int count =   siteService.delAllOlt(ids);;
+                if (count == 0) {
+                    result = new HashMap<String, String>();
+                    result.put("code", "1");
+                    result.put("msg", "删除失败！");
+                    logger.info(this.getClass() + "，删除失败！");
+                    return result;
+                }
+                result = new HashMap<String, String>();
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }else{
+                result = new HashMap<String, String>();
+                result.put("code", "2");
+                result.put("msg", "删除失败！");
+                logger.info(this.getClass() + "，删除失败！");
+            }
+
+        } catch (Exception e) {
+            result = new HashMap<String, String>();
+            result.put("code", "3");
+            result.put("msg", "删除失败！");
+            logger.info(this.getClass() + "，删除失败！");
+            //异常输出
+            logger.error("exception toString and track space : {}", "\r\n" + e);
+            logger.error(ExceptionPrintUtil.errorTrackSpace(e));
+            return result;
+        }
+        return result;
+    }
+    //站点页面批量删除
+    @RequestMapping("delAllSit")
+    @ResponseBody
+    public  HashMap<String, String> delAllSit(String ids){
+        HashMap<String, String> result;
+        try {
+            if ((ids != null || "".equals(ids))) {
+                int count =   siteService.delAllSit(ids);;
                 if (count == 0) {
                     result = new HashMap<String, String>();
                     result.put("code", "1");

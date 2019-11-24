@@ -52,7 +52,7 @@
                 <li><a><font color="white">欢迎您,${user.userName}</font></a>
                 </li>
                 <li>
-                    <a onclick="exit()"><font color="white">安全退出</font></a>
+                    <button type="button" onclick="exit()" class="btn btn-danger glyphicon">安全退出</button>
                 </li>
             </ul>
         </div>

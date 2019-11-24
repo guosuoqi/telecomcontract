@@ -45,7 +45,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		//取出userid
-		Integer userId = userBean.getId();
+		String userId = userBean.getId();
 		//获取浏览器请求的地址
 		String requestURI = request.getRequestURI();//注意 是URI 不是 URL
 		List<String> powerList = new ArrayList<>();

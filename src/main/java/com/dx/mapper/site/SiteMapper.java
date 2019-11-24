@@ -74,4 +74,10 @@ public interface SiteMapper {
     int delAllIPRAN(@Param("ids")String ids);
 
     EquipmentIPRAN queryIPRANById(Integer id);
+
+    boolean insertStation(@Param("list")List<SitManager> sitManagerList);
+
+    int delAllSit(@Param("ids")String ids);
+
+    List<SitManager> querySiteByIds(@Param("ids")String ids);
 }

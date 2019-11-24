@@ -11,6 +11,7 @@ import com.dx.service.nav.NavService;
 import com.dx.util.StringUtil;
 import com.dx.util.StringUtils;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import org.apache.poi.util.ArrayUtil;
 import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
 import com.dx.model.Task.TaskModel;
@@ -124,16 +125,54 @@ public class UserServiceImpl implements UserService {
 
         userMapper.updateUserRoleByUserId(userId,userMain);
     }
+    @Override
+    public int addRole(RoleBean roleBean) {
+        roleBean.setId(StringUtil.getUUId());
+        return userMapper.addRole(roleBean);
+
+    }
 //新增用户
     @Override
+    @Transactional
     public int addUser(UserMain userMain) {
+        String uuid=StringUtil.getUUId();
+        userMain.setId(uuid);
         userMain.setPassword(StringUtils.getMD5String(userMain.getPassword()));
-        return userMapper.addUser(userMain);
+        int i = userMapper.addUser(userMain);
+        if(i!=0){
+            UserRoleBean userRoleBean;
+            List<UserRoleBean> urlist = new ArrayList<>();
+            Integer[] roleIds = userMain.getRoleId();
+            for (int j = 0; j < roleIds.length; j++) {
+                userRoleBean= new UserRoleBean();
+                userRoleBean.setRoleId(roleIds[j]);
+                userRoleBean.setUserId(uuid);
+                userRoleBean.setId(StringUtil.getUUId());
+                urlist.add(userRoleBean);
+            }
+            userMapper.addUserRole(urlist);
+        }
+        return i;
     }
 //删除用户
     @Override
-    public int delUser(String ids) {
-        return userMapper.delUser(ids);
+    public int delUser(String[] userIds) {
+        int i = userMapper.delUser(userIds);
+        if(i!=0){
+            userMapper.delUserRole(userIds);
+            return i;
+        }
+        return 0;
+    }
+   @Override
+    public int delRole(String[] roleIds) {
+       int i = userMapper.delRole(roleIds);
+       if(i!=0){
+           userMapper.delUserRoleByRoleId(roleIds);
+           userMapper.delRoleNav(roleIds);
+           return i;
+       }
+       return 0;
     }
 
     @Override
@@ -192,7 +231,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> findUserPowerUrl(Integer userId) {
+    public List<String> findUserPowerUrl(String userId) {
         List<String> userPowerUrl = userMapper.findUserPowerUrl(userId);
         return userPowerUrl;
     }

@@ -6,8 +6,6 @@ public class Contract {
 
     private String contractName;//合同名字
 
-    private String city;//市
-
     private String county;//县
 
     private String yearRental;//年租金
@@ -84,14 +82,6 @@ public class Contract {
 
     public void setContractName(String contractName) {
         this.contractName = contractName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getCounty() {

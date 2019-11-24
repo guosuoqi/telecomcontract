@@ -38,7 +38,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    新增3GBBU
+                    新增5GBBU
                 </h4>
             </div>
             <div class="modal-body">
@@ -58,13 +58,17 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="bbuName" id="bbuName" type="text"/>
                     </div>
-                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-2">耗电量:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                        <input class="form-control" name="power"id="power" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
+                    <div class="col-xs-2">电信网管编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="netCareId"id="netCareId" type="text"/>
+                    </div>
                     <div class="col-xs-2">电信网管名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="netCareName" id="netCareName" type="text"/>
@@ -159,14 +163,15 @@
             },
             columns:[
                 {field:'111',checkbox:true},
-                {field:'id',title:'3GBBUId',visible:false},
+                {field:'id',title:'5GBBUId',visible:false},
                 {field:'dxCode',title:'电信编码'},
                 {field:'bbuCode',title:'BBU编码'},
                 {field:'bbuName',title:'BBU名字'},
+                {field:'power',title:'耗电量'},
                 {field:'netCareId',title:'电信网管编码'},
                 {field:'netCareName',title:'电信网管名称'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editBBu('+row.id+',\'' + row.dxCode + '\',\'' + row.bbuCode + '\',\'' + row.bbuName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\');">修改</a>  ';
+                        return  ' <a href="javascript:editBBu('+row.id+',\'' + row.dxCode + '\',\'' + row.bbuCode + '\',\'' + row.bbuName + '\',\'' + row.netCareId + '\',\'' + row.netCareName + '\',\'' + row.power + '\');">修改</a>  ';
                     }}
             ]
         })
@@ -175,20 +180,22 @@
     function openAdd5GBBU(){
         $("#id").val("");
         $("#dxCode").val("");
-        $("#rruCode").val("");
-        $("#rruName").val("");
+        $("#bbuCode").val("");
+        $("#bbuName").val("");
         $("#netCareId").val("");
         $("#netCareName").val("");
+        $("#power").val("");
         $('#myModal').modal();
     }
 
-    function editRRu(id,dxCode,rruCode,rruName,netCareId,netCareName){
+    function editRRu(id,dxCode,bbuCode,bbuName,netCareId,netCareName,power){
         $("#id").val(id);
         $("#dxCode").val(dxCode);
-        $("#rruCode").val(rruCode);
-        $("#rruName").val(rruName);
+        $("#bbuCode").val(bbuCode);
+        $("#bbuName").val(bbuName);
         $("#netCareId").val(netCareId);
         $("#netCareName").val(netCareName);
+        $("#power").val(power);
         $('#myModal').modal();
     }
     //提交用户
@@ -203,6 +210,7 @@
                 bbuName:$("#bbuName").val(),
                 netCareId:$("#netCareId").val(),
                 netCareName:$("#netCareName").val(),
+                power:$("#power").val(),
                 networkType:5
             },
             success:function (data){

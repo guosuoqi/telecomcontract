@@ -38,8 +38,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-
-                    新增3GBBU
+                    新增合同
                 </h4>
             </div>
             <div class="modal-body">
@@ -55,10 +54,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-2">市</div>
-                    <div class="col-xs-4">
-                        <input class="form-control" name="city" id="city" type="text"/>
-                    </div>
                     <div class="col-xs-2">县:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="county" id="county" type="text"/>
@@ -164,7 +159,7 @@
 
                     <div class="col-sm-4 "> <%--<td>--%>
                         <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="startTime">开始时间</label>
+                            <label for="startTime">付费开始时间</label>
                         </div>
                         <div class="col-sm-9"> <%--占8格，充满--%>
                             <label for="startTime"></label>
@@ -173,7 +168,7 @@
                     </div>
                     <div class="col-sm-4 "> <%--<td>--%>
                         <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="endTime">结束时间</label>
+                            <label for="endTime">付费结束时间</label>
                         </div>
                         <div class="col-sm-9"> <%--占8格，充满--%>
                             <label for="endTime"></label>
@@ -207,6 +202,15 @@
                         <div class="col-sm-9"> <%--占8格，充满--%>
                             <select id="contractType" class="selectpicker form-control"
                                     data-live-search="true"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 "> <%--<td>--%>
+                        <div class="col-sm-3 "> <%--占4格--%>
+                            <label for="county">地区</label>
+                        </div>
+                        <div class="col-sm-9"> <%--占8格，充满--%>
+                            <input type="text" name="county" id="countySou" class="form-control"
+                                   placeholder="请输入地区">
                         </div>
                     </div>
                 </div>
@@ -259,7 +263,7 @@
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function () {
-        initCodeType();
+        initCodeType(0);
         //initCodeTypeAdd();
         initContract();
 
@@ -299,6 +303,7 @@
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
+                    county:$('#countySou').val(),
                     contractName: $('#contractName1').val(),
                     startTime: $('#startTime').val(),
                     endTime: $('#endTime1').val(),
@@ -312,7 +317,6 @@
                 {field: '333', checkbox: true, align: 'left', width: "20px", valign: 'middle'},
                 {field: 'contractId', title: '合同id', align: 'center', width: "40px", valign: 'middle'},
                 {field: 'contractName', title: '合同名字', align: 'center', valign: 'middle'},
-                {field: 'city', title: '--市--', align: 'center', valign: 'middle'},
                 {field: 'county', title: '--县--', align: 'center', valign: 'middle'},
                 {field: 'yearRental', title: '年租金', align: 'center', valign: 'middle'},
                 {field: 'sunRental', title: '总租金', align: 'center', valign: 'middle'},
@@ -332,7 +336,7 @@
                     class: 'table-width',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.city + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\')">修改</a>  ';
+                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\')">修改</a>  ';
 
                     }
                 }
@@ -342,9 +346,9 @@
 
     //打开新增合同的弹框
     function openAddDialog() {
+        initCodeType(1);
         $("#contractId").val(""),
         $("#contractName").val(""),
-        $("#city").val(""),
         $("#county").val(""),
         $("#yearRental").val(""),
         $("#contractNum").val(""),
@@ -358,7 +362,7 @@
         $('#myModal').modal();
     }
 
-    function editContract(contractId, contractName,city,county, yearRental,sunRental,contractNum, contractFirst, payee, planYear,payEndTime,startTime,endTime,roomTypeName,towerTypeName,contractTypeName,roomType,towerType,contractType) {
+    function editContract(contractId, contractName,county, yearRental,sunRental,contractNum, contractFirst, payee, planYear,payEndTime,startTime,endTime,roomTypeName,towerTypeName,contractTypeName,roomType,towerType,contractType) {
         $.ajax({
             url: "/contract/queryType",
             success: function (data) {
@@ -396,7 +400,6 @@
         })
         $("#contractId").val(contractId);
         $("#contractName").val(contractName),
-        $("#city").val(city),
         $("#county").val(county),
         $("#yearRental").val(yearRental),
         $("#contractNum").val(contractNum),
@@ -418,7 +421,6 @@
             url: '/contract/addContract',
             type: "post",
             data: {
-                city:$("#city").val(),
                 county:$("#county").val(),
                 contractId: $("#contractId").val(),
                 contractName: $("#contractName").val(),
@@ -450,7 +452,7 @@
         })
     }
 
-   /* function initCodeTypeAdd() {
+    function initCodeTypeAdd() {
         $(".selectpicker").selectpicker({
             noneSelectedText: '--请选择--' //默认显示内容  
         });
@@ -479,9 +481,9 @@
                 alert("指定人员下拉有误,请调试 ！！！");
             }
         })
-    }*/
+    }
 
-    function initCodeType() {
+    function initCodeType(type) {
         $(".selectpicker").selectpicker({
             noneSelectedText: '--请选择--' //默认显示内容  
         });
@@ -502,10 +504,16 @@
 
                     }
                 }
-                $("#roomType").html(typeHtmlRoom);
-                $("#towerType").html(typeHtmlTower);
-                $("#contractType").html(typeHtmlcontract);
-                $('.selectpicker').selectpicker('refresh');
+                if(type==1){
+                    $("#room").html(typeHtmlRoom);
+                    $("#tower").html(typeHtmlTower);
+                    $("#contract").html(typeHtmlcontract);
+                }else {
+                    $("#roomType").html(typeHtmlRoom);
+                    $("#towerType").html(typeHtmlTower);
+                    $("#contractType").html(typeHtmlcontract);
+                    $('.selectpicker').selectpicker('refresh');
+                }
             }, error: function () {
                 alert("指定人员下拉有误,请调试 ！！！");
             }

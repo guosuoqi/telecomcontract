@@ -14,7 +14,7 @@ public interface ContractMapper {
 
     int queryContractCount(HashMap<String, Object> params);
 
-    boolean addContractList(List<Contract> list);
+    boolean addContractList(@Param("list")List<Contract> list);
 
     List<Contract> queryContract(HashMap<String, Object> params);
 
@@ -28,7 +28,7 @@ public interface ContractMapper {
 
     List<Contract>queryCcontractByIds(@Param("ids")String ids);
 
-    void updateContract(@Param("contract")Contract contract);
+    int updateContract(@Param("contract")Contract contract);
 
     int queryContractExtensionCount(HashMap<String, Object> params);
 
@@ -38,9 +38,9 @@ public interface ContractMapper {
 
     void updateContractExtension(@Param("contractExtension")ContractExtension contractExtension);
 
-    void updateContractStatus(Contract contract);
+    void updateContractStatus(@Param("contract")Contract contract);
 
-    List<Contract> queryContractByStatus(Contract contract);
+    List<Contract> queryContractByStatus(@Param("contract")Contract contract);
 
     int queryContractCountSum();
 
@@ -48,4 +48,7 @@ public interface ContractMapper {
 
     int queryContractExtensionCount();
 
+    int queryContractRenewCount();
+
+    int querySheBeiSum();
 }

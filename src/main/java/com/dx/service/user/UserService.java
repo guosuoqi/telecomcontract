@@ -6,6 +6,7 @@ import com.dx.model.nav.RoleBean;
 import com.dx.model.nav.UserRoleBean;
 import com.dx.model.user.UserMain;
 import com.dx.util.PageResult;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,7 @@ public interface UserService {
 
     int addUser(UserMain userMain);
 
-    int delUser(String ids);
+    int delUser(@Param("ids")String[] ids);
 
     List<NavTree> queryRoleNav(HashMap<String, Object> param);
 
@@ -39,5 +40,9 @@ public interface UserService {
 
     int addMenu(NavMenuBean navMenuBean);
 
-    List<String> findUserPowerUrl(Integer userId);
+    List<String> findUserPowerUrl(String userId);
+
+    int addRole(RoleBean roleBean);
+
+    int delRole(String[] split);
 }

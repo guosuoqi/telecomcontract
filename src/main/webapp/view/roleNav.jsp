@@ -24,6 +24,9 @@
 	<title>角色权限管理</title>
 </head>
 <body>
+<button type="button" onclick="RoleManger()" class="btn btn-danger glyphicon">新增角色</button>
+<button type="button" onclick="delRole()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+
 <div>
 	<table id="myRoles"></table>
 	<input type="hidden" id="roleHideId">
@@ -90,6 +93,45 @@
 </div>
 </body>
 
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myRoleModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myRoleModal" tabindex="-1" role="dialog" aria-labelledby="myRoleModal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="buttonAdd" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					新增角色
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-2">角色名称:</div>
+					<div class="col-xs-4">
+						<input class="form-control" name="roleName" id="roleName" type="text"/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-2">角色描述:</div>
+					<div class="col-xs-4">
+						<input class="form-control" name="remark" id="remark" type="text"/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" id="buttonAddRole" class="btn btn-primary" onclick="saveRole()">
+					提交更改
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
 <div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -131,7 +173,6 @@
 <script type="text/javascript">
 	$(function(){
 		initRole();
-
 	})
 	  //打开角色管理页面
    function initRole(){
@@ -162,7 +203,8 @@
                }
            },
            columns:[
-               {field:'id',title:'角色编号',align: 'center',width:"40px",valign: 'middle'},
+			   {field:'3333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
+               {field:'id',title:'角色编号',align: 'center',width:"40px",valign: 'middle',visible:false},
                {field:'name',title:'角色',align: 'center',valign: 'middle'},
                {field:'remark',title:'备注',align: 'center',valign: 'middle'},
                {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
@@ -181,7 +223,6 @@
 			data:{id:roleId},
 			success:function(data) {
 				$('#myModal').modal();
-				debugger
 				$("#navTreeTable").treeview({
 					showCheckbox: true,
 					state:{checked:true},
@@ -210,7 +251,6 @@
 						//$('#myMenuModal').modal();
 						initDetailMenu(node.id);
 					}
-
 				});
 			}
 		})
@@ -350,9 +390,7 @@
 		if(isAllUnchecked){
 			uncheckAllParent(parentNode);
 		}
-
 	}
-
 	//级联选中所有子节点
 	function checkAllSon(data){
 		$('#navTreeTable').treeview('checkNode',data.nodeId,{silent:true});
@@ -420,7 +458,80 @@
 
             })
         }
+	function RoleManger(){
+		/* queryRole();*/
+		$('#myRoleModal').modal();
+	}
+	//提交角色
+	function saveRole(){
+		document.getElementById('buttonAddRole').disabled=true;
+		$.ajax({
+			url: '/user/addRole',
+			type: "post",
+			data : {
+				name:$("#roleName").val(),
+				remark:$("#remark").val()
+			},
+			success:function (data){
+				alert(data.msg)
+				initRole();
+				$("#myRoleModal").modal('hide');
+				document.getElementById('buttonAddRole').disabled=false;
+			},
+			error:function (){
+				alert("新增角色失败");
+			}
+		})
+	}
 
-
+	//批量删除
+	function delRole(){
+		var arr = $('#myRoles').bootstrapTable('getSelections');
+		if (arr.length <= 0) {
+			bootbox.alert({
+				size: "small",
+				title: "提示",
+				message: "请选择需要删除的数据",
+				callback: function(){
+				}
+			});
+			return;
+		}
+		bootbox.confirm({
+			size: "small",
+			message: "你确定要删除吗?",
+			buttons: {
+				confirm: {
+					label: '确定',
+					className: 'btn-success'
+				},
+				cancel: {
+					label: '取消',
+					className: 'btn-danger'
+				}
+			},
+			callback: function(result){
+				if (result) {
+					var ids = "";
+					for (var i = 0; i < arr.length; i++) {
+						ids += ids == "" ? arr[i].id : ","+arr[i].id;
+					}
+					$.ajax({
+						url:"/user/delRole",
+						data:{ids:ids},
+						success:function(result){
+							alert(result.msg);
+							if(result.code == '0'){
+								initRole();
+							}
+						},
+						error:function(data){
+							alert("检查后台代码")
+						}
+					})
+				}
+			}
+		})
+	}
 </script>
 </html>

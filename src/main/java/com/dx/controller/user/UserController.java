@@ -142,6 +142,23 @@ public class UserController {
             return false;
         }
     }
+    @RequestMapping("addRole")
+    @ResponseBody
+    public  HashMap<String, String> addRole(RoleBean roleBean){
+        HashMap<String, String> result = new HashMap<String, String>();
+        int count =   userService.addRole(roleBean);
+        if (count == 0) {
+            result.put("code", "1");
+            result.put("msg", "用户新增失败！");
+            logger.info(this.getClass() + "，用户新增失败！");
+        }else {
+            result.put("code", "0");
+            result.put("msg", "用户角色完成！");
+            logger.info(this.getClass() + "，用户角色完成！");
+        }
+        return result;
+
+    }
     @RequestMapping("saveRoleNav")
     @ResponseBody
     public boolean	saveRoleNav(String roleId,Integer[]navIds){
@@ -157,7 +174,7 @@ public class UserController {
     @RequestMapping("addUser")
     @ResponseBody
     public HashMap<String, String>  addUser(UserMain userMain) {
-        HashMap<String, String> result= new HashMap<String, String>();;
+        HashMap<String, String> result= new HashMap<String, String>();
         try {
             if ((userMain != null )) {
                 UserMain userInfoByLoginNumber = userService.getUserInfoByLoginNumber(userMain.getLoginNumber());
@@ -206,7 +223,7 @@ public class UserController {
         HashMap<String, String> result;
         try {
             if ((ids != null || "".equals(ids))) {
-                int count =   userService.delUser(ids);;
+                int count =   userService.delUser(ids.split(","));
                 if (count == 0) {
                     result = new HashMap<String, String>();
                     result.put("code", "1");
@@ -233,6 +250,43 @@ public class UserController {
             //异常输出
             logger.error("exception toString and track space : {}", "\r\n" + e);
             logger.error(ExceptionPrintUtil.errorTrackSpace(e));
+            return result;
+        }
+        return result;
+    }
+    //用户批量删除
+    @RequestMapping("delRole")
+    @ResponseBody
+    public  HashMap<String, String>  delRole(String ids){
+        HashMap<String, String> result;
+        try {
+            if ((ids != null || "".equals(ids))) {
+                int count =   userService.delRole(ids.split(","));
+                if (count == 0) {
+                    result = new HashMap<String, String>();
+                    result.put("code", "1");
+                    result.put("msg", "角色删除失败！");
+                    logger.info(this.getClass() + "，用户删除失败！");
+                    return result;
+                }
+                result = new HashMap<String, String>();
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }else{
+                result = new HashMap<String, String>();
+                result.put("code", "2");
+                result.put("msg", "删除失败！");
+                logger.info(this.getClass() + "，删除失败！");
+            }
+
+        } catch (Exception e) {
+            result = new HashMap<String, String>();
+            result.put("code", "3");
+            result.put("msg", "删除失败！");
+            logger.info(this.getClass() + "，删除失败！");
+            //异常输出
+            logger.error("exception toString and track space : {}", "\r\n" + e);
             return result;
         }
         return result;

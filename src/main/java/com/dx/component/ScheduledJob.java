@@ -22,7 +22,7 @@ public class ScheduledJob {
     private TaskServeceImpl taskServeceImpl ;
 
 
-    @Scheduled(cron ="0 0 7 * * ?")
+    @Scheduled(cron ="0 30 8 * * ?")
     public void sendEmail() {
         logger.info("开始定时发送邮件！");
         TaskModel model = new TaskModel();
@@ -44,7 +44,7 @@ public class ScheduledJob {
         }
 
     }
-    @Scheduled(cron ="0 0 2 * * ?")
+    @Scheduled(cron ="0 0 8 * * ?")
     public void updateContractStart() {
         logger.info("检查合同是否到期！");
         contractServiceImpl.updateContractStatus();

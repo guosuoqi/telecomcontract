@@ -58,6 +58,7 @@ public class EmailUtil {
                 transport.sendMessage(msg,msg.getAllRecipients());
                 //如果只想发送给指定的人，可以如下写法
                 //transport.sendMessage(msg, new Address[]{new InternetAddress("xxx@qq.com")});
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -65,7 +66,6 @@ public class EmailUtil {
                 //5、关闭邮件连接
                 try {
                     transport.close();
-                    return true;
                 } catch (MessagingException e) {
                     e.printStackTrace();
                     return false;

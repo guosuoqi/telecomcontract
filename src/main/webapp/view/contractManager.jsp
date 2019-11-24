@@ -37,12 +37,12 @@
     <div style="width:80%;height:50%;margin-top:10px;margin-left:40%"id="contractCount">
     </div>
 </div>
-<div style="width:25%;height:100px;background-color:red;float:left;margin-left:10%;margin-top:20px">
-    <a href="合同续约.html" target="rightFrame"><div style="width:80%;height:50%;margin-top:10px;margin-left:25%;">
+<div style="width:25%;height:100px;background-color:#ccffff;float:left;margin-left:10%;margin-top:20px">
+    <%--<a href="合同续约.html" target="rightFrame">--%><div style="width:80%;height:50%;margin-top:10px;margin-left:25%;">
         <font size='3'>即将到期合同数 </font>
     </div>
         <div style="width:80%;height:50%;margin-top:10px;margin-left:45%;" id="extensionNum">
-        </div></a>
+        </div><%--</a>--%>
 </div>
 <div style="width:25%;height:100px;background-color:#ccffff;float:left;margin-left:10%;margin-top:20px">
     <div style="width:50%;height:50%;margin-top:10px;margin-left:20%;">
@@ -52,20 +52,20 @@
     </div>
 </div>
 <div style="width:25%;height:100px;background-color:#ccffff;float:left;margin-left:10%;margin-top:20px">
-    <div style="width:50%;height:50%;margin-top:10px;margin-left:20%;">
-        <center> <font size='3'>现有设备数量</font></center>
+    <div style="width:80%;height:50%;margin-top:10px;margin-left:5%;">
+         <font size='3'><center>待续费合同数</center></font>
     </div>
-    <div style="width:50%;height:50%;margin-top:10px;margin-left:20%;">
+    <div style="width:40%;height:50%;margin-top:10px;margin-left:45%;" id="renewNum">
     </div>
 </div>
 <div style="width:25%;height:100px;background-color:#ccffff;float:left;margin-left:10%;margin-top:20px">
-    <div style="width:80%;height:50%;margin-top:10px;margin-left:5%;">
-         <font size='3'><center>电费待缴站点数</center></font>
+    <div style="width:50%;height:50%;margin-top:10px;margin-left:20%;">
+        <center> <font size='3'>现有设备数量</font></center>
     </div>
-    <div style="width:40%;height:50%;margin-top:10px;margin-left:45%;">
+    <div  style="width:40%;height:50%;margin-top:10px;margin-left:45%;"id="shebeiSum">
     </div>
 </div>
-<div style="width:25%;height:100px;background-color:#ff0000;float:left;margin-left:10%;margin-top:20px">
+<%--<div style="width:25%;height:100px;background-color:#ff0000;float:left;margin-left:10%;margin-top:20px">
     <a href="合同续约.html" target="rightFrame">
         <div style="width:80%;height:40%;margin-top:10px;margin-left:10%;">
             <center><font size='3'>租赁费代缴费站点数</font></center>
@@ -73,7 +73,7 @@
         <div style="width:40%;height:40%;margin-top:10px;margin-left:30%;">
         </div>
     </a>
-</div>
+</div>--%>
 </div>
 
 <table id="contractRenew"></table>
@@ -101,11 +101,12 @@ function initContractManager(){
            $("#contractCount").html(result.countNum);
            $("#siteCount").html(result.siteCountNum);
            $("#extensionNum").html(result.extensionNum);
+           $("#renewNum").html(result.renewNum);
+           $("#shebeiSum").html(result.shebeiSum);
         },
         error:function(data){
             alert("检查后台代码")
         }
-
     })
 
 }

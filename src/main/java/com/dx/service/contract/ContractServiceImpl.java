@@ -1,5 +1,6 @@
 package com.dx.service.contract;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dx.mapper.contract.ContractMapper;
 import com.dx.mapper.task.TaskMapper;
@@ -14,10 +15,10 @@ import com.dx.service.task.TaskServeceImpl;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
-import com.sun.xml.internal.ws.handler.HandlerException;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.catalina.mbeans.UserMBean;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,9 @@ public class ContractServiceImpl implements ContractService {
     //合同管理页面新增
     @Override
     public int addContract(Contract contract) {
-
+        if(contract.getContractId()!=null){
+            return contractMapper.updateContract(contract);
+        }
         return contractMapper.addContract(contract);
     }
     public boolean addContractList(Sheet sheet, String UserName) {
@@ -81,7 +84,12 @@ public class ContractServiceImpl implements ContractService {
             String reason = "";
             //获取每个单元格
             /**
-             * 0 id  1合同名字 2省-市 3年租金 4 总租金 5 合同编号
+             * 0 id  1合同名字 2市 3年租金 4 总租金 5 合同编号
+             * 6合同甲方 7 收款人 8 拟租年份 9开始时间 10 结束事件
+             * 11付费截至时间 12机房类型 13塔栀类型 14合同类型
+             */
+            /**
+             * 0 id  1合同名字 2市 3年租金 4 总租金 5 合同编号
              * 6合同甲方 7 收款人 8 拟租年份 9开始时间 10 结束事件
              * 11付费截至时间 12机房类型 13塔栀类型 14合同类型
              */
@@ -97,11 +105,11 @@ public class ContractServiceImpl implements ContractService {
                 reason += "合同名字,";
             }*/
             //地址
-            String cityAndCounty = getCellVal(row.getCell(2));
+            String county = getCellVal(row.getCell(2));
             /*if("".equals(cityAndCounty)){
                 reason += "地址不可为空,";
             }*/
-            String[] split = cityAndCounty.split("-");
+           /* String[] split = cityAndCounty.split("-");
             String city="";
             String county="";
             if(split.length>=2){
@@ -109,7 +117,7 @@ public class ContractServiceImpl implements ContractService {
                 county=getCityOrCounty(split,1);
             }else{
                 reason += "地址格式不正确,";
-            }
+            }*/
             //年租金
             String yearRental = getCellVal(row.getCell(3));
           /*  if(!"".equals(yearRental)){
@@ -171,11 +179,10 @@ public class ContractServiceImpl implements ContractService {
             }*/
             contract = new Contract();
             contract.setContractName(name);
-            contract.setCity(city);
             contract.setCounty(county);
             contract.setYearRental(yearRental);
             contract.setSunRental(sunRental);
-            contract.setContractNum(contractTypeName);
+            contract.setContractNum(department);
             contract.setContractFirst(contractFirst);
             contract.setPayee(payee);
             contract.setStartTime(startTime);
@@ -274,6 +281,14 @@ public class ContractServiceImpl implements ContractService {
     public int queryContractExtensionCount() {
         return contractMapper.queryContractExtensionCount();
     }
+    @Override
+    public int queryContractRenewCount() {
+        return contractMapper.queryContractRenewCount();
+    }
+    @Override
+    public int querySheBeiSum() {
+        return contractMapper.querySheBeiSum();
+    }
 
     /**
      * 获取单元格内容
@@ -284,6 +299,8 @@ public class ContractServiceImpl implements ContractService {
         if(cell == null){
             return "";
         }
+        //设置单元格类型
+        cell.setCellType(CellType.STRING);
         return cell.getStringCellValue().trim();
     }
     /**
@@ -311,6 +328,7 @@ public class ContractServiceImpl implements ContractService {
     public void sendContractTaskToEmail() {
         TaskModel model;
         Contract contract = new Contract();
+        contract.setRenewStatus(1);
         contract.setExtenxionStatus(1);
         List<Contract>list=contractMapper.queryContractByStatus(contract);
         if(list!=null && !list.isEmpty()){
@@ -324,6 +342,7 @@ public class ContractServiceImpl implements ContractService {
         JSONObject body=null;
         for (Contract con:list) {
             if(con.getExtenxionStatus()==1){
+                System.out.println("合同地区："+con.getCounty());
                 users=userMapper.queryUserByCounty(con.getCounty());
                 for (UserMain user:users) {
                     body= getCommJson(user,1,con);
@@ -336,6 +355,9 @@ public class ContractServiceImpl implements ContractService {
                     SendTask(taskModel,user,body,taskModels);
                 }
             }
+        }
+        if(taskModels.isEmpty()){
+            return;
         }
         taskServeceImpl.addTask(taskModels);
     }
@@ -353,16 +375,23 @@ public class ContractServiceImpl implements ContractService {
     private JSONObject getCommJson(UserMain user, int type,Contract con) {
         JSONObject body =new JSONObject();
         body.put("userEmail",user.getEmail());
+        String roomName=getRoomName(user,con);
         if(type==1){
             body.put("subject","续费待处理通知");
-            body.put("content",XU_YUE_Content.replace("NAME",con.getRoomName()).replace("YYYYMMDD",con.getPayEndTime()));
+            body.put("content",XU_YUE_Content.replace("NAME",roomName).replace("YYYYMMDD",con.getPayEndTime()));
 
         }else {
             body.put("subject","续约待处理通知");
-            body.put("content",XU_FEI_Content.replace("NAME",con.getRoomName()).replace("YYYYMMDD",con.getEndTime()));
+            body.put("content",XU_FEI_Content.replace("NAME",roomName).replace("YYYYMMDD",con.getEndTime()));
         }
-
         return body;
     }
 
+    private String getRoomName(UserMain user, Contract con) {
+       if(con.getRoomName()!=null){
+            return con.getRoomName();
+        }else {
+            return "未知机房，合同编码为："+con.getContractNum();
+        }
+    }
 }

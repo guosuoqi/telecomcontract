@@ -48,7 +48,7 @@
 
 
                         <div class="col-xs-12">
-                            <button type="button" class="btn btn-primary btn-w-m" onclick="initExtension()" id="queryBtn" style="float: right;margin-right:20px;">
+                            <button type="button" class="btn btn-primary btn-w-m" onclick="initUser()" id="queryBtn" style="float: right;margin-right:20px;">
                                 <span class="glyphicon glyphicon-search"></span> 搜索
                             </button>
                         </div>
@@ -98,15 +98,15 @@
     开始演示模态框
 </button>--%>
 <!-- 模态框（Modal） -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myRoleModal" style="display: none">开始演示模态框</button>
-<div class="modal fade" id="myRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalRole" aria-hidden="true">
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myUserModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myUserModal" tabindex="-1" role="dialog" aria-labelledby="myUserModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="buttonAdd" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
-                <h4 class="modal-title" id="myModalRole">
+                <h4 class="modal-title" >
                     新增用户
                 </h4>
             </div>
@@ -142,6 +142,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-2">负责辖区:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="county" id="county" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-2">选择角色:</div>
                     <div class="col-xs-4">
                         <select id="roleAdd" name="roleAdd" class="selectpicker"  multiple  data-live-search="true" >
@@ -160,10 +166,9 @@
     </div><!-- /.modal -->
 </div>
 
-<button type="button" onclick="openAddUser()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<button type="button" onclick="openAddUser()" class="btn btn-info glyphicon glyphicon-plus">新增用户</button>
 <button type="button" onclick="delUser()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
-<button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
-<button type="button" onclick="RoleManger()" class="btn btn-danger glyphicon">角色查询页面</button>
+<button type="button" onclick="RoleManger()" class="btn btn-danger glyphicon">新增角色</button>
 </div>
 <table id="myTable"></table>
 <table id="myRole"></table>
@@ -217,7 +222,7 @@
 
             columns:[
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
-                {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle'},
+                {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle',visible:false},
                 {field:'loginNumber',title:'用户账号',align: 'center',valign: 'middle'},
                 {field:'userName',title:'用户名称',align: 'center',valign: 'middle'},
                 {field:'role',title:'用户角色',align: 'center',valign: 'middle'},
@@ -231,14 +236,14 @@
     }
 
     function openAddUser(){
-        $('#myRoleModal').modal();
+        queryRole();
+        $('#myUserModal').modal();
     }
 
     //打开角色模态框
     function editRole(id){
         $.ajax({
             url: '/user/queryRoleByUserId',
-            type: "get",
             data : {
                 userId:id,
             },
@@ -246,16 +251,11 @@
                 $('#myModal').modal();
                 $('#role').selectpicker('val',data);
                 $('#hiddenUserId').val(id);
-
             }
         })
-
-
-
     }
     //初始化角色
     function queryRole(){
-
         $(".selectpicker").selectpicker({
             noneSelectedText: '--请选择--' //默认显示内容  
         });
@@ -280,10 +280,6 @@
             }
         })
     }
-
-
-
-
     //提交指定角色
     function submitRole(){
         var obj = document.getElementById("role");
@@ -309,12 +305,15 @@
     //提交用户
     function submitUser(){
         var obj = document.getElementById("roleAdd");
+        var roleid="";
         var roleName="";
         for (var i = 0; i < obj.options.length; i++) {
             if (obj.options[i].selected) {
                 roleName += roleName == '' ? obj.options[i].text : ',' + obj.options[i].text;
+                roleid += roleid == '' ? obj.options[i].value : ',' + obj.options[i].value;
             }
         }
+        alert(roleid)
        document.getElementById('buttonAdd').disabled=true;
         $.ajax({
             url: '/user/addUser',
@@ -325,12 +324,14 @@
                 userName:$("#userName1").val(),
                 mobile:$("#mobile").val(),
                 email:$("#email").val(),
-                role:roleName
+                county:$("#county").val(),
+                role:roleName,
+                roleId:roleid
             },
             success:function (data){
                 initUser();
                 alert(data.msg)
-                $("#myRoleModal").modal('hide');
+                $("#myUserModal").modal('hide');
                 document.getElementById('buttonAdd').disabled=false;
             },
             error:function (){
@@ -379,52 +380,11 @@
                             if(result.code == '0'){
                                 initUser();
                             }
-
                         },
                         error:function(data){
                             alert("检查后台代码")
                         }
-
                     })
-
-
-                }
-            }
-        })
-    }
-    //导出数据
-    function EXPContract(){
-        var arr = $('#myTable').bootstrapTable('getSelections');
-        if (arr.length <= 0) {
-            bootbox.alert({
-                size: "small",
-                title: "提示",
-                message: "请选择需要导出的数据",
-                callback: function(){
-                }
-            });
-            return;
-        }
-        bootbox.confirm({
-            size: "small",
-            message: "你确定要导出吗?",
-            buttons: {
-                confirm: {
-                    label: '确定',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: '取消',
-                    className: 'btn-danger'
-                }
-            },
-            callback: function(result){
-                if (result) {
-                    var ids = "";
-                    for (var i = 0; i < arr.length; i++) {
-                        ids += ids == "" ? arr[i].contractId : ","+arr[i].contractId;
-                    }
-                    location.href="/poi/createExcel?ids="+ids
                 }
             }
         })

@@ -34,9 +34,81 @@
     }
 </style>
 
+<!-- 模态框（Modal） -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增站点
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2">基站编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="baseCode" id="baseCode" type="text"/>
+                    </div>
+                    <div class="col-xs-2">基站产权:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="baseProperty" id="baseProperty" type="text"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-2">电信编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="id" id="id" type="hidden"/>
+                        <input class="form-control" name="dxCode" id="dxCode" type="text"/>
+                    </div>
+                    <div class="col-xs-2">铁塔站址编码:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="ttCode"id="ttCode" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitSit()">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
 <button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
+<!-- daoruDialog弹框 -->
+<div class="modal fade" id="daoruDialog" tabindex="-1" role="dialog" aria-labelledby="importModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="importModal">导入</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <form id="uploadForm">
+                        <input type="file" name="file">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                <button type="button" onclick="doUpload()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+            </div>
+        </div>
+    </div>
 </div>
 <table id="myTable"></table>
 </body>
@@ -86,7 +158,7 @@
 
             columns:[
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
-                {field:'id',title:'站点id',align: 'center',width:"40px",valign: 'middle'},
+                {field:'id',title:'站点id',align: 'center',width:"40px",valign: 'middle',visible:false},
                 {field:'baseCode',title:'基站编码',align: 'center',valign: 'middle'},
                 {field:'baseProperty',title:'基站产权',align: 'center',valign: 'middle'},
                 {field:'dxCode',title:'电信站址编码',align: 'center',valign: 'middle'},
@@ -99,16 +171,13 @@
                 {field:'fiveAauCount',title:'5GAAU个数',align: 'center',valign: 'middle'},
                 {field:'oltCount',title:'OLT个数',align: 'center',valign: 'middle'},
                 {field:'ipranCount',title:'IPRAN个数',align: 'center',valign: 'middle'},
-                {field:'tributaryPowerConsume',title:'直流设备耗电量',align: 'center',valign: 'middle'},
-                {field:'pue',title:'PUE值',align: 'center',valign: 'middle'},
                 {field:'powerConsume',title:'机房总耗电量',align: 'center',valign: 'middle'},
                 {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\')">修改</a>  ';
+                        return  ' <a href="javascript:editSite(\'' + row.id + '\',\'' + row.baseCode + '\',\'' + row.baseProperty + '\',\'' + row.dxCode + '\',\'' + row.ttCode + '\')">修改</a>  ';
                     }}
             ]
         })
     }
-
 
     var res;
     function createAddContent(url){
@@ -123,82 +192,21 @@
     }
 //打开新增合同的弹框
     function openAddDialog(){
-        bootbox.dialog({
-            size:"big",
-            title:"添加合同",
-            message:createAddContent("/page/toAddContract"),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&towerTypeName="+$("#tower option:selected").text()+
-                            "&contractTypeName="+$("#contract option:selected").text()+
-                            "&roomTypeName="+$("#room option:selected").text();
-                        $.ajax({
-                            url:'/contract/addContract',
-                            type:'post',
-                            data: $("#contractForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:data.msg
-                                })
-                                initSiteManager();
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
+        $("#id").val("");
+        $("#baseCode").val("");
+        $("#baseProperty").val("");
+        $("#dxCode").val("");
+        $("#ttCode").val("");
+        $('#myModal').modal();
     }
-//打开修改的弹框
-    function editContract(contractId,roomType,towerType,contractType){
-        $("#typeHidIdOne").val(roomType);
-        $("#typeHidIdTwo").val(towerType);
-        $("#typeHidIdThree").val(contractType);
-        bootbox.dialog({
-            size:"big",
-            title:"修改合同信息",
-            message:createAddContent("/page/toUpdateContract?contractId="+contractId),
-            closeButton:true,
-            buttons:{
-                'success':{
-                    "label" : "<i class='icon-ok'></i> 保存",
-                    "className" : "btn-sm btn-success",
-                    "callback" : function() {
-                        var str = "&towerTypeName="+$("#towerUp option:selected").text()+
-                            "&contractTypeName="+$("#contractUp option:selected").text()+
-                            "&roomTypeName="+$("#roomUp option:selected").text();
-                        $.ajax({
-                            url:'/contract/updateContract',
-                            type:'post',
-                            data:$("#contractForm").serialize()+str,
-                            dataType:'json',
-                            success:function(data){
-                                bootbox.alert({
-                                    size:"small",
-                                    title:"提示",
-                                    message:"修改成功！"
-                                }),
-                                    initSiteManager();
-                            }
-                        })
-                    }
-                },
-                'cancel':{
-                    "label" : "<i class='icon-info'></i> 取消",
-                    "className" : "btn-sm btn-danger",
-                }
-            }
-        })
+//打开修改框
+    function editSite(id,baseCode,baseProperty,dxCode,ttCode) {
+        $("#id").val(id);
+        $("#baseCode").val(baseCode);
+        $("#baseProperty").val(baseProperty);
+        $("#dxCode").val(dxCode);
+        $("#ttCode").val(ttCode);
+        $('#myModal').modal();
     }
     //批量删除
     function delContract(){
@@ -230,25 +238,21 @@
                 if (result) {
                     var ids = "";
                     for (var i = 0; i < arr.length; i++) {
-                        ids += ids == "" ? arr[i].contractId : ","+arr[i].contractId;
+                        ids += ids == "" ? arr[i].id : ","+arr[i].id;
                     }
                     $.ajax({
-                        url:"/contract/delAll",
+                        url:"/site/delAllSit",
                         data:{ids:ids},
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
                                 initSiteManager();
                             }
-
                         },
                         error:function(data){
                             alert("检查后台代码")
                         }
-
                     })
-
-
                 }
             }
         })
@@ -282,10 +286,56 @@
             callback: function(result){
                     var ids = "";
                     for (var i = 0; i < arr.length; i++) {
-                        ids += ids == "" ? arr[i].contractId : ","+arr[i].contractId;
+                        ids += ids == "" ? arr[i].id : ","+arr[i].id;
                     }
-                    location.href="/poi/createExcel?ids="+ids+"&&type=1"
+                    location.href="/poi/createExcel?ids="+ids+"&&type=10"
                 }
+        })
+    }
+    //打开导入弹框
+    $("#daoru").click(function(){
+        $('#daoruDialog').modal();
+    })
+    function doUpload() {
+        var formData = new FormData($( "#uploadForm" )[0]);
+        $.ajax({
+            url: '/poi/importSite',
+            type: 'post',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                $('#myTable').bootstrapTable('refresh');
+            },
+            error: function () {
+                alert(result.msg);
+            }
+        });
+    }
+    //提交用户
+    function submitSit(){
+        document.getElementById('buttonAdd').disabled=true;
+        $.ajax({
+            url: '/site/insertStation',
+            type: "post",
+            data : {
+                id:$("#id").val(),
+                dxCode:$("#dxCode").val(),
+                baseCode:$("#baseCode").val(),
+                baseProperty:$("#baseProperty").val(),
+                ttCode:$("#ttCode").val(),
+            },
+            success:function (data){
+                initSiteManager();
+                alert(data.msg)
+                $("#myModal").modal('hide');
+                document.getElementById('buttonAdd').disabled=false;
+            },
+            error:function (){
+                alert("新增失败");
+            }
         })
     }
 </script>

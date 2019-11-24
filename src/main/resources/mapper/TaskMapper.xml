@@ -23,11 +23,9 @@
 
     <!--邮件任务新增-->
     <insert id="addTask" >
-        insert into t_task (
-        task_type,user_email,status,content,create_time
-        )   values
+        insert into t_task (task_type,user_email,status,content,create_time )   values
         <foreach collection="list" item="item" index="index" open="" close="" separator=",">
-            (#{item.type},#{item.userEmail},#{item.status},#{item.content},now())
+        (#{item.type},#{item.userEmail},#{item.status},#{item.content},now())
         </foreach>
     </insert>
 </mapper>

@@ -13,7 +13,8 @@ public enum PoiTypeEnum {
     POI_TYPE_4G_RRU(6,4,"4GRRU"),
     POI_TYPE_5G_AAU(7,5,"5GAAU"),
     POI_TYPE_OLT(8,0,"OLT"),
-    POI_TYPE_IPRAN(9,5,"ipran");
+    POI_TYPE_IPRAN(9,5,"ipran"),
+    POI_TYPE_SITE(10,0,"site");
 
     private Integer key;
 
