@@ -11,6 +11,8 @@ import com.dx.model.site.*;
 import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
+import com.dx.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -245,13 +247,13 @@ public class SiteServiceImpl implements SiteService{
     public List<EquipmentRRUAAU> queryRRByIdsAndType(String ids) {
         return siteMapper.queryRRByIdsAndType(ids);
     }
-
+    @Transactional
     public boolean addRRUList(Sheet sheet) {
         List<EquipmentRRUAAU> RRUList = new ArrayList<>();
         List<String> dxCodes = new ArrayList<>();
         Integer tp=null;
         EquipmentRRUAAU rru;
-        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             try {
                 Row row = (Row) sheet.getRow(i);
                 if(row ==null){
@@ -259,25 +261,19 @@ public class SiteServiceImpl implements SiteService{
                 }
                 //获取每个单元格
                 /**
-                 * "电信编码,rru编码,rru名称,网管员id,网管员,类型编码"
+                 * "rru编码,rru名称,电信编码,耗电量,类型编码"
                  */
-                //电信编码
-                String dxCode = getCellVal(row.getCell(0));//第一个单元格
                 //bbu编码
-                String rruCode = getCellVal(row.getCell(1));
+                String rruCode = getCellVal(row.getCell(0));
                 //bbu名称
-                String rruName = getCellVal(row.getCell(2));
+                String rruName = getCellVal(row.getCell(1));
+                //电信编码
+                String dxCode = getCellVal(row.getCell(2));
                 //耗电量
                 String power = getCellVal(row.getCell(3));
-                //网管员id
-                String userId = getCellVal(row.getCell(4));
-                if(userId==null || userId.equals("")){
-                    userId="1";
-                }
-                //网管员
-                String userName = getCellVal(row.getCell(5));
                 //类型编码
-                String type = getCellVal(row.getCell(6));
+                String type = getCellVal(row.getCell(4));
+
                 if(tp==null){
                     try{
                         tp=Integer.valueOf(type);
@@ -288,7 +284,7 @@ public class SiteServiceImpl implements SiteService{
                     continue;
                 }
                 rru=new EquipmentRRUAAU();
-                if(power==null ||power.isEmpty()){
+                if(StringUtils.isBlank(power)){
                     Double bbu1 = getPower(type, "rru");
                     rru.setPower(bbu1);
                 }else {
@@ -297,8 +293,6 @@ public class SiteServiceImpl implements SiteService{
                 rru.setDxCode(dxCode);
                 rru.setRruCode(rruCode);
                 rru.setRruName(rruName);
-                rru.setNetCareId(Integer.valueOf(userId));
-                rru.setNetCareName(userName);
                 rru.setNetworkType(Integer.valueOf(type));
                 RRUList.add(rru);
                 dxCodes.add(dxCode);
@@ -306,7 +300,6 @@ public class SiteServiceImpl implements SiteService{
                 continue;
             }
         }
-
         if(siteMapper.add3GRRU(RRUList)){
            List<SitManager> sitManager=siteMapper.queryRruInfo(dxCodes,tp);
            siteMapper.updateRruCountAndPower(sitManager);
@@ -319,7 +312,7 @@ public class SiteServiceImpl implements SiteService{
         List<String> dxCodes = new ArrayList<>();
         Integer tp=null;
         EquipmentBBU bbu;
-        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 break;//整行为空，跳出
@@ -328,25 +321,18 @@ public class SiteServiceImpl implements SiteService{
             String reason = "";
             //获取每个单元格
             /**
-             * "电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码"
+             * "bbu编码,bbu名称,电信编码,电量,类型编码"
              */
-            //电信编码
-            String dxCode = getCellVal(row.getCell(0));//第一个单元格
             //bbu编码
-            String rruCode = getCellVal(row.getCell(1));
+            String rruCode = getCellVal(row.getCell(0));
             //bbu名称
-            String rruName = getCellVal(row.getCell(2));
-            //bbu耗电量
+            String rruName = getCellVal(row.getCell(1));
+            //电信编码
+            String dxCode = getCellVal(row.getCell(2));
+            //耗电量
             String power = getCellVal(row.getCell(3));
-            //网管员id
-            String userId = getCellVal(row.getCell(4));
-            if(userId==null || userId.equals("")){
-                userId="1";
-            }
-            //网管员
-            String userName = getCellVal(row.getCell(5));
             //类型编码
-            String type = getCellVal(row.getCell(6));
+            String type = getCellVal(row.getCell(4));
             if(tp==null){
                 try{
                     tp=Integer.valueOf(type);
@@ -366,8 +352,6 @@ public class SiteServiceImpl implements SiteService{
             bbu.setDxCode(dxCode);
             bbu.setBbuCode(rruCode);
             bbu.setBbuName(rruName);
-            bbu.setNetCareId(Integer.valueOf(userId));
-            bbu.setNetCareName(userName);
             bbu.setNetworkType(Integer.valueOf(type));
             BBUList.add(bbu);
             dxCodes.add(dxCode);
@@ -388,7 +372,7 @@ public class SiteServiceImpl implements SiteService{
             if(ty.equals(SiteEnum.T_BBU.getKey())){
                 return PowerEnum.T_BBU_POWER.getKey();
             }else if (ty.equals(SiteEnum.F_BBU.getKey())){
-                return PowerEnum.T_BBU_POWER.getKey();
+                return PowerEnum.F_BBU_POWER.getKey();
             }else if(ty.equals(SiteEnum.FIVE_BBU.getKey())){
                 return PowerEnum.FIVE_BBU_POWER.getKey();
             }
@@ -396,10 +380,14 @@ public class SiteServiceImpl implements SiteService{
             if(ty.equals(SiteEnum.T_RRU.getKey())){
                 return PowerEnum.T_RRU_POWER.getKey();
             }else if (ty.equals(SiteEnum.F_RRU.getKey())){
-                return PowerEnum.T_RRU_POWER.getKey();
+                return PowerEnum.F_RRU_POWER.getKey();
             }else if(ty.equals(SiteEnum.FIVE_AAU.getKey())){
                 return PowerEnum.FIVE_AAU_POWER.getKey();
             }
+        }else if("olt".equals(bbu)){
+            return PowerEnum.T_OLT_POWER.getKey();
+        }else if("ipran".equals(bbu)){
+            return PowerEnum.T_IPRAN_POWER.getKey();
         }
         return null;
     }
@@ -422,12 +410,13 @@ public class SiteServiceImpl implements SiteService{
     public List<EquipmentIPRAN> queryIPRANByIds(String ids) {
       return  siteMapper.queryIPRANByIds(ids);
     }
-
+    @Transactional
     public boolean addOLTList(Sheet sheet) {
         List<EquipmentOLT> OLTList = new ArrayList<>();
         List<String> dxCodes = new ArrayList<>();
         EquipmentOLT olt;
-        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        Double olt1 = getPower("0", "olt");
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 continue;//整行为空，跳出
@@ -436,38 +425,21 @@ public class SiteServiceImpl implements SiteService{
             String reason = "";
             //获取每个单元格
             /**
-             * "电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码"
+             * "bbu编码,bbu名称,电信编码"
              */
-            //电信编码
-            String dxCode = getCellVal(row.getCell(0));//第一个单元格
+            //第一个单元格
             //bbu编码
-            String oltCode = getCellVal(row.getCell(1));
+            String oltCode = getCellVal(row.getCell(0));
             //bbu名称
-            String oltName = getCellVal(row.getCell(2));
-            //bbu耗电量
-            String power = getCellVal(row.getCell(3));
-            //网管员id
-            String userId = getCellVal(row.getCell(4));
-            if(userId==null || userId.equals("")){
-                userId="1";
-            }
-            //网管员
-            String userName = getCellVal(row.getCell(5));
-            if(dxCode==null ||oltCode==null){
-                continue;
-            }
+            String oltName = getCellVal(row.getCell(1));
+            //电信编码
+            String dxCode = getCellVal(row.getCell(2));
+
             olt=new EquipmentOLT();
-            if(power==null ||power.isEmpty()){
-                Double olt1 = getPower("0", "olt");
-                olt.setPower(olt1);
-            }else {
-                olt.setPower(Double.valueOf(power));
-            }
+            olt.setPower(olt1);
             olt.setDxCode(dxCode);
             olt.setOltCode(oltCode);
             olt.setOltName(oltName);
-            olt.setNetCareId(Integer.valueOf(userId));
-            olt.setNetCareName(userName);
             OLTList.add(olt);
             dxCodes.add(dxCode);
         }
@@ -480,29 +452,43 @@ public class SiteServiceImpl implements SiteService{
     public boolean addSitManager(Sheet sheet) {
         List<SitManager> sitList = new ArrayList<>();
         SitManager sit;
-        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 continue;//整行为空，跳出
             }
             //获取每个单元格
             /**
-             * 基站编码,基站产权,电信编码,铁塔站址编码
+             * 站址名称,所属站址编码,铁塔站址编码,机房产权,电费缴纳发,租赁费缴纳发,站址经度,站址纬度,备注
              */
-            //基站编码
-            String baseCode = getCellVal(row.getCell(0));//第一个单元格
-            //基站产权
-            String baseProperty = getCellVal(row.getCell(1));
+            //站址名称
+            String baseName = getCellVal(row.getCell(0));//第一个单元格
             //电信编码
-            String dxCode = getCellVal(row.getCell(2));
+            String dxCode = getCellVal(row.getCell(1));
             //铁塔站址编码
-            String ttCode = getCellVal(row.getCell(3));
-
+            String ttCode = getCellVal(row.getCell(2));
+            //机房产权
+            String baseProperty = getCellVal(row.getCell(3));
+            //电费缴纳发
+            String powerMan = getCellVal(row.getCell(4));
+            //租赁费缴纳发
+            String rentPayer = getCellVal(row.getCell(5));
+            //经度
+            String longitude = getCellVal(row.getCell(6));
+            //纬度
+            String latitude = getCellVal(row.getCell(7));
+            //备注
+            String remark = getCellVal(row.getCell(8));
             sit=new SitManager();
             sit.setDxCode(dxCode);
             sit.setTtCode(ttCode);
             sit.setBaseProperty(baseProperty);
-            sit.setBaseCode(baseCode);
+            sit.setBaseName(baseName);
+            sit.setPowerMan(powerMan);
+            sit.setRentPayer(rentPayer);
+            sit.setLongitude(longitude);
+            sit.setLatitude(latitude);
+            sit.setRemark(remark);
             sitList.add(sit);
         }
         if(siteMapper.insertStation(sitList)){
@@ -510,12 +496,13 @@ public class SiteServiceImpl implements SiteService{
         }
         return true;
     }
-
+    @Transactional
     public boolean addIpranList(Sheet sheet) {
         List<EquipmentIPRAN> ipranList = new ArrayList<>();
         List<String> dxCodes = new ArrayList<>();
         EquipmentIPRAN olt;
-        for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+        Double ipran = getPower("0", "ipran");
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
             if(row ==null){
                 continue;//整行为空，跳出
@@ -524,38 +511,19 @@ public class SiteServiceImpl implements SiteService{
             String reason = "";
             //获取每个单元格
             /**
-             * "电信编码,bbu编码,bbu名称,网管员id,网管员,类型编码"
+             * "bbu编码,bbu名称,电信编码,类型编码"
              */
-            //电信编码
-            String dxCode = getCellVal(row.getCell(0));//第一个单元格
             //bbu编码
-            String oltCode = getCellVal(row.getCell(1));
+            String oltCode = getCellVal(row.getCell(0));
             //bbu名称
-            String oltName = getCellVal(row.getCell(2));
-            //bbu耗电量
-            String power = getCellVal(row.getCell(3));
-            //网管员id
-            String userId = getCellVal(row.getCell(4));
-            if(userId==null || userId.equals("")){
-                userId="1";
-            }
-            //网管员
-            String userName = getCellVal(row.getCell(5));
-            if(dxCode==null ||oltCode==null){
-                continue;
-            }
+            String oltName = getCellVal(row.getCell(1));
+            //电信编码
+            String dxCode = getCellVal(row.getCell(2));
             olt=new EquipmentIPRAN();
-            if(power==null ||power.isEmpty()){
-                Double olt1 = getPower("0", "olt");
-                olt.setPower(olt1);
-            }else {
-                olt.setPower(Double.valueOf(power));
-            }
+            olt.setPower(ipran);
             olt.setDxCode(dxCode);
             olt.setIpranCode(oltCode);
             olt.setIpranName(oltName);
-            olt.setNetCareId(Integer.valueOf(userId));
-            olt.setNetCareName(userName);
             ipranList.add(olt);
             dxCodes.add(dxCode);
         }

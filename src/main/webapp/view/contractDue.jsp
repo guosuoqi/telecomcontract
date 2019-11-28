@@ -48,18 +48,23 @@
                         <input class="form-control" name="renewStatus" id="renewStatus" type="hidden"/>
                         <input class="form-control" name="contractName"  id="contractNameEdit" type="text"/>
                     </div>
-                    <div class="col-xs-2">续约截止日期:</div>
+                    <div class="col-xs-2">合同编码:</div>
                     <div class="col-xs-4">
-                        <input class="form-control date" name="payEndTime"  id="payEndTime" type="text"/>
+                        <input class="form-control date" name="contractNum"  id="contractNum" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-
+                    <div class="col-xs-2">续约截止日期:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control date" name="payEndTime"  id="payEndTime" type="text"/>
+                    </div>
                     <div class="col-xs-2">经办人:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="renewOperator"  id="renewOperator" type="text"/>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-2">备注:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="remark"  id="remark" type="text"/>
@@ -150,9 +155,9 @@
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[5, 10, 20, 50],//分页组件
+            pageList:[50,100,500,1000],//分页组件
             pageNumber:1,
-            pageSize:5,//默认每页条数
+            pageSize:50,//默认每页条数
             //search:true,//是否显示搜索框
             //searchText:'试试',//初始化搜索文字
             showColumns:false,//是否显示 内容列下拉框
@@ -179,21 +184,23 @@
             },
             columns:[
                 {field:'111',checkbox:true},
-                {field:'contractId',title:'合同id'},
+                {field:'contractId',title:'合同id',visible:false},
+                {field:'contractNum',title:'合同編碼'},
                 {field:'contractName',title:'合同名字'},
                 {field:'yearRental',title:'年租金'},
                 {field:'endTime',title:'续约截止日期'},
                 {field:'renewOperator',title:'经办人'},
                 {field:'remark',title:'备注'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editContractExtendion(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.payEndTime + '\',\'' + row.renewOperator + '\',\'' + row.remark + '\')">修改</a>  ';
+                        return  ' <a href="javascript:editContractExtendion(\'' + row.contractId + '\',\'' + row.contractNum + '\',\'' + row.contractName + '\',\'' + row.payEndTime + '\',\'' + row.renewOperator + '\',\'' + row.remark + '\')">修改</a>  ';
                     }}
             ]
         })
     }
 
-    function editContractExtendion(contractId,contractName,payEndTime,renewOperator,remark){
+    function editContractExtendion(contractId,contractNum,contractName,payEndTime,renewOperator,remark){
         $("#contractId").val(contractId);
+        $("#contractNum").val(contractNum);
         $("#contractNameEdit").val(contractName);
         $("#payEndTime").val(payEndTime);
         if(renewOperator==null || renewOperator==""){
@@ -218,6 +225,7 @@
             type: "post",
             data : {
                 contractId:$("#contractId").val(),
+                contractNum:$("#contractNum").val(),
                 contractName:$("#contractNameEdit").val(),
                 payEndTime:$("#payEndTime").val(),
                 renewOperator:$("#renewOperator").val(),

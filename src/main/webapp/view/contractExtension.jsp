@@ -149,9 +149,9 @@
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[5, 10, 20, 50],//分页组件
+            pageList:[50,100,500,1000],//分页组件
             pageNumber:1,
-            pageSize:5,//默认每页条数
+            pageSize:50,//默认每页条数
             //search:true,//是否显示搜索框
             //searchText:'试试',//初始化搜索文字
             showColumns:false,//是否显示 内容列下拉框
@@ -178,6 +178,7 @@
             },
             columns:[
                 {field:'111',checkbox:true},
+                {field:'contractId',title:'合同id',visible:false},
                 {field:'contractNum',title:'合同編碼'},
                 {field:'contractName',title:'合同名字'},
                 {field:'yearRental',title:'年租金'},

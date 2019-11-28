@@ -135,18 +135,23 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public int addUser(UserMain userMain) {
-        String uuid=StringUtil.getUUId();
-        userMain.setId(uuid);
+        int i=0;
         userMain.setPassword(StringUtils.getMD5String(userMain.getPassword()));
-        int i = userMapper.addUser(userMain);
-        if(i!=0){
+        if(org.apache.commons.lang.StringUtils.isNotBlank(userMain.getId())){
+            userMapper.updateUserByUserId(userMain);
+        }else {
+            String uuid=StringUtil.getUUId();
+            userMain.setId(uuid);
+            i = userMapper.addUser(userMain);
+        }
+        if(i!=0 && org.apache.commons.lang.StringUtils.isNotBlank(userMain.getRole())){
             UserRoleBean userRoleBean;
             List<UserRoleBean> urlist = new ArrayList<>();
             Integer[] roleIds = userMain.getRoleId();
             for (int j = 0; j < roleIds.length; j++) {
                 userRoleBean= new UserRoleBean();
                 userRoleBean.setRoleId(roleIds[j]);
-                userRoleBean.setUserId(uuid);
+                userRoleBean.setUserId(userMain.getId());
                 userRoleBean.setId(StringUtil.getUUId());
                 urlist.add(userRoleBean);
             }

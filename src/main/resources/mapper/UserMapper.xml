@@ -39,8 +39,23 @@
     <update id="updateUserByUserId">
         update sys_user
             <set>
+                <if test="loginNumber != null and loginNumber != ''">
+                    and login_Number =#{loginNumber},
+                </if>
+                <if test="userName != null and userName != ''">
+                    and user_Name =#{userName},
+                </if>
                 <if test="password != null and password != ''">
                     and password =#{password},
+                </if>
+                <if test="county != null and county != ''">
+                    and county =#{county},
+                </if>
+                <if test="email != null and email != ''">
+                    and county =#{email},
+                </if>
+                <if test="mobile != null and mobile != ''">
+                    and mobile =#{mobile},
                 </if>
                 <if test="role != null and role != ''">
                     and role =#{role},
@@ -109,6 +124,14 @@
     <insert id="addUser">
         insert into sys_user(id,login_Number,password,user_Name,mobile,email,role,county) values
             (#{userMain.id},#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role},#{userMain.county})
+            <trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+                login_Number=#{userMain.loginNumber},
+                password=#{userMain.password},
+                user_Name=#{userMain.userName},
+                county=#{userMain.county},
+                email=#{userMain.email},
+                mobile=#{userMain.mobile}
+            </trim>
     </insert>
 
     <!-- 用户页面批量删除 -->

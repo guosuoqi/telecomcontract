@@ -58,11 +58,6 @@
 </div>
 
 
-<!-- 按钮触发模态框 -->
-<%--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    开始演示模态框
-</button>--%>
-<!-- 模态框（Modal） -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -147,7 +142,7 @@
                         <input class="form-control" name="county" id="county" type="text"/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="roleDiv">
                     <div class="col-xs-2">选择角色:</div>
                     <div class="col-xs-4">
                         <select id="roleAdd" name="roleAdd" class="selectpicker"  multiple  data-live-search="true" >
@@ -225,18 +220,36 @@
                 {field:'id',title:'用户id',align: 'center',width:"40px",valign: 'middle',visible:false},
                 {field:'loginNumber',title:'用户账号',align: 'center',valign: 'middle'},
                 {field:'userName',title:'用户名称',align: 'center',valign: 'middle'},
+                {field:'county',title:'负责辖区',align: 'center',valign: 'middle'},
                 {field:'role',title:'用户角色',align: 'center',valign: 'middle'},
                 {field:'mobile',title:'手机号',align: 'center',valign: 'middle'},
                 {field:'email',title:'邮箱',align: 'center',valign: 'middle'},
                 {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                        return   ' <a href="javascript:editRole('+row.id+');">修改角色</a>  ';
+                        return   ' <a href="javascript:editUser(\''+row.id+'\',\'' + row.loginNumber + '\',\'' + row.userName + '\',\'' + row.county + '\',\'' + row.mobile + '\',\'' + row.email + '\')"> 修改用户</a>|<a href="javascript:editRole(\'' + row.id + '\');">修改角色</a> ';
                     }}
             ]
         })
     }
-
+    function editUser(id,loginNumber,userName,county,mobile,email){
+        $("#id").val(id);
+        $("#loginNumber").val(loginNumber);
+        $("#userName1").val(userName);
+        $("#county").val(county);
+        $("#mobile").val(mobile);
+        $("#email").val(email);
+        $("#role").val(role);
+        $("#roleDiv").hide();
+        $('#myUserModal').modal();
+    }
     function openAddUser(){
         queryRole();
+        $("#id").val("");
+        $("#loginNumber").val("");
+        $("#userName1").val("");
+        $("#county").val("");
+        $("#mobile").val("");
+        $("#email").val("");
+        $("#roleDiv").show();
         $('#myUserModal').modal();
     }
 
@@ -313,12 +326,24 @@
                 roleid += roleid == '' ? obj.options[i].value : ',' + obj.options[i].value;
             }
         }
-        alert(roleid)
+        var val = $("#loginNumber").val();
+        var pwd = $("#password").val();
+        var regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}');
+        if (!regex.test(pwd)) {
+            alert("您的密码复杂度太低（密码中必须包含字母、数字、特殊字符,长度8-30），请及时改密码！");
+            return;
+        }
+        var loginNumberregex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{8,30}');
+        if (!loginNumberregex.test(val)) {
+            alert("您的账号复杂度太低（密码中必须包含字母、数字,长度8-30），请及时改密码！");
+            return;
+        }
        document.getElementById('buttonAdd').disabled=true;
         $.ajax({
             url: '/user/addUser',
             type: "post",
             data : {
+                id:$("#id").val(),
                 loginNumber:$("#loginNumber").val(),
                 password:$("#password").val(),
                 userName:$("#userName1").val(),

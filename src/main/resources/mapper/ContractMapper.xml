@@ -4,7 +4,7 @@
 
 
 	<sql id="Base_Column_List">
-        contract_id,contract_name,county,year_rental,sun_rental,contract_num,contract_first,payee,plan_year,start_time,end_time,pay_end_time,room_type,room_type_name,tower_type,tower_type_name,contract_type,contract_type_name,renew_operator,extenxion_operator,remark
+        contract_id,contract_name,county,year_rental,sun_rental,contract_num,contract_first,payee,plan_year,start_time,end_time,pay_end_time,room_type,room_type_name,tower_type,tower_type_name,contract_type,contract_type_name,renew_operator,extenxion_operator,remark,jifangName,address
     </sql>
 	<!--合同管理页面查询总条数-->
     <select id="queryContractCount"  resultType="int">
@@ -12,20 +12,17 @@
 		count(1)
 		from contract_manage
 		<where>
-			<if test="contract.renewStatus != null and contract.renewStatus != ''">
+			<if test="contract.renewStatus != null">
 				and renew_status =#{contract.renewStatus}
 			</if>
-			<if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
+			<if test="contract.extenxionStatus != null">
 				and extenxion_status =#{contract.extenxionStatus}
 			</if>
 			<if test="contract.startTime != null and contract.startTime != ''">
-				and start_time &gt;= #{contract.startTime}
+				and pay_end_time &gt;= #{contract.startTime}
 			</if>
 			<if test="contract.endTime != null and contract.endTime != ''">
-				and end_time &lt;= #{contract.endTime}
-			</if>
-			<if test="contract.payEndTime != null and contract.payEndTime != ''">
-				and pay_end_time &lt;= #{contract.payEndTime}
+				and pay_end_time &lt;= #{contract.endTime}
 			</if>
 			<if test="contract.roomTypeName != null and contract.roomTypeName != ''and contract.roomTypeName != '-1'">
 				and room_type_name = #{contract.roomTypeName}
@@ -38,6 +35,9 @@
 			</if>
 			<if test="contract.contractName != null and contract.contractName != '' ">
 				and contract_name like  '${contract.contractName}%'
+			</if>
+			<if test="contract.county != null and contract.county != '' ">
+				and county = #{contract.county}
 			</if>
 		</where>
 	</select>
@@ -91,23 +91,23 @@
 	<!--合同管理页面查新增-->
 	<insert id="addContract" >
 	 insert into contract_manage (
-	        contract_name, year_rental, sun_rental,
+	        jifangName, year_rental, sun_rental,
 			contract_num,contract_first,payee,
-	        plan_year,start_time,end_time,pay_end_time,
+	        start_time,end_time,pay_end_time,
 	        room_type,room_type_name,tower_type,
 	        tower_type_name,contract_type,contract_type_name,
-	        county,remark
+	        county,remark,address
       )
-    values (#{contract.contractName},#{contract.yearRental}, #{contract.sunRental},
+    values (#{contract.jifangName},#{contract.yearRental}, #{contract.sunRental},
             #{contract.contractNum},#{contract.contractFirst},#{contract.payee},
-            #{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
+            #{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
             #{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
             #{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
-            #{contract.county},#{remark}
+            #{contract.county},#{remark},#{address}
       )
 		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-            <if test="contract.contractName != null and contract.contractName != ''">
-                contract_name=#{contract.contractName},
+            <if test="contract.jifangName != null and contract.jifangName != ''">
+				jifangName=#{contract.jifangName},
             </if>
             <if test="contract.yearRental != null and contract.yearRental != ''">
                 year_rental=#{contract.yearRental},
@@ -166,16 +166,16 @@
 			insert into contract_manage (
 			contract_name, year_rental, sun_rental,
 			contract_num,contract_first,payee,
-			plan_year,start_time,end_time,pay_end_time,
+			start_time,end_time,pay_end_time,
 			room_type,room_type_name,tower_type,
 			tower_type_name,contract_type,contract_type_name,
-			county)
+			county,jifangName,address)
 			values (#{contract.contractName},#{contract.yearRental}, #{contract.sunRental},
 			#{contract.contractNum},#{contract.contractFirst},#{contract.payee},
-			#{contract.planYear},#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
+			#{contract.startTime},#{contract.endTime}, #{contract.payEndTime},
 			#{contract.roomType}, #{contract.roomTypeName}, #{contract.towerType},
 			#{contract.towerTypeName},#{contract.contractType},#{contract.contractTypeName},
-			#{contract.county})
+			#{contract.county},#{contract.jifangName},#{contract.address})
 			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
 				<if test="contract.contractName != null and contract.contractName != ''">
 					contract_name=#{contract.contractName},
@@ -191,9 +191,6 @@
 				</if>
 				<if test="contract.payee != null and contract.payee != ''">
 					payee=#{contract.payee},
-				</if>
-				<if test="contract.planYear != null and contract.planYear != ''">
-					plan_year = #{contract.planYear},
 				</if>
 				<if test="contract.startTime != null and contract.startTime != ''">
 					start_time=#{contract.startTime},
@@ -237,8 +234,8 @@
 	<update id="updateContract">
 		update contract_manage
 		<set>
-			<if test="contract.contractName != null and contract.contractName != ''">
-				contract_name = #{contract.contractName},
+			<if test="contract.jifangName != null and contract.jifangName != ''">
+				jifangName = #{contract.jifangName},
 			</if>
 			<if test="contract.yearRental != null and contract.yearRental != ''">
 				year_rental = #{contract.yearRental},
@@ -254,9 +251,6 @@
 			</if>
 			<if test="contract.payee != null and contract.payee != ''">
 				payee = #{contract.payee},
-			</if>
-			<if test="contract.planYear != null and contract.planYear != ''">
-				plan_year = #{contract.planYear},
 			</if>
 			<if test="contract.startTime != null and contract.startTime != ''">
 				start_time = #{contract.startTime},
@@ -302,6 +296,9 @@
 			</if>
 			<if test="contract.remark != null and contract.remark != ''">
 				remark=#{contract.remark},
+			</if>
+			<if test="contract.address != null and contract.address != ''">
+				address=#{contract.address},
 			</if>
 		</set>
 	        where contract_id=#{contract.contractId}

@@ -16,14 +16,6 @@ public class EquipmentBBU {
      */
     private String bbuName;
     /**
-     *管理员id
-     */
-    private Integer netCareId;
-    /**
-     *管理员名字
-     */
-    private String netCareName;
-    /**
      *类型 (3/4/5 G)
      */
     private Integer networkType;
@@ -70,22 +62,6 @@ public class EquipmentBBU {
 
     public void setBbuName(String bbuName) {
         this.bbuName = bbuName;
-    }
-
-    public Integer getNetCareId() {
-        return netCareId;
-    }
-
-    public void setNetCareId(Integer netCareId) {
-        this.netCareId = netCareId;
-    }
-
-    public String getNetCareName() {
-        return netCareName;
-    }
-
-    public void setNetCareName(String netCareName) {
-        this.netCareName = netCareName;
     }
 
     public Integer getNetworkType() {

@@ -43,10 +43,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-2">合同名称:</div>
+                    <div class="col-xs-2">机房名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="contractId" id="contractId" type="hidden"/>
-                        <input class="form-control" name="contractName" id="contractName" type="text"/>
+                        <input class="form-control" name="jifangName" id="jifangName" type="text"/>
                     </div>
                     <div class="col-xs-2">合同编号:</div>
                     <div class="col-xs-4">
@@ -54,9 +54,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-2">县:</div>
+                    <div class="col-xs-2">区县:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="county" id="county" type="text"/>
+                    </div>
+                    <div class="col-xs-2">地址:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="address" id="address" type="text"/>
                     </div>
                 </div>
                 <div class="row">
@@ -82,9 +86,9 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">拟租年份:</div>
+                    <div class="col-xs-2">是否有基站:</div>
                     <div class="col-xs-4">
-                        <input class="form-control date" name="planYear" id="planYear" type="text"/>
+                        <input class="form-control date" name="towerTypeName" id="towerTypeName" type="text"/>
                     </div>
                     <div class="col-xs-2">付费截止日期:</div>
                     <div class="col-xs-4">
@@ -109,19 +113,11 @@
                         <select id="contract" name="contractType" class="form-control">
                         </select>
                     </div>
-                    <div class="col-xs-2">铁栀类型:</div>
-                    <div class="col-xs-4">
-                        <select id="tower" name="towerType" class="form-control">
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-2">机房类型:</div>
                     <div class="col-xs-4">
                         <select id="room" name="roomType" class="form-control">
                         </select>
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
@@ -157,25 +153,6 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="startTime">付费开始时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="startTime"></label>
-                            <input type="text" class="form-control date" id="startTime" placeholder="请输入开始时间">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="endTime">付费结束时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="endTime"></label>
-                            <input type="text" class="form-control date" id="endTime" placeholder="请输入结束时间">
-                        </div>
-                    </div>
-
                 </div>
                 <div class="col-sm-12 "> <%--<td>--%>
                     <div class="col-sm-4 "> <%--<td>--%>
@@ -189,19 +166,14 @@
                     </div>
                     <div class="col-sm-4 "> <%--<td>--%>
                         <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="towerType">铁栀类型</label>
+                            <label for="towerType">是否有基站</label>
                         </div>
                         <div class="col-sm-9"> <%--占8格，充满--%>
-                            <select id="towerType" class="selectpicker form-control" data-live-search="true"></select>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractType">合同类型</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <select id="contractType" class="selectpicker form-control"
-                                    data-live-search="true"></select>
+                            <select id="towerType" class="selectpicker form-control" data-live-search="true">
+                                <option value="-1">--请选择--</option>
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-sm-4 "> <%--<td>--%>
@@ -285,9 +257,9 @@
             method: 'post',
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             pagination: true, //是否展示分页
-            pageList: [10, 50, 100, 500, 1000],//分页组件
+            pageList: [50, 99, 500, 1000],//分页组件
             pageNumber: 1,
-            pageSize: 5,//默认每页条数
+            pageSize: 20,//默认每页条数
             //search:true,//是否显示搜索框
             //searchText:'试试',//初始化搜索文字
             showColumns: false,//是否显示 内容列下拉框
@@ -315,29 +287,28 @@
 
             columns: [
                 {field: '333', checkbox: true, align: 'left', width: "20px", valign: 'middle'},
-                {field: 'contractId', title: '合同id', align: 'center', width: "40px", valign: 'middle'},
-                {field: 'contractName', title: '合同名字', align: 'center', valign: 'middle'},
+                {field: 'contractId', title: '合同id', align: 'center', width: "40px", valign: 'middle',visible:false},
+                {field: 'jifangName', title: '机房名称', align: 'center', valign: 'middle'},
                 {field: 'county', title: '--县--', align: 'center', valign: 'middle'},
+                {field: 'address', title: '--地址--', align: 'center', valign: 'middle'},
                 {field: 'yearRental', title: '年租金', align: 'center', valign: 'middle'},
                 {field: 'sunRental', title: '总租金', align: 'center', valign: 'middle'},
                 {field: 'contractNum', title: '合同编号', align: 'center', valign: 'middle'},
                 {field: 'contractFirst', title: '合同甲方', align: 'center', valign: 'middle'},
                 {field: 'payee', title: '收款人', align: 'center', valign: 'middle'},
-                {field: 'planYear', title: '拟租年份', align: 'center', valign: 'middle'},
-                {field: 'startTime', title: '合同开始时间', align: 'center', valign: 'middle'},
-                {field: 'endTime', title: '合同结束时间', align: 'center', valign: 'middle'},
+                //{field: 'planYear', title: '拟租年份', align: 'center', valign: 'middle'},
+                {field: 'startTime', title: '拟租合同开始时间', align: 'center', valign: 'middle'},
+                {field: 'endTime', title: '拟租合同结束时间', align: 'center', valign: 'middle'},
                 {field: 'payEndTime', title: '付费截止日期', align: 'center', valign: 'middle'},
                 {field: 'roomTypeName', title: '机房类型', align: 'center', valign: 'middle'},
-                {field: 'towerTypeName', title: '塔栀类型', align: 'center', valign: 'middle'},
-                {field: 'contractTypeName', title: '合同类型', align: 'center', valign: 'middle'},
+                {field: 'towerTypeName', title: '是否有基站', align: 'center', valign: 'middle'},//todo   字段调整
                 {
                     field: '111',
                     title: ' 操作 ',
                     class: 'table-width',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\')">修改</a>  ';
-
+                        return ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.jifangName + '\',\'' + row.county + '\',\'' + row.yearRental + '\',\'' + row.sunRental + '\',\'' + row.contractNum + '\',\'' + row.contractFirst + '\',\'' + row.payee + '\',\'' + row.planYear + '\',\'' + row.payEndTime + '\',\'' + row.startTime + '\',\'' + row.endTime + '\',\'' + row.roomTypeName + '\',\'' + row.towerTypeName + '\',\'' + row.contractTypeName + '\',\'' + row.roomType + '\',\'' + row.towerType + '\',\'' + row.contractType + '\',\'' + row.address + '\')">修改</a>  ';
                     }
                 }
             ]
@@ -348,7 +319,7 @@
     function openAddDialog() {
         initCodeType(1);
         $("#contractId").val(""),
-        $("#contractName").val(""),
+        $("#jifangName").val(""),
         $("#county").val(""),
         $("#yearRental").val(""),
         $("#contractNum").val(""),
@@ -362,13 +333,12 @@
         $('#myModal').modal();
     }
 
-    function editContract(contractId, contractName,county, yearRental,sunRental,contractNum, contractFirst, payee, planYear,payEndTime,startTime,endTime,roomTypeName,towerTypeName,contractTypeName,roomType,towerType,contractType) {
+    function editContract(contractId, jifangName,county, yearRental,sunRental,contractNum, contractFirst, payee, planYear,payEndTime,startTime,endTime,roomTypeName,towerTypeName,contractTypeName,roomType,towerType,contractType,address) {
         $.ajax({
             url: "/contract/queryType",
             success: function (data) {
                 var typeHtmlcontract = '<option value="-1">--请选择--</option>';
                 var typeHtmlRoom = '<option value="-1">--请选择--</option>';
-                var typeHtmlTower = '<option value="-1">--请选择--</option>';
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].codeType == 'contract') {
                         if(data[i].codeId==contractType){
@@ -382,16 +352,9 @@
                         }else {
                             typeHtmlRoom += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
                         }
-                    } else if (data[i].codeType == 'tower') {
-                        if(data[i].codeId==towerType){
-                            typeHtmlTower += '<option value="' + data[i].codeId + '" selected>' + data[i].codeName + '</option>';
-                        }else {
-                            typeHtmlTower += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
-                        }
                     }
                 }
                 $("#room").html(typeHtmlRoom);
-                $("#tower").html(typeHtmlTower);
                 $("#contract").html(typeHtmlcontract);
                 $('.selectpicker').selectpicker('refresh');
             }, error: function () {
@@ -399,8 +362,9 @@
             }
         })
         $("#contractId").val(contractId);
-        $("#contractName").val(contractName),
+        $("#jifangName").val(jifangName),
         $("#county").val(county),
+        $("#address").val(address),
         $("#yearRental").val(yearRental),
         $("#contractNum").val(contractNum),
         $("#sunRental").val(sunRental),
@@ -410,6 +374,7 @@
         $("#payEndTime").val(payEndTime),
         $("#startTimeAdd").val(startTime),
         $("#endTimeAdd").val(endTime),
+        $("#towerTypeName").val(towerTypeName),
         $('#myModal').modal();
     }
 
@@ -422,8 +387,9 @@
             type: "post",
             data: {
                 county:$("#county").val(),
+                address:$("#address").val(),
                 contractId: $("#contractId").val(),
-                contractName: $("#contractName").val(),
+                jifangName: $("#jifangName").val(),
                 contractNum: $("#contractNum").val(),
                 yearRental: $("#yearRental").val(),
                 sunRental: $("#sunRental").val(),
@@ -436,7 +402,7 @@
                 contractType: $("#contract").val(),
                 towerType: $("#tower").val(),
                 roomType: $("#room").val(),
-                towerTypeName: $("#tower option:selected").text(),
+                towerTypeName: $("#towerTypeName").val(),
                 contractTypeName: $("#contract option:selected").text(),
                 roomTypeName: $("#room option:selected").text()
             },
@@ -461,20 +427,14 @@
             success: function (data) {
                 var typeHtmlcontract = '<option value="-1">--请选择--</option>';
                 var typeHtmlRoom = '<option value="-1">--请选择--</option>';
-                var typeHtmlTower = '<option value="-1">--请选择--</option>';
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].codeType == 'contract') {
                         typeHtmlcontract += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
                     } else if (data[i].codeType == 'room') {
                         typeHtmlRoom += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
-
-                    } else if (data[i].codeType == 'tower') {
-                        typeHtmlTower += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
-
                     }
                 }
                 $("#room").html(typeHtmlRoom);
-                $("#tower").html(typeHtmlTower);
                 $("#contract").html(typeHtmlcontract);
                 $('.selectpicker').selectpicker('refresh');
             }, error: function () {
@@ -492,25 +452,18 @@
             success: function (data) {
                 var typeHtmlcontract = '<option value="-1">--请选择--</option>';
                 var typeHtmlRoom = '<option value="-1">--请选择--</option>';
-                var typeHtmlTower = '<option value="-1">--请选择--</option>';
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].codeType == 'contract') {
                         typeHtmlcontract += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
                     } else if (data[i].codeType == 'room') {
                         typeHtmlRoom += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
-
-                    } else if (data[i].codeType == 'tower') {
-                        typeHtmlTower += '<option value="' + data[i].codeId + '">' + data[i].codeName + '</option>';
-
                     }
                 }
                 if(type==1){
                     $("#room").html(typeHtmlRoom);
-                    $("#tower").html(typeHtmlTower);
                     $("#contract").html(typeHtmlcontract);
                 }else {
                     $("#roomType").html(typeHtmlRoom);
-                    $("#towerType").html(typeHtmlTower);
                     $("#contractType").html(typeHtmlcontract);
                     $('.selectpicker').selectpicker('refresh');
                 }

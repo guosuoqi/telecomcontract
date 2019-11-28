@@ -178,7 +178,7 @@ public class UserController {
         try {
             if ((userMain != null )) {
                 UserMain userInfoByLoginNumber = userService.getUserInfoByLoginNumber(userMain.getLoginNumber());
-                if(userInfoByLoginNumber ==null){
+                if(userInfoByLoginNumber ==null ||org.apache.commons.lang.StringUtils.isNotBlank(userMain.getId())){
                     int count =   userService.addUser(userMain);
                     if (count == 0) {
                         result.put("code", "1");
