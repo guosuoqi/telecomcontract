@@ -301,8 +301,7 @@ public class SiteServiceImpl implements SiteService{
             }
         }
         if(siteMapper.add3GRRU(RRUList)){
-           List<SitManager> sitManager=siteMapper.queryRruInfo(dxCodes,tp);
-           siteMapper.updateRruCountAndPower(sitManager);
+            updageRevisedDade();
         }
         return true;
     }
@@ -357,8 +356,7 @@ public class SiteServiceImpl implements SiteService{
             dxCodes.add(dxCode);
         }
         if(siteMapper.add3GBBU(BBUList)){
-            List<SitManager> sitManager=siteMapper.queryBBUInfo(dxCodes,tp);
-            siteMapper.updateRruCountAndPower(sitManager);
+            updageRevisedDade();
         }
         return true;
     }
@@ -444,8 +442,7 @@ public class SiteServiceImpl implements SiteService{
             dxCodes.add(dxCode);
         }
         if(siteMapper.addOlt(OLTList)){
-            List<SitManager> sitManager=siteMapper.queryOLTInfo(dxCodes);
-            siteMapper.updateRruCountAndPower(sitManager);
+            updageRevisedDade();
         }
         return true;
     }
@@ -525,11 +522,9 @@ public class SiteServiceImpl implements SiteService{
             olt.setIpranCode(oltCode);
             olt.setIpranName(oltName);
             ipranList.add(olt);
-            dxCodes.add(dxCode);
         }
         if(siteMapper.addIPRAN(ipranList)){
-            List<SitManager> sitManager=siteMapper.queryOLTInfo(dxCodes);
-            siteMapper.updateRruCountAndPower(sitManager);
+            updageRevisedDade();
         }
         return true;
     }
@@ -537,4 +532,11 @@ public class SiteServiceImpl implements SiteService{
     public List<SitManager> querySiteByIds(String ids) {
         return  siteMapper.querySiteByIds(ids);
     }
+    public void updageRevisedDade() {
+        Integer i = siteMapper.updageRevisedDade();
+        if(i != 0){
+            siteMapper.updageRevisedDadeTwo();
+        }
+    }
+    
 }

@@ -471,4 +471,42 @@ update t_equipment_olt
 			</trim>
 		</foreach>
 	</insert>
+	<update id="updageRevisedDade">
+		UPDATE t_base_station t SET
+		t.three_bbu_count = (SELECT COUNT(0) FROM t_equipment_bbu b WHERE t.dx_code=b.dx_code and b.network_type=3),
+		t.three_bbu_power = (SELECT sum(power) FROM t_equipment_bbu b WHERE t.dx_code=b.dx_code and b.network_type=3);
+		UPDATE t_base_station t SET
+		t.four_bbu_count = (SELECT COUNT(0) FROM t_equipment_bbu b WHERE t.dx_code=b.dx_code and b.network_type=4),
+		t.four_bbu_power = (SELECT sum(power) FROM t_equipment_bbu b WHERE t.dx_code=b.dx_code and b.network_type=4);
+		UPDATE t_base_station t SET
+	  	t.five_bbu_count = (SELECT COUNT(0) FROM t_equipment_bbu b WHERE t.dx_code=b.dx_code and b.network_type=5),
+		t.five_bbu_power = (SELECT sum(power) FROM t_equipment_bbu b WHERE t.dx_code=b.dx_code and b.network_type=5);
+		UPDATE t_base_station t SET
+		t.three_rru_count = (SELECT COUNT(0) FROM t_equipment_rru_aau ra WHERE t.dx_code=ra.dx_code and ra.network_type=3),
+		t.three_rru_power = (SELECT sum(power) FROM t_equipment_rru_aau ra WHERE t.dx_code=ra.dx_code and ra.network_type=3);
+		UPDATE t_base_station t SET
+		t.four_rru_count = (SELECT COUNT(0) FROM t_equipment_rru_aau ra WHERE t.dx_code=ra.dx_code and ra.network_type=4),
+		t.four_rru_power = (SELECT sum(power) FROM t_equipment_rru_aau ra WHERE t.dx_code=ra.dx_code and ra.network_type=4);
+		UPDATE t_base_station t SET
+	  	t.five_aau_count = (SELECT COUNT(0) FROM t_equipment_rru_aau ra WHERE t.dx_code=ra.dx_code and ra.network_type=5),
+		t.five_aau_power = (SELECT sum(power) FROM t_equipment_rru_aau ra WHERE t.dx_code=ra.dx_code and ra.network_type=5);
+		UPDATE t_base_station t SET
+		t.olt_count = (SELECT COUNT(0) FROM t_equipment_olt o WHERE t.dx_code=o.dx_code),
+		t.olt_power = (SELECT sum(power) FROM t_equipment_olt o WHERE t.dx_code=o.dx_code);
+		UPDATE t_base_station t SET
+	  	t.ipran_count = (SELECT COUNT(0) FROM t_equipment_ipran i WHERE t.dx_code=i.dx_code),
+		t.ipran_power = (SELECT sum(power) FROM t_equipment_ipran i WHERE t.dx_code=i.dx_code)
+	</update>
+	<update id="updageRevisedDadeTwo">
+		UPDATE t_base_station t SET 	t.three_bbu_power=0 WHERE  t.three_bbu_power is null ;
+		UPDATE t_base_station t SET 	t.four_bbu_power=0 WHERE  t.four_bbu_power is null ;
+		UPDATE t_base_station t SET 	t.five_bbu_power=0 WHERE  t.five_bbu_power is null ;
+		UPDATE t_base_station t SET 	t.three_rru_power=0 WHERE  t.three_rru_power is null ;
+		UPDATE t_base_station t SET 	t.four_rru_power=0 WHERE  t.four_rru_power is null ;
+		UPDATE t_base_station t SET 	t.five_aau_power=0 WHERE  t.five_aau_power is null ;
+		UPDATE t_base_station t SET 	t.olt_power=0 WHERE  t.olt_power is null ;
+		UPDATE t_base_station t SET 	t.ipran_power=0 WHERE  t.ipran_power is null ;
+		UPDATE t_base_station t SET 		t.power_Consume=(t.three_bbu_power+t.four_bbu_power+t.five_bbu_power+t.three_rru_power+t.four_rru_power+t.five_aau_power+t.olt_power+t.ipran_power);
+
+	</update>
 </mapper>

@@ -80,4 +80,8 @@ public interface SiteMapper {
     int delAllSit(@Param("ids")String ids);
 
     List<SitManager> querySiteByIds(@Param("ids")String ids);
+
+    int updageRevisedDade();
+
+    int updageRevisedDadeTwo();
 }

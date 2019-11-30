@@ -47,14 +47,14 @@
                         <input class="form-control" name="dxCode" id="id" type="hidden"/>
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
                     </div>
-                    <div class="col-xs-2">RRU标识:</div>
+                    <div class="col-xs-2">CI:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="rruCode" id="rruCode" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">RRU名称:</div>
+                    <div class="col-xs-2">小区名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="rruName" id="rruName" type="text"/>
                     </div>
@@ -153,8 +153,8 @@
                 {field:'111',checkbox:true},
                 {field:'id',title:'3GRRUId',visible:false},
                 {field:'dxCode',title:'所属站址编码'},
-                {field:'rruCode',title:'RRU标识'},
-                {field:'rruName',title:'RRU名称'},
+                {field:'rruCode',title:'CI'},
+                {field:'rruName',title:'小区名称'},
                 {field:'power',title:'月理论耗电量'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
                         return  ' <a href="javascript:editRRu('+row.id+',\'' + row.dxCode + '\',\'' + row.rruCode + '\',\'' + row.rruName + '\',\'' + row.power + '\');">修改</a>  ';

@@ -90,26 +90,6 @@
                             <input type="text" name="contractName" id="contractName"  class="form-control" placeholder="请输入合同名称">
                         </div>
                     </div>
-
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="startTime">开始时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="startTime"></label>
-                            <input type="text" class="form-control date" id="startTime" placeholder="请输入开始时间">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="endTime">结束时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="endTime"></label>
-                            <input type="text" class="form-control date" id="endTime" placeholder="请输入结束时间">
-                        </div>
-                    </div>
-
                     <div class="col-xs-12">
                         <button type="button" class="btn btn-primary btn-w-m" onclick="initContract()" id="queryBtn" style="float: right;margin-right:20px;">
                             <span class="glyphicon glyphicon-search"></span> 搜索
@@ -168,8 +148,6 @@
                     page: this.pageNumber,
                     rows: this.pageSize,
                     contractName:$('#contractName').val(),
-                    startTime:$('#startTime').val(),
-                    endTime:$('#endTime1').val(),
                     towerTypeName:$('#towerType1').text(),
                     contractTypeName:$('#contractType1').text(),
                     roomTypeName:$('#contractType1').text(),

@@ -12,6 +12,7 @@ import com.dx.model.contract.Contract;
 import com.dx.model.contract.ContractExtension;
 import com.dx.model.contract.SysCode;
 import com.dx.model.nav.NavTree;
+import com.dx.model.user.UserMain;
 import com.dx.service.contract.ContractService;
 import com.dx.service.nav.NavService;
 import com.dx.util.DateUtils;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +54,12 @@ public class ContractController {
     //查询合同管理页面
     @RequestMapping(value = "queryContract", method = RequestMethod.POST)
     @ResponseBody
-    public PageResult queryContract(Integer page, Integer rows, Contract contract) {
+    public PageResult queryContract(Integer page, Integer rows, Contract contract, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        UserMain userBean = (UserMain) session.getAttribute(session.getId());
+        if("辖区管理员".equals(userBean.getRole())){
+            contract.setCounty(userBean.getCounty());
+        }
         PageResult pageResult = contractService.queryContract(page, rows, contract);
         return pageResult;
     }

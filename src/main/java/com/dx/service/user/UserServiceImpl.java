@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         int i=0;
         userMain.setPassword(StringUtils.getMD5String(userMain.getPassword()));
         if(org.apache.commons.lang.StringUtils.isNotBlank(userMain.getId())){
-            userMapper.updateUserByUserId(userMain);
+            return userMapper.updateUserByUserId(userMain);
         }else {
             String uuid=StringUtil.getUUId();
             userMain.setId(uuid);

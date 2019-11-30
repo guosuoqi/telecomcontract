@@ -37,6 +37,7 @@ public class PoiController {
     private final String bbuStr="BBU标识,BBU名称,所属站址编码,月理论耗电量,类型编码";
     private final String conStr="机房名称,区县,具体地址,年租金,总租金,合同编号,合同甲方,收款人,拟租开始年份,拟租结束时间,付费截止日期,机房类型,是否有基站";
     private final String rruStr="RRU标识,RRU名称,所属站址编码,月理论耗电量,类型编码";
+    private final String TrruStr="CI,小区名称,所属站址编码,月理论耗电量,类型编码";
     private final String oltStr="OLT标识,OLT名称,所属站址编码,月理论耗电量";
     private final String ipranStr="IPRAN标识,IPRAN名称,所属站址编码,月理论耗电量";
    // private final String siteStr="基站编码,基站产权,电信编码,铁塔站址编码";
@@ -79,7 +80,7 @@ public class PoiController {
                     fileName="5G_BBU_";
                     equipmentBBUlist=siteService.queryBBUByIdsAndType(ids);
                 }else if(type.equals(PoiTypeEnum.POI_TYPE_3G_RRU.getKey())){
-                   sheetMerged= rruStr.split(",");
+                   sheetMerged= TrruStr.split(",");
                     fileName="3G_RRU_";
                     equipmentRRUAAUList=siteService.queryRRByIdsAndType(ids);
                 }else if(type.equals(PoiTypeEnum.POI_TYPE_4G_RRU.getKey())){

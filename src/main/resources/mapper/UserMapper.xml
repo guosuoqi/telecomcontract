@@ -4,7 +4,7 @@
 
 
     <sql id="Base_Column_List">
-        id, login_number,password,user_name, role,mobile,email, user_state
+        id, login_number,password,user_name, role,mobile,email, user_state,county
     </sql>
 
     <select id="getUserInfoByLoginNumber"  resultType="com.dx.model.user.UserMain">
@@ -40,25 +40,25 @@
         update sys_user
             <set>
                 <if test="loginNumber != null and loginNumber != ''">
-                    and login_Number =#{loginNumber},
+                   login_Number =#{loginNumber},
                 </if>
                 <if test="userName != null and userName != ''">
-                    and user_Name =#{userName},
+                   user_Name =#{userName},
                 </if>
                 <if test="password != null and password != ''">
-                    and password =#{password},
+                   password =#{password},
                 </if>
                 <if test="county != null and county != ''">
-                    and county =#{county},
+                   county =#{county},
                 </if>
                 <if test="email != null and email != ''">
-                    and county =#{email},
+                  email =#{email},
                 </if>
                 <if test="mobile != null and mobile != ''">
-                    and mobile =#{mobile},
+                    mobile =#{mobile},
                 </if>
                 <if test="role != null and role != ''">
-                    and role =#{role},
+                    role =#{role},
                 </if>
             </set>
             where id=#{id}

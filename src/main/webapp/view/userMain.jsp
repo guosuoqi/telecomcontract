@@ -109,6 +109,7 @@
                 <div class="row">
                     <div class="col-xs-2">用户姓名:</div>
                     <div class="col-xs-4">
+                        <input class="form-control" name="id" id="id" type="text"/>
                         <input class="form-control" name="userName" id="userName1" type="text"/>
                     </div>
                 </div>
@@ -308,6 +309,7 @@
         }
         $.post('/user/saveUserRole',{userId:$("#hiddenUserId").val(),roleId:roleIds,role:roleName},function(data) {
             if(data==1){
+                initUser();
                 alert("更改角色成功")
                 $("#myModal").modal('hide');
             }else {
@@ -328,7 +330,7 @@
         }
         var val = $("#loginNumber").val();
         var pwd = $("#password").val();
-        var regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}');
+        var regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9])(?=.*[^`~!@#$%^&*()_+<>?:"{},.]).{8,30}');
         if (!regex.test(pwd)) {
             alert("您的密码复杂度太低（密码中必须包含字母、数字、特殊字符,长度8-30），请及时改密码！");
             return;

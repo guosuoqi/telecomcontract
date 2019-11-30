@@ -37,7 +37,7 @@
 				and contract_name like  '${contract.contractName}%'
 			</if>
 			<if test="contract.county != null and contract.county != '' ">
-				and county = #{contract.county}
+				and county in( #{contract.county})
 			</if>
 		</where>
 	</select>
@@ -72,7 +72,7 @@
 				and contract_name like  '${contract.contractName}%'
 			</if>
 			<if test="contract.county != null and contract.county != '' ">
-				and county = #{contract.county}
+				and county in( #{contract.county})
 			</if>
 		</where>
 		order by contract_id desc
