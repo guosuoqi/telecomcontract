@@ -9,13 +9,13 @@ import java.util.GregorianCalendar;
 
 public class disposeUtil {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Double dd=4.21;
         System.out.println(getDateTime("2019-07-30 10:55:09",dd,0));
     }
-
+*/
     //主流程
-    public static String getDateTime(String beginTime, Double num,Integer cu){
+    public  String getDateTime(String beginTime, Double num,Integer cu){
          Integer WORKING_TIME=7;
         if(beginTime==null || num==null){
             System.out.println("参数不正确");
@@ -55,7 +55,7 @@ public class disposeUtil {
         }
     }
 
-    private static Date isWorkTime(String date,Integer type,Integer cu) {
+    private  Date isWorkTime(String date,Integer type,Integer cu) {
         DateFormat df = new SimpleDateFormat("HH:mm");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
         SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateFormat ymd=new SimpleDateFormat("yyyy-MM-dd");
@@ -104,12 +104,12 @@ public class disposeUtil {
 
     }
 
-    private static Date jointDateTime(long m, Date model){
+    private  Date jointDateTime(long m, Date model){
         model.setTime(m);
         return model;
     }
 
-    public static boolean getWeek2(Date date){
+    public  boolean getWeek2(Date date){
         Integer[] weeks = {7,1,2,3,4,5,6};
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -123,7 +123,7 @@ public class disposeUtil {
         return false;
     }
 
-    public static boolean isHodliDays(Date date) {
+    public  boolean isHodliDays(Date date) {
         // 中国法定节假日期
         String isHoliday = "05-01,05-02,05-03,06-07,09-13,10-01,10-02,10-03,10-04,10-05";
         DateFormat df = new SimpleDateFormat("MM-dd");
@@ -133,7 +133,7 @@ public class disposeUtil {
         }
         return false;
     }
-    public static boolean isOverDays(Date date) { // 判断是否滴节假日，是否有节假日加班
+    public  boolean isOverDays(Date date) { // 判断是否滴节假日，是否有节假日加班
         // 节假前后加班日期
         String overDay = "05-05,09-29,10-12";
         DateFormat df = new SimpleDateFormat("MM-dd");

@@ -24,13 +24,13 @@ public class EmailUtil {
     private static String senderPassword = "BD123.abc";
     //合同内容模板
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         JSONObject body = new JSONObject();
         body.put("userEmail","guoxxbd.he@chinatelecom.cn");
         body.put("subject","续费待处理通知");
         body.put("content","郭欣欣"+"您好：<br/> &nbsp;&nbsp;&nbsp; &nbsp;有"+2+"笔合同已进入续费阶段，请尽快进行处理！！！<br/> <br/> <br/>&nbsp; &nbsp;本条信息为系统信息，请勿回复！");
         sendEmail(body);
-    }
+    }*/
     public static Boolean sendEmail(JSONObject content){
 
             //1、连接邮件服务器的参数配置

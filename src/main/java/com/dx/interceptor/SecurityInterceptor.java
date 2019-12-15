@@ -41,7 +41,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		UserMain userBean = (UserMain) session.getAttribute(session.getId());
 		if(userBean==null){
-			response.sendRedirect("/login.jsp");
+			response.sendRedirect("/user/tologin");
 			return false;
 		}
 		//取出userid
@@ -54,8 +54,8 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		//判断浏览器请求的地址是否在所查询出权限列表当中，如果在 return true;
 		for (String url : powerList) {
 			//判断是否包含
-			boolean contains = url.equals(requestURI);
-			if (contains) {
+			if (requestURI.equals(url)) {
+				System.out.println(url);
 				return true;
 			}
 		}

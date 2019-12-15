@@ -4,11 +4,11 @@
 <html>
 <head>
 	<!-- 引入样式文件和动态控制 -->
+	<script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
 	<link href="/static/bootstrap/bootstrap3/css/bootstrap.css" rel="stylesheet">
 	<link href="/static/bootstrap/bootstrap-select-1.13.7/dist/css/bootstrap-select.css" rel="stylesheet">
 	<link href="/static/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
 	<link href="/static/css/menuList.css" rel="stylesheet">
-	<script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
 	<script src="/static/bootstrap/bootstrap3/js/bootstrap.js"></script>
 	<script src="/static/bootstrap/bootstrap-table/bootstrap-table.js"></script>
 	<script src="/static/bootstrap/bootstrap-select-1.13.7/js/bootstrap-select.js"></script>

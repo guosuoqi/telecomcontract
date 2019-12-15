@@ -9,7 +9,6 @@ import com.dx.model.user.UserMain;
 import com.dx.service.user.UserService;
 import com.dx.util.ExceptionPrintUtil;
 import com.dx.util.PageResult;
-import com.dx.util.StringUtil;
 import com.dx.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +77,11 @@ public class UserController {
         }
         return "login";
     }
+    //調轉登錄頁面
+    @RequestMapping(value = "tologin")
+    public String tologin(){
+        return "login";
+    }
 
     @RequestMapping(value = "queryUser")
     @ResponseBody
@@ -133,7 +137,7 @@ public class UserController {
 
     @RequestMapping("saveUserRole")
     @ResponseBody
-    public boolean saveRole(String userId,Integer [] roleId,UserMain userMain){
+    public boolean saveRole(String userId,String [] roleId,UserMain userMain){
         try {
             userService.saveRole(userId,roleId,userMain);
             return true;

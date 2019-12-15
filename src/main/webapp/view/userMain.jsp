@@ -5,11 +5,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- 引入样式文件和动态控制 -->
+    <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
     <link href="/static/bootstrap/bootstrap3/css/bootstrap.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-select-1.13.7/dist/css/bootstrap-select.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <link href="/static/css/menuList.css" rel="stylesheet">
-    <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
     <script src="/static/bootstrap/bootstrap3/js/bootstrap.js"></script>
     <script src="/static/bootstrap/bootstrap-table/bootstrap-table.js"></script>
     <script src="/static/bootstrap/bootstrap-select-1.13.7/js/bootstrap-select.js"></script>
@@ -109,7 +109,7 @@
                 <div class="row">
                     <div class="col-xs-2">用户姓名:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="id" id="id" type="text"/>
+                        <input class="form-control" name="id" id="id" type="hidden"/>
                         <input class="form-control" name="userName" id="userName1" type="text"/>
                     </div>
                 </div>
@@ -163,8 +163,7 @@
 </div>
 
 <button type="button" onclick="openAddUser()" class="btn btn-info glyphicon glyphicon-plus">新增用户</button>
-<button type="button" onclick="delUser()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
-<button type="button" onclick="RoleManger()" class="btn btn-danger glyphicon">新增角色</button>
+<button type="button" onclick="delUser()" class="btn btn-danger glyphicon glyphicon-minus">删除用户</button>
 </div>
 <table id="myTable"></table>
 <table id="myRole"></table>
@@ -247,6 +246,7 @@
         $("#id").val("");
         $("#loginNumber").val("");
         $("#userName1").val("");
+        $("#password").val("");
         $("#county").val("");
         $("#mobile").val("");
         $("#email").val("");

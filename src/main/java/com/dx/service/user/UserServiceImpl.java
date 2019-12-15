@@ -109,12 +109,12 @@ public class UserServiceImpl implements UserService {
     }*/
 
     @Override
-    public void saveRole(String userId, Integer[] roleId,UserMain userMain) {
+    public void saveRole(String userId, String[] roleId,UserMain userMain) {
         //删除角色原有权限
         userMapper.deleteRole(userId);
         //新增角色新修改的权限
         ArrayList<UserRoleBean> params = new ArrayList<UserRoleBean>();
-        for (Integer integer : roleId) {
+        for (String integer : roleId) {
             UserRoleBean userRoleBean = new UserRoleBean();
             userRoleBean.setId(StringUtil.getUUId());
             userRoleBean.setRoleId(integer);;
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
         if(i!=0 && org.apache.commons.lang.StringUtils.isNotBlank(userMain.getRole())){
             UserRoleBean userRoleBean;
             List<UserRoleBean> urlist = new ArrayList<>();
-            Integer[] roleIds = userMain.getRoleId();
+            String[] roleIds = userMain.getRoleId();
             for (int j = 0; j < roleIds.length; j++) {
                 userRoleBean= new UserRoleBean();
                 userRoleBean.setRoleId(roleIds[j]);

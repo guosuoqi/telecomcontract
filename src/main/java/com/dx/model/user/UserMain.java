@@ -18,17 +18,17 @@ public class UserMain {
 
     private String makedate;//创建时间
 
-    private Integer[] roleId;//用户角色
+    private String[] roleId;//用户角色
 
     private String role;//用户角色
 
     private String county;//负责地区
 
-    public Integer[] getRoleId() {
+    public String[] getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer[] roleId) {
+    public void setRoleId(String[] roleId) {
         this.roleId = roleId;
     }
 
