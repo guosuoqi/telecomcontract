@@ -74,7 +74,6 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.addContract(contract);
     }
     public boolean addContractList(Sheet sheet, String UserName) {
-        String time= DateUtils.getDate("yyyyMMddHHmmss");
         List<SysCode> typeList=contractMapper.queryType();
         List<Contract> contractList = new ArrayList<>();
         Contract contract;
@@ -87,43 +86,28 @@ public class ContractServiceImpl implements ContractService {
             String reason = "";
             //获取每个单元格
             /**
-             * 0 id  1合同名字 2市 3年租金 4 总租金 5 合同编号
-             * 6合同甲方 7 收款人 8 拟租年份 9开始时间 10 结束事件
-             * 11付费截至时间 12机房类型 13塔栀类型 14合同类型
-             */
-            /**
              * 0 机房名字 1区县 2具体地址  3 年租金 4 总租金 5合同编号
              * 6合同甲方 7 收款人 8 拟租开始年份  9 拟租结束事件
              * 10付费截至时间 11机房类型 12是否有基站
              */
-
-            //区县地址
             String jifangName = getCellVal(row.getCell(0));
             String county = getCellVal(row.getCell(1));
             String address = getCellVal(row.getCell(2));
-
-            //年租金
             String yearRental = getCellVal(row.getCell(3));
-            //总租金
             String sunRental = getCellVal(row.getCell(4));
             String department = getCellVal(row.getCell(5));
-            //合同甲方    getContractFirst
             String contractFirst = getCellVal(row.getCell(6));
-            //收款人   getPayee
             String payee = getCellVal(row.getCell(7));
             //开始时间  getStartTime
             String startTime = getCellVal(row.getCell(8));
-            startTime=getTime(startTime);
             //结束时间  getEndTime
             String endTime = getCellVal(row.getCell(9));
-            endTime=getTime(endTime);
             // 付费截止日期   getPayEndTime
             String payEndTim = getCellVal(row.getCell(10));
-            payEndTim=getTime(payEndTim);
             // 机房类型  getRoomTypeName
             String roomTypeName = getCellVal(row.getCell(11));
             Integer roomType=getTypeByName(typeList,roomTypeName);
-            // 塔栀类型 getTowerTypeName
+            // 是否有基站
             String towerTypeName = getCellVal(row.getCell(12));
 
 

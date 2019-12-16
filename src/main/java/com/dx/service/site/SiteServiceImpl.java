@@ -423,7 +423,7 @@ public class SiteServiceImpl implements SiteService{
             String reason = "";
             //获取每个单元格
             /**
-             * "bbu编码,bbu名称,电信编码"
+             * "bbu编码,bbu名称,电信编码,电量"
              */
             //第一个单元格
             //bbu编码
@@ -432,9 +432,15 @@ public class SiteServiceImpl implements SiteService{
             String oltName = getCellVal(row.getCell(1));
             //电信编码
             String dxCode = getCellVal(row.getCell(2));
+            //理论耗电量
+            String power = getCellVal(row.getCell(3));
 
             olt=new EquipmentOLT();
-            olt.setPower(olt1);
+            if(StringUtils.isNotBlank(power)){
+                olt.setPower(Double.valueOf(power));
+            }else {
+                olt.setPower(olt1);
+            }
             olt.setDxCode(dxCode);
             olt.setOltCode(oltCode);
             olt.setOltName(oltName);
@@ -497,7 +503,7 @@ public class SiteServiceImpl implements SiteService{
     public boolean addIpranList(Sheet sheet) {
         List<EquipmentIPRAN> ipranList = new ArrayList<>();
         List<String> dxCodes = new ArrayList<>();
-        EquipmentIPRAN olt;
+        EquipmentIPRAN ipr;
         Double ipran = getPower("0", "ipran");
         for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
             Row row = (Row) sheet.getRow(i);
@@ -508,7 +514,7 @@ public class SiteServiceImpl implements SiteService{
             String reason = "";
             //获取每个单元格
             /**
-             * "bbu编码,bbu名称,电信编码,类型编码"
+             * "ipran编码,ipran名称,电信编码,理论耗电量"
              */
             //bbu编码
             String oltCode = getCellVal(row.getCell(0));
@@ -516,12 +522,19 @@ public class SiteServiceImpl implements SiteService{
             String oltName = getCellVal(row.getCell(1));
             //电信编码
             String dxCode = getCellVal(row.getCell(2));
-            olt=new EquipmentIPRAN();
-            olt.setPower(ipran);
-            olt.setDxCode(dxCode);
-            olt.setIpranCode(oltCode);
-            olt.setIpranName(oltName);
-            ipranList.add(olt);
+            //理论耗电量
+            String power = getCellVal(row.getCell(3));
+            ipr=new EquipmentIPRAN();
+            if(StringUtils.isNotBlank(power)){
+                ipr.setPower(Double.valueOf(power));
+            }else {
+                ipr.setPower(ipran);
+            }
+            ipr.setPower(ipran);
+            ipr.setDxCode(dxCode);
+            ipr.setIpranCode(oltCode);
+            ipr.setIpranName(oltName);
+            ipranList.add(ipr);
         }
         if(siteMapper.addIPRAN(ipranList)){
             updageRevisedDade();

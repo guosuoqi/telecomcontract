@@ -36,7 +36,7 @@ public class Contract {
 
     private Integer towerType;//塔栀类型
 
-    private String towerTypeName;//塔栀类型名称
+    private String towerTypeName;//是否有基站
 
     private Integer contractType;//合同类型
 
