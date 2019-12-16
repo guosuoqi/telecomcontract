@@ -7,7 +7,7 @@ public class UserRoleBean {
 	
 	private String userId;
 	
-	private Integer roleId;
+	private String roleId;
 
 	public String getId() {
 		return id;
@@ -25,11 +25,11 @@ public class UserRoleBean {
 		this.userId = userId;
 	}
 
-	public Integer getRoleId() {
+	public String getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Integer roleId) {
+	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
 }

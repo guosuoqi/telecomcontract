@@ -3,6 +3,7 @@ package com.dx.component;
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
 import com.dx.service.contract.ContractServiceImpl;
+import com.dx.service.site.SiteServiceImpl;
 import com.dx.service.task.TaskServeceImpl;
 import com.dx.util.EmailUtil;
 import net.sf.json.JSONObject;
@@ -20,6 +21,8 @@ public class ScheduledJob {
     private ContractServiceImpl contractServiceImpl ;
     @Autowired
     private TaskServeceImpl taskServeceImpl ;
+    @Autowired
+    private SiteServiceImpl siteServiceImpl ;
 
 
     @Scheduled(cron ="0 30 8 * * ?")
@@ -44,11 +47,16 @@ public class ScheduledJob {
         }
 
     }
-    @Scheduled(cron ="0 0 8 * * ?")
+    @Scheduled(cron ="0 0 1 * * ?")
     public void updateContractStart() {
         logger.info("检查合同是否到期！");
         contractServiceImpl.updateContractStatus();
         contractServiceImpl.sendContractTaskToEmail();
+    }
+  @Scheduled(cron ="0 0 1 * * ?")
+    public void updageRevisedDade() {
+        logger.info("检查合同是否到期！");
+        siteServiceImpl.updageRevisedDade();
     }
 
 

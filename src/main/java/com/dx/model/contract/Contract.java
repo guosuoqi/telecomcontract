@@ -8,6 +8,8 @@ public class Contract {
 
     private String county;//县
 
+    private String address; //具体地址
+
     private String yearRental;//年租金
 
     private String sunRental;//总租金
@@ -30,9 +32,11 @@ public class Contract {
 
     private String roomTypeName;//机房类型名称
 
+    private String jifangName; //机房名称
+
     private Integer towerType;//塔栀类型
 
-    private String towerTypeName;//塔栀类型名称
+    private String towerTypeName;//是否有基站
 
     private Integer contractType;//合同类型
 
@@ -232,6 +236,14 @@ public class Contract {
         return renewOperator;
     }
 
+    public String getJifangName() {
+        return jifangName;
+    }
+
+    public void setJifangName(String jifangName) {
+        this.jifangName = jifangName;
+    }
+
     public void setRenewOperator(String renewOperator) {
         this.renewOperator = renewOperator;
     }
@@ -250,5 +262,13 @@ public class Contract {
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

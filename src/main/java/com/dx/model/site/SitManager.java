@@ -9,6 +9,26 @@ public class SitManager {
      */
     private String baseCode;
     /**
+     * 站點名稱
+     */
+    private String baseName;
+    /**
+     * 电费缴纳方
+     */
+    private String powerMan;
+    /**
+     * 租赁费缴纳方
+     */
+    private String rentPayer;
+    /**
+     * 经度
+     */
+    private String longitude;
+    /**
+     * 纬度
+     */
+    private String latitude;
+    /**
      *基站产权
      */
     private String baseProperty;
@@ -48,14 +68,6 @@ public class SitManager {
      *olt 个数
      */
     private Integer oltCount;
-  /*  *//**
-     *直流耗电量
-     *//*
-    private Integer tributaryPowerConsume;
-    *//**
-     *pue值
-     *//*
-    private Integer pue;*/
     /**
      *总耗电量
      */
@@ -70,6 +82,19 @@ public class SitManager {
      * ipRan个数
      */
     private Integer ipranCount;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Integer getId() {
         return id;
@@ -189,5 +214,45 @@ public class SitManager {
 
     public void setPowerConsume(Double powerConsume) {
         this.powerConsume = powerConsume;
+    }
+
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
+    }
+
+    public String getPowerMan() {
+        return powerMan;
+    }
+
+    public void setPowerMan(String powerMan) {
+        this.powerMan = powerMan;
+    }
+
+    public String getRentPayer() {
+        return rentPayer;
+    }
+
+    public void setRentPayer(String rentPayer) {
+        this.rentPayer = rentPayer;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 }

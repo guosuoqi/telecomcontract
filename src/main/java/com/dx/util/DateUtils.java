@@ -1,5 +1,7 @@
 package com.dx.util;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,5 +30,14 @@ public class DateUtils {
         now = calendar.getTime();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(now);
+    }
+    /**
+     * 得到前四个小时的时间 默认格式 HH:mm:ss
+     * @return
+     */
+    public static String getBeforeHourTime(Integer time){
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,calendar.get(Calendar.HOUR_OF_DAY)-time);
+        return DateFormatUtils.format(calendar.getTime(),"yyyy-MM-dd HH:mm:ss");
     }
 }

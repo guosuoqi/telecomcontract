@@ -51,4 +51,5 @@ public interface SiteService {
     boolean insertStation(List<SitManager> sitManagerList);
 
     int delAllSit(String ids);
+
 }

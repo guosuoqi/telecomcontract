@@ -16,7 +16,9 @@ import com.dx.util.DateUtils;
 import com.dx.util.PageResult;
 import com.dx.util.PageUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.dx.util.StringUtil;
 import org.apache.catalina.mbeans.UserMBean;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,11 +26,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -71,7 +74,6 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.addContract(contract);
     }
     public boolean addContractList(Sheet sheet, String UserName) {
-        String time= DateUtils.getDate("yyyyMMddHHmmss");
         List<SysCode> typeList=contractMapper.queryType();
         List<Contract> contractList = new ArrayList<>();
         Contract contract;
@@ -84,102 +86,35 @@ public class ContractServiceImpl implements ContractService {
             String reason = "";
             //获取每个单元格
             /**
-             * 0 id  1合同名字 2市 3年租金 4 总租金 5 合同编号
-             * 6合同甲方 7 收款人 8 拟租年份 9开始时间 10 结束事件
-             * 11付费截至时间 12机房类型 13塔栀类型 14合同类型
+             * 0 机房名字 1区县 2具体地址  3 年租金 4 总租金 5合同编号
+             * 6合同甲方 7 收款人 8 拟租开始年份  9 拟租结束事件
+             * 10付费截至时间 11机房类型 12是否有基站
              */
-            /**
-             * 0 id  1合同名字 2市 3年租金 4 总租金 5 合同编号
-             * 6合同甲方 7 收款人 8 拟租年份 9开始时间 10 结束事件
-             * 11付费截至时间 12机房类型 13塔栀类型 14合同类型
-             */
-            //String  id = getCellVal(row.getCell(0));//第一个单元格
-            //合同编号
-            String department = getCellVal(row.getCell(0));
-           /* if(!"".equals(department)){
-                reason += "合同编号不可为空,";
-            }*/
-            //合同名
-            String name = getCellVal(row.getCell(1));
-           /* if("".equals(name)){
-                reason += "合同名字,";
-            }*/
-            //地址
-            String county = getCellVal(row.getCell(2));
-            /*if("".equals(cityAndCounty)){
-                reason += "地址不可为空,";
-            }*/
-           /* String[] split = cityAndCounty.split("-");
-            String city="";
-            String county="";
-            if(split.length>=2){
-                city=getCityOrCounty(split,0);
-                county=getCityOrCounty(split,1);
-            }else{
-                reason += "地址格式不正确,";
-            }*/
-            //年租金
+            String jifangName = getCellVal(row.getCell(0));
+            String county = getCellVal(row.getCell(1));
+            String address = getCellVal(row.getCell(2));
             String yearRental = getCellVal(row.getCell(3));
-          /*  if(!"".equals(yearRental)){
-                reason += "年租金不允许为空,";
-            }*/
-            //总租金
             String sunRental = getCellVal(row.getCell(4));
-            /*if(!"".equals(sunRental)){
-                reason += "总租金不允许为空,";
-            }*/
-
-            //合同甲方    getContractFirst
-            String contractFirst = getCellVal(row.getCell(5));
-          /*  if(!"".equals(contractFirst)){
-                reason += "合同甲方不可为空,";
-            }*/
-            //收款人   getPayee
-            String payee = getCellVal(row.getCell(6));
-           /* if(!"".equals(contractFirst)){
-                reason += "合同甲方不可为空,";
-            }*/
-            //拟租年份  getPlanYear
-            String planYear = getCellVal(row.getCell(7));
-          /*  if(!"".equals(planYear)){
-                reason += "拟租年份不可为空,";
-            }*/
+            String department = getCellVal(row.getCell(5));
+            String contractFirst = getCellVal(row.getCell(6));
+            String payee = getCellVal(row.getCell(7));
             //开始时间  getStartTime
             String startTime = getCellVal(row.getCell(8));
-          /*  if(!"".equals(planYear)){
-                reason += "开始时间不可为空,";
-            }*/
             //结束时间  getEndTime
             String endTime = getCellVal(row.getCell(9));
-          /*  if(!"".equals(endTime)){
-                reason += "结束时间不可为空,";
-            }*/
             // 付费截止日期   getPayEndTime
             String payEndTim = getCellVal(row.getCell(10));
-            /*if(!"".equals(payEndTim)){
-                reason += "付费截止日期不可为空,";
-            }*/
             // 机房类型  getRoomTypeName
             String roomTypeName = getCellVal(row.getCell(11));
-            String roomType=getTypeByName(typeList,roomTypeName);
-           /* if(!"".equals(roomType)){
-                reason += "机房类型不可为空,";
-            }*/
-            // 塔栀类型 getTowerTypeName
+            Integer roomType=getTypeByName(typeList,roomTypeName);
+            // 是否有基站
             String towerTypeName = getCellVal(row.getCell(12));
-            String towerType=getTypeByName(typeList,towerTypeName);
-          /*  if(!"".equals(towerType)){
-                reason += "塔栀类型不可为空,";
-            }*/
-            //合同类型 getContractTypeName
-            String contractTypeName = getCellVal(row.getCell(13));
-            String contractType=getTypeByName(typeList,contractTypeName);
-            /*if(!"".equals(towerType)){
-                reason += "合同类型不可为空,";
-            }*/
+
+
             contract = new Contract();
-            contract.setContractName(name);
             contract.setCounty(county);
+            contract.setJifangName(jifangName);
+            contract.setAddress(address);
             contract.setYearRental(yearRental);
             contract.setSunRental(sunRental);
             contract.setContractNum(department);
@@ -188,24 +123,24 @@ public class ContractServiceImpl implements ContractService {
             contract.setStartTime(startTime);
             contract.setEndTime(endTime);
             contract.setPayEndTime(payEndTim);
-            contract.setRoomType(roomType.isEmpty() ? null: Integer.valueOf(roomType));
+            contract.setRoomType(roomType);
             contract.setRoomTypeName(roomTypeName);
-            contract.setTowerType(Integer.valueOf(towerType));
             contract.setTowerTypeName(towerTypeName);
-            contract.setContractType(Integer.valueOf(contractType));
-            contract.setContractTypeName(contractTypeName);
             contractList.add(contract);
         }
         return contractMapper.addContractList(contractList);
     }
 
-    private String getTypeByName(List<SysCode> typeList, String poomTypeName) {
+    private Integer getTypeByName(List<SysCode> typeList, String poomTypeName) {
+        if(StringUtils.isBlank(poomTypeName)){
+            return null;
+        }
         for (SysCode sys:typeList) {
             if (sys.getCodeName().equals(poomTypeName)){
-                return sys.getCodeId();
+                return Integer.valueOf(sys.getCodeId());
             }
         }
-        return "";
+        return null;
     }
 
     private String getCityOrCounty(String[] split, int i) {
@@ -301,7 +236,11 @@ public class ContractServiceImpl implements ContractService {
         }
         //设置单元格类型
         cell.setCellType(CellType.STRING);
-        return cell.getStringCellValue().trim();
+        String stringCellValue = cell.getStringCellValue();
+        if(StringUtils.isBlank(stringCellValue)){
+            return null;
+        }
+        return stringCellValue.trim();
     }
     /**
      * 搜索合同续费/续费数
@@ -393,5 +332,55 @@ public class ContractServiceImpl implements ContractService {
         }else {
             return "未知机房，合同编码为："+con.getContractNum();
         }
+    }
+
+
+    //Mysql支持的时间戳限制
+    static long minTime = Timestamp.valueOf("1970-01-01 09:00:00").getTime();
+    static long maxTime = Timestamp.valueOf("2038-01-19 11:00:00").getTime();
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+    //判断 并转换时间格式 ditNumber = 43607.4166666667
+    public static String getTime(String ditNumber) {
+        if(StringUtils.isBlank(ditNumber)){
+            return null ;
+        }
+        //如果不是数字
+        if(!isNumeric(ditNumber)){
+            return null;
+        }
+        //如果是数字 小于0则 返回
+        BigDecimal bd = new BigDecimal(ditNumber);
+        int days = bd.intValue();//天数
+        int mills = (int) Math.round(bd.subtract(new BigDecimal(days)).doubleValue() * 24 * 3600);
+
+        //获取时间
+        Calendar c = Calendar.getInstance();
+        c.set(1900, 0, 1);
+        c.add(Calendar.DATE, days - 2);
+        int hour = mills / 3600;
+        int minute = (mills - hour * 3600) / 60;
+        int second = mills - hour * 3600 - minute * 60;
+        c.set(Calendar.HOUR_OF_DAY, hour);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, second);
+
+        Date d = c.getTime();//Date
+        try {
+                return dateFormat.format(c.getTime());
+        } catch (Exception e) {
+            System.out.println("传入日期错误" + c.getTime());
+        }
+        return "Error";
+    }
+
+    //校验是否数据含小数点
+    private static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]+\\.*[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        if(!isNum.matches()){
+            return false;
+        }
+        return true;
     }
 }

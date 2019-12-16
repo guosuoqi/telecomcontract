@@ -5,11 +5,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- 引入样式文件和动态控制 -->
+    <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
     <link href="/static/bootstrap/bootstrap3/css/bootstrap.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-select-1.13.7/dist/css/bootstrap-select.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <link href="/static/css/menuList.css" rel="stylesheet">
-    <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
     <script src="/static/js/chat.js"></script>
     <script src="/static/bootstrap/bootstrap3/js/bootstrap.js"></script>
     <script src="/static/bootstrap/bootstrap-table/bootstrap-table.js"></script>
@@ -41,26 +41,6 @@
                             <input type="text" name="contractName" id="contractName"  class="form-control" placeholder="请输入合同名称">
                         </div>
                     </div>
-
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="startTime">开始时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="startTime"></label>
-                            <input type="text" class="form-control date" id="startTime" placeholder="请输入开始时间">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="endTime">结束时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="endTime"></label>
-                            <input type="text" class="form-control date" id="endTime" placeholder="请输入结束时间">
-                        </div>
-                    </div>
-
                     <div class="col-xs-12">
                         <button type="button" class="btn btn-primary btn-w-m" onclick="initExtension()" id="queryBtn" style="float: right;margin-right:20px;">
                             <span class="glyphicon glyphicon-search"></span> 搜索
@@ -100,9 +80,9 @@
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[5, 10, 20, 50],//分页组件
+            pageList:[50,100,500],//分页组件
             pageNumber:1,
-            pageSize:5,//默认每页条数
+            pageSize:20,//默认每页条数
             //search:true,//是否显示搜索框
             //searchText:'试试',//初始化搜索文字
             showColumns:false,//是否显示 内容列下拉框
@@ -119,9 +99,6 @@
                     page: this.pageNumber,
                     rows: this.pageSize,
                     contractName:$('#contractName').val(),
-                    startTime:$('#startTime').val(),
-                    endTime:$('#endTime').val(),
-
                 }
             },
             columns:[

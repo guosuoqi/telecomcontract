@@ -5,11 +5,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- 引入样式文件和动态控制 -->
+    <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
     <link href="/static/bootstrap/bootstrap3/css/bootstrap.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-select-1.13.7/dist/css/bootstrap-select.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <link href="/static/css/menuList.css" rel="stylesheet">
-    <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
     <script src="/static/bootstrap/bootstrap3/js/bootstrap.js"></script>
     <script src="/static/bootstrap/bootstrap-table/bootstrap-table.js"></script>
     <script src="/static/bootstrap/bootstrap-select-1.13.7/js/bootstrap-select.js"></script>
@@ -49,18 +49,18 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-2">基站编码:</div>
+                    <div class="col-xs-2">站点名称:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="baseCode" id="baseCode" type="text"/>
+                        <input class="form-control" name="baseName" id="baseCode" type="text"/>
                     </div>
-                    <div class="col-xs-2">基站产权:</div>
+                    <div class="col-xs-2">机房产权:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="baseProperty" id="baseProperty" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">电信编码:</div>
+                    <div class="col-xs-2">所属站址编码:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="id" id="id" type="hidden"/>
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
@@ -68,6 +68,32 @@
                     <div class="col-xs-2">铁塔站址编码:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="ttCode"id="ttCode" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">电费缴纳方:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="powerMan" id="powerMan" type="text"/>
+                    </div>
+                    <div class="col-xs-2">租赁费缴纳方:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="rentPayer"id="rentPayer" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">站址经度:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="dxCode" id="longitude" type="text"/>
+                    </div>
+                    <div class="col-xs-2">站址纬度:</div>
+                    <div class="col-xs-4">
+                        <input class="form-control" name="ttCode"id="latitude" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">备注:</div>
+                    <div class="col-xs-8">
+                        <input class="form-control" name="remark" id="remark" type="text"/>
                     </div>
                 </div>
             </div>
@@ -134,9 +160,9 @@
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[10,50,100,500],//分页组件
+            pageList:[100,500,1000],//分页组件
             pageNumber:1,
-            pageSize:5,//默认每页条数
+            pageSize:50,//默认每页条数
             //search:true,//是否显示搜索框
             //searchText:'试试',//初始化搜索文字
             showColumns:false,//是否显示 内容列下拉框
@@ -159,21 +185,26 @@
             columns:[
                 {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
                 {field:'id',title:'站点id',align: 'center',width:"40px",valign: 'middle',visible:false},
-                {field:'baseCode',title:'基站编码',align: 'center',valign: 'middle'},
-                {field:'baseProperty',title:'基站产权',align: 'center',valign: 'middle'},
-                {field:'dxCode',title:'电信站址编码',align: 'center',valign: 'middle'},
+                {field:'baseName',title:'站点名称',align: 'center',valign: 'middle'},
+                {field:'baseProperty',title:'机房产权',align: 'center',valign: 'middle'},
+                {field:'dxCode',title:'所属站址编码',align: 'center',valign: 'middle'},
                 {field:'ttCode',title:'铁塔站址编码',align: 'center',valign: 'middle'},
+                {field:'powerMan',title:'电费缴纳方',align: 'center',valign: 'middle'},
+                {field:'rentPayer',title:'租赁费缴纳方',align: 'center',valign: 'middle'},
+                {field:'longitude',title:'经度',align: 'center',valign: 'middle'},
+                {field:'latitude',title:'纬度',align: 'center',valign: 'middle'},
                 {field:'threeBbuCount',title:'3GBBU个数',align: 'center',valign: 'middle'},
                 {field:'fourBbuCount',title:'4GBBU个数',align: 'center',valign: 'middle'},
                 {field:'fiveBbuCount',title:'5GBBU个数',align: 'center',valign: 'middle'},
-                {field:'threeRruCount',title:'3GRRU个数',align: 'center',valign: 'middle'},
+                {field:'threeRruCount',title:'CI个数',align: 'center',valign: 'middle'},
                 {field:'fourRruCount',title:'4GRRU个数',align: 'center',valign: 'middle'},
                 {field:'fiveAauCount',title:'5GAAU个数',align: 'center',valign: 'middle'},
                 {field:'oltCount',title:'OLT个数',align: 'center',valign: 'middle'},
                 {field:'ipranCount',title:'IPRAN个数',align: 'center',valign: 'middle'},
                 {field:'powerConsume',title:'机房总耗电量',align: 'center',valign: 'middle'},
+                {field:'remark',title:'备注',align: 'center',valign: 'middle'},
                 {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editSite(\'' + row.id + '\',\'' + row.baseCode + '\',\'' + row.baseProperty + '\',\'' + row.dxCode + '\',\'' + row.ttCode + '\')">修改</a>  ';
+                        return  ' <a href="javascript:editSite(\'' + row.id + '\',\'' + row.baseName + '\',\'' + row.baseProperty + '\',\'' + row.dxCode + '\',\'' + row.ttCode + '\',\'' + row.powerMan + '\',\'' + row.rentPayer + '\',\'' + row.longitude + '\',\'' + row.latitude + '\',\'' + row.remark + '\')">修改</a>  ';
                     }}
             ]
         })
@@ -197,15 +228,26 @@
         $("#baseProperty").val("");
         $("#dxCode").val("");
         $("#ttCode").val("");
+        $("#powerMan").val("");
+        $("#rentPayer").val("");
+        $("#longitude").val("");
+        $("#latitude").val("");
+        $("#remark").val("");
         $('#myModal').modal();
     }
-//打开修改框
-    function editSite(id,baseCode,baseProperty,dxCode,ttCode) {
+
+    //打开修改框
+    function editSite(id,baseName,baseProperty,dxCode,ttCode,powerMan,rentPayer,longitude,latitude,remark) {
         $("#id").val(id);
-        $("#baseCode").val(baseCode);
+        $("#baseName").val(baseName);
         $("#baseProperty").val(baseProperty);
         $("#dxCode").val(dxCode);
         $("#ttCode").val(ttCode);
+        $("#powerMan").val(powerMan);
+        $("#rentPayer").val(rentPayer);
+        $("#longitude").val(longitude);
+        $("#latitude").val(latitude);
+        $("#remark").val(remark);
         $('#myModal').modal();
     }
     //批量删除
@@ -323,9 +365,14 @@
             data : {
                 id:$("#id").val(),
                 dxCode:$("#dxCode").val(),
-                baseCode:$("#baseCode").val(),
+                baseName:$("#baseName").val(),
                 baseProperty:$("#baseProperty").val(),
                 ttCode:$("#ttCode").val(),
+                latitude:$("#latitude").val(),
+                longitude:$("#longitude").val(),
+                rentPayer:$("#rentPayer").val(),
+                powerMan:$("#powerMan").val(),
+                remark:$("#remark").val()
             },
             success:function (data){
                 initSiteManager();

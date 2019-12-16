@@ -34,12 +34,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/poi")
 public class PoiController {
-    private final String bbuStr="电信编码,bbu编码,bbu名称,耗电量,网管员id,网管员,类型编码";
-    private final String conStr="合同编号,合同名字,地址,年租金,总租金,合同甲方,收款人,拟租年份,开始时间,结束时间,付费截止日期,机房类型,塔栀类型,合同类型,所属机房";
-    private final String rruStr="电信编码,rru编码,rru名称,耗电量,网管员id,网管员,类型编码";
-    private final String oltStr="电信编码,olt编码,olt名称,耗电量,网管员id,网管员";
-    private final String ipranStr="电信编码,ipran编码,ipran名称,耗电量,网管员id,网管员";
-    private final String siteStr="基站编码,基站产权,电信编码,铁塔站址编码";
+    private final String bbuStr="BBU标识,BBU名称,所属站址编码,月理论耗电量,类型编码";
+    private final String conStr="机房名称,区县,具体地址,年租金,总租金,合同编号,合同甲方,收款人,拟租开始年份,拟租结束时间,付费截止日期,机房类型,是否有基站";
+    private final String rruStr="RRU标识,RRU名称,所属站址编码,月理论耗电量,类型编码";
+    private final String TrruStr="CI,小区名称,所属站址编码,月理论耗电量,类型编码";
+    private final String oltStr="OLT标识,OLT名称,所属站址编码,月理论耗电量";
+    private final String ipranStr="IPRAN标识,IPRAN名称,所属站址编码,月理论耗电量";
+   // private final String siteStr="基站编码,基站产权,电信编码,铁塔站址编码";
+    private final String siteStr="站点名称,所属站址编码,铁塔站址编码,机房产权,电费缴费方,租赁费缴费方,站址经度,站址纬度,备注";
     @Autowired
     private ContractService contractService;
     @Autowired
@@ -78,7 +80,7 @@ public class PoiController {
                     fileName="5G_BBU_";
                     equipmentBBUlist=siteService.queryBBUByIdsAndType(ids);
                 }else if(type.equals(PoiTypeEnum.POI_TYPE_3G_RRU.getKey())){
-                   sheetMerged= rruStr.split(",");
+                   sheetMerged= TrruStr.split(",");
                     fileName="3G_RRU_";
                     equipmentRRUAAUList=siteService.queryRRByIdsAndType(ids);
                 }else if(type.equals(PoiTypeEnum.POI_TYPE_4G_RRU.getKey())){
@@ -456,23 +458,19 @@ public class PoiController {
         return result;
     }
     private void setRRUPoi(HSSFRow row3, EquipmentRRUAAU equipmentBBU) {
-        row3.createCell(0).setCellValue(equipmentBBU.getDxCode());
-        row3.createCell(1).setCellValue(equipmentBBU.getRruCode());
-        row3.createCell(2).setCellValue(equipmentBBU.getRruName());
+        row3.createCell(0).setCellValue(equipmentBBU.getRruCode());
+        row3.createCell(1).setCellValue(equipmentBBU.getRruName());
+        row3.createCell(2).setCellValue(equipmentBBU.getDxCode());
         row3.createCell(3).setCellValue(equipmentBBU.getPower());
-        row3.createCell(4).setCellValue(equipmentBBU.getNetCareId());
-        row3.createCell(5).setCellValue(equipmentBBU.getNetCareName());
-        row3.createCell(6).setCellValue(equipmentBBU.getNetworkType());
+        row3.createCell(4).setCellValue(equipmentBBU.getNetworkType());
     }
 
     private void setBBUPoi(HSSFRow row3, EquipmentBBU equipmentBBU) {
-        row3.createCell(0).setCellValue(equipmentBBU.getDxCode());
-        row3.createCell(1).setCellValue(equipmentBBU.getBbuCode());
-        row3.createCell(2).setCellValue(equipmentBBU.getBbuName());
+        row3.createCell(0).setCellValue(equipmentBBU.getBbuCode());
+        row3.createCell(1).setCellValue(equipmentBBU.getBbuName());
+        row3.createCell(2).setCellValue(equipmentBBU.getDxCode());
         row3.createCell(3).setCellValue(equipmentBBU.getPower());
-        row3.createCell(4).setCellValue(equipmentBBU.getNetCareId());
-        row3.createCell(5).setCellValue(equipmentBBU.getNetCareName());
-        row3.createCell(6).setCellValue(equipmentBBU.getNetworkType());
+        row3.createCell(4).setCellValue(equipmentBBU.getNetworkType());
     }
 
     private boolean isRRU(Integer type) {
@@ -494,43 +492,41 @@ public class PoiController {
     }
 
     private void setContractPoi(HSSFRow row3, Contract contract) {
-        row3.createCell(0).setCellValue(contract.getContractNum());
-        row3.createCell(1).setCellValue(contract.getContractName());
-        row3.createCell(2).setCellValue(contract.getCounty());
+        row3.createCell(0).setCellValue(contract.getJifangName());
+        row3.createCell(1).setCellValue(contract.getCounty());
+        row3.createCell(2).setCellValue(contract.getAddress());
         row3.createCell(3).setCellValue(contract.getYearRental());
         row3.createCell(4).setCellValue(contract.getSunRental());
-        row3.createCell(5).setCellValue(contract.getContractFirst());
-        row3.createCell(6).setCellValue(contract.getPayee());
-        row3.createCell(7).setCellValue(contract.getPlanYear());
+        row3.createCell(5).setCellValue(contract.getContractNum());
+        row3.createCell(6).setCellValue(contract.getContractFirst());
+        row3.createCell(7).setCellValue(contract.getPayee());
         row3.createCell(8).setCellValue(contract.getStartTime());
         row3.createCell(9).setCellValue(contract.getEndTime());
         row3.createCell(10).setCellValue(contract.getPayEndTime());
         row3.createCell(11).setCellValue(contract.getRoomTypeName());
         row3.createCell(12).setCellValue(contract.getTowerTypeName());
-        row3.createCell(13).setCellValue(contract.getContractTypeName());
-        row3.createCell(14).setCellValue(contract.getRoomName());
     }
     private void setOLTPoi(HSSFRow row3, EquipmentOLT equipmentOLT) {
-        row3.createCell(0).setCellValue(equipmentOLT.getDxCode());
-        row3.createCell(1).setCellValue(equipmentOLT.getOltCode());
-        row3.createCell(2).setCellValue(equipmentOLT.getOltName());
+        row3.createCell(0).setCellValue(equipmentOLT.getOltCode());
+        row3.createCell(1).setCellValue(equipmentOLT.getOltName());
+        row3.createCell(2).setCellValue(equipmentOLT.getDxCode());
         row3.createCell(3).setCellValue(equipmentOLT.getPower());
-        row3.createCell(4).setCellValue(equipmentOLT.getNetCareId());
-        row3.createCell(5).setCellValue(equipmentOLT.getNetCareName());
     }
     private void setIPRANPoi(HSSFRow row3, EquipmentIPRAN equipmentIPRAN) {
-        row3.createCell(0).setCellValue(equipmentIPRAN.getDxCode());
-        row3.createCell(1).setCellValue(equipmentIPRAN.getIpranCode());
-        row3.createCell(2).setCellValue(equipmentIPRAN.getIpranName());
+        row3.createCell(0).setCellValue(equipmentIPRAN.getIpranCode());
+        row3.createCell(1).setCellValue(equipmentIPRAN.getIpranName());
+        row3.createCell(2).setCellValue(equipmentIPRAN.getDxCode());
         row3.createCell(3).setCellValue(equipmentIPRAN.getPower());
-        row3.createCell(4).setCellValue(equipmentIPRAN.getNetCareId());
-        row3.createCell(5).setCellValue(equipmentIPRAN.getNetCareName());
     }
     private void setSitePoi(HSSFRow row3, SitManager site) {
-        row3.createCell(0).setCellValue(site.getBaseCode());
-        row3.createCell(1).setCellValue(site.getBaseProperty());
-        row3.createCell(2).setCellValue(site.getDxCode());
-        row3.createCell(3).setCellValue(site.getTtCode());
+        row3.createCell(0).setCellValue(site.getBaseName());
+        row3.createCell(1).setCellValue(site.getDxCode());
+        row3.createCell(2).setCellValue(site.getTtCode());
+        row3.createCell(3).setCellValue(site.getBaseProperty());
+        row3.createCell(4).setCellValue(site.getPowerMan());
+        row3.createCell(5).setCellValue(site.getRentPayer());
+        row3.createCell(6).setCellValue(site.getLongitude());
+        row3.createCell(7).setCellValue(site.getLatitude());
+        row3.createCell(8).setCellValue(site.getRemark());
     }
-
 }

@@ -8,16 +8,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.dx.model.contract.Contract;
 import com.dx.model.nav.*;
 import com.dx.service.nav.NavService;
-import com.dx.util.StringUtil;
-import com.dx.util.StringUtils;
+import com.dx.util.*;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.poi.util.ArrayUtil;
 import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
-import com.dx.util.PageResult;
-import com.dx.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,12 +106,12 @@ public class UserServiceImpl implements UserService {
     }*/
 
     @Override
-    public void saveRole(String userId, Integer[] roleId,UserMain userMain) {
+    public void saveRole(String userId, String[] roleId,UserMain userMain) {
         //删除角色原有权限
         userMapper.deleteRole(userId);
         //新增角色新修改的权限
         ArrayList<UserRoleBean> params = new ArrayList<UserRoleBean>();
-        for (Integer integer : roleId) {
+        for (String integer : roleId) {
             UserRoleBean userRoleBean = new UserRoleBean();
             userRoleBean.setId(StringUtil.getUUId());
             userRoleBean.setRoleId(integer);;
@@ -131,22 +128,32 @@ public class UserServiceImpl implements UserService {
         return userMapper.addRole(roleBean);
 
     }
+    @Override
+    public void insertErrorUserLog(UserMain userMain) {
+        userMapper.insertErrorUserLog(userMain);
+
+    }
 //新增用户
     @Override
     @Transactional
     public int addUser(UserMain userMain) {
-        String uuid=StringUtil.getUUId();
-        userMain.setId(uuid);
+        int i=0;
         userMain.setPassword(StringUtils.getMD5String(userMain.getPassword()));
-        int i = userMapper.addUser(userMain);
-        if(i!=0){
+        if(org.apache.commons.lang.StringUtils.isNotBlank(userMain.getId())){
+            return userMapper.updateUserByUserId(userMain);
+        }else {
+            String uuid=StringUtil.getUUId();
+            userMain.setId(uuid);
+            i = userMapper.addUser(userMain);
+        }
+        if(i!=0 && org.apache.commons.lang.StringUtils.isNotBlank(userMain.getRole())){
             UserRoleBean userRoleBean;
             List<UserRoleBean> urlist = new ArrayList<>();
-            Integer[] roleIds = userMain.getRoleId();
+            String[] roleIds = userMain.getRoleId();
             for (int j = 0; j < roleIds.length; j++) {
                 userRoleBean= new UserRoleBean();
                 userRoleBean.setRoleId(roleIds[j]);
-                userRoleBean.setUserId(uuid);
+                userRoleBean.setUserId(userMain.getId());
                 userRoleBean.setId(StringUtil.getUUId());
                 urlist.add(userRoleBean);
             }
@@ -173,6 +180,12 @@ public class UserServiceImpl implements UserService {
            return i;
        }
        return 0;
+    }
+    @Override
+    public int getErrorUserLog(UserMain user) {
+        String beforeHourTime = DateUtils.getBeforeHourTime(2);
+        user.setLoginTime(beforeHourTime);
+        return userMapper.getErrorUserLog(user);
     }
 
     @Override

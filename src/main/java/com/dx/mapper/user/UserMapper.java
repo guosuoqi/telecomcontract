@@ -31,7 +31,7 @@ public interface UserMapper {
 
     void insertUserRole(@Param("list") List<UserRoleBean> list);
 
-    void updateUserByUserId(UserMain user);
+    int updateUserByUserId(UserMain user);
 
     List<UserMain> queryUserByCounty(@Param("county")String county);
 
@@ -72,4 +72,8 @@ public interface UserMapper {
     void delRoleNav(@Param("ids")String[] roleIds);
 
     void delUserRoleByRoleId(@Param("ids")String[] roleIds);
+
+    int getErrorUserLog(UserMain user);
+
+    void insertErrorUserLog(UserMain userMain);
 }

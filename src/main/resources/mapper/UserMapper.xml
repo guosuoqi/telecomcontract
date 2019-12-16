@@ -4,7 +4,7 @@
 
 
     <sql id="Base_Column_List">
-        id, login_number,password,user_name, role,mobile,email, user_state
+        id, login_number,password,user_name, role,mobile,email, user_state,county
     </sql>
 
     <select id="getUserInfoByLoginNumber"  resultType="com.dx.model.user.UserMain">
@@ -26,6 +26,10 @@
         select * from sys_user
         where county like '%${county}%'
     </select>
+    <select id="getErrorUserLog">
+        select count(0) from sys_user_error_log
+        where login_time &gt; #{loginTime} and login_number =#{loginNumber}
+    </select>
 <!--查询用户管理列表-->
     <select id="queryUser"  resultType="com.dx.model.user.UserMain">
         select * from sys_user
@@ -39,11 +43,26 @@
     <update id="updateUserByUserId">
         update sys_user
             <set>
+                <if test="loginNumber != null and loginNumber != ''">
+                   login_Number =#{loginNumber},
+                </if>
+                <if test="userName != null and userName != ''">
+                   user_Name =#{userName},
+                </if>
                 <if test="password != null and password != ''">
-                    and password =#{password},
+                   password =#{password},
+                </if>
+                <if test="county != null and county != ''">
+                   county =#{county},
+                </if>
+                <if test="email != null and email != ''">
+                  email =#{email},
+                </if>
+                <if test="mobile != null and mobile != ''">
+                    mobile =#{mobile},
                 </if>
                 <if test="role != null and role != ''">
-                    and role =#{role},
+                    role =#{role},
                 </if>
             </set>
             where id=#{id}
@@ -109,19 +128,27 @@
     <insert id="addUser">
         insert into sys_user(id,login_Number,password,user_Name,mobile,email,role,county) values
             (#{userMain.id},#{userMain.loginNumber},#{userMain.password},#{userMain.userName},#{userMain.mobile},#{userMain.email},#{userMain.role},#{userMain.county})
+            <trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+                login_Number=#{userMain.loginNumber},
+                password=#{userMain.password},
+                user_Name=#{userMain.userName},
+                county=#{userMain.county},
+                email=#{userMain.email},
+                mobile=#{userMain.mobile}
+            </trim>
     </insert>
 
     <!-- 用户页面批量删除 -->
     <delete id="delUser">
 		delete from sys_user where id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
 	</delete>
   <!-- 角色页面批量删除 -->
     <delete id="delRole">
 		delete from sys_role where id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
 	</delete>
@@ -135,14 +162,14 @@
     <!-- 角色_权限批量删除 -->
     <delete id="delRoleNav">
         delete from sys_role_power where nav_id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </delete>
     <!-- 用户_角色批量删除 -->
     <delete id="delUserRoleByRoleId">
         delete from sys_user_role where role_id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </delete>
@@ -184,6 +211,11 @@
     <insert id="addRole">
         insert into  sys_role(id,name,remark)  values
             (#{roleBean.id},#{roleBean.name},#{roleBean.remark})
+    </insert>
+
+    <insert id="insertErrorUserLog">
+        insert into  sys_user_error_log(longin_number,longin_time)  values
+            (#{loginNumber},now())
     </insert>
 
 
