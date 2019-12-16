@@ -24,7 +24,7 @@
     </select>
     <select id="queryUserByCounty"  resultType="com.dx.model.user.UserMain">
         select * from sys_user
-        where county like '%${county}%'
+        where county like '%${county}%' and email !="";
     </select>
     <select id="getErrorUserLog" resultType="int">
         select count(0) from sys_user_error_log

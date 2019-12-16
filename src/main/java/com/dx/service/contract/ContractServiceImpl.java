@@ -281,7 +281,6 @@ public class ContractServiceImpl implements ContractService {
         JSONObject body=null;
         for (Contract con:list) {
             if(con.getExtenxionStatus()==1){
-                System.out.println("合同地区："+con.getCounty());
                 users=userMapper.queryUserByCounty(con.getCounty());
                 for (UserMain user:users) {
                     body= getCommJson(user,1,con);
