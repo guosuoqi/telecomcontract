@@ -24,6 +24,16 @@ public class UserMain {
 
     private String county;//负责地区
 
+    private String loginTime; //记录登陆失败时间
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
+    }
+
     public String[] getRoleId() {
         return roleId;
     }

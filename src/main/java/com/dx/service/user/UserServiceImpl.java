@@ -8,16 +8,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.dx.model.contract.Contract;
 import com.dx.model.nav.*;
 import com.dx.service.nav.NavService;
-import com.dx.util.StringUtil;
-import com.dx.util.StringUtils;
+import com.dx.util.*;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.poi.util.ArrayUtil;
 import org.springframework.transaction.annotation.Transactional;
 import com.dx.model.user.UserMain;
 import com.dx.model.Task.TaskModel;
 import com.dx.model.common.TaskEnum;
-import com.dx.util.PageResult;
-import com.dx.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -131,6 +128,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.addRole(roleBean);
 
     }
+    @Override
+    public void insertErrorUserLog(UserMain userMain) {
+        userMapper.insertErrorUserLog(userMain);
+
+    }
 //新增用户
     @Override
     @Transactional
@@ -178,6 +180,12 @@ public class UserServiceImpl implements UserService {
            return i;
        }
        return 0;
+    }
+    @Override
+    public int getErrorUserLog(UserMain user) {
+        String beforeHourTime = DateUtils.getBeforeHourTime(2);
+        user.setLoginTime(beforeHourTime);
+        return userMapper.getErrorUserLog(user);
     }
 
     @Override

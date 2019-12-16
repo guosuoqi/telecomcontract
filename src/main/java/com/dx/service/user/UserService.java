@@ -45,4 +45,8 @@ public interface UserService {
     int addRole(RoleBean roleBean);
 
     int delRole(String[] split);
+
+    int getErrorUserLog(UserMain user);
+
+    void insertErrorUserLog(UserMain user);
 }

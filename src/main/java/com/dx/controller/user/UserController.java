@@ -46,7 +46,6 @@ public class UserController {
     @ResponseBody
     public HashMap<String, String> login(UserMain user, HttpServletRequest request, Model model) {
         HashMap<String, String> result = new HashMap<String, String>();
-        HttpSession session =request.getSession();
         //根据账号查询用户信息
         UserMain userInfo =userService.getUserInfoByLoginNumber(user.getLoginNumber());
         if(userInfo==null){
@@ -55,14 +54,21 @@ public class UserController {
             logger.info(this.getClass() + "，用户名错误！");
             return result;
         }
-
+        int errorNumber =userService.getErrorUserLog(user);
+        if(3<=errorNumber){
+            result.put("code", "2");
+            result.put("msg", "密码错误次数过多，请稍后再试");
+            logger.info(this.getClass() + "，密码错误次数过多");
+            return result;
+        }
         if (!userInfo.getPassword().equals(StringUtils.getMD5String(user.getPassword()))){
-            System.out.println("user = [" + user.getPassword() + "], request = [" + userInfo.getPassword() + "]");
             result.put("code", "2");
             result.put("msg", "密码错误");
             logger.info(this.getClass() + "，密码错误！");
+            userService.insertErrorUserLog(user);
             return result;
         }
+        HttpSession session =request.getSession();
         session.setAttribute(session.getId(), userInfo);
         result.put("code", "200");
         result.put("msg", "登录成功");

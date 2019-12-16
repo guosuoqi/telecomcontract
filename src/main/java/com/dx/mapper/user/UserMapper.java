@@ -72,4 +72,8 @@ public interface UserMapper {
     void delRoleNav(@Param("ids")String[] roleIds);
 
     void delUserRoleByRoleId(@Param("ids")String[] roleIds);
+
+    int getErrorUserLog(UserMain user);
+
+    void insertErrorUserLog(UserMain userMain);
 }

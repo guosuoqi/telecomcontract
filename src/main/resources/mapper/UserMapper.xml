@@ -26,6 +26,10 @@
         select * from sys_user
         where county like '%${county}%'
     </select>
+    <select id="getErrorUserLog">
+        select count(0) from sys_user_error_log
+        where login_time &gt; #{loginTime} and login_number =#{loginNumber}
+    </select>
 <!--查询用户管理列表-->
     <select id="queryUser"  resultType="com.dx.model.user.UserMain">
         select * from sys_user
@@ -207,6 +211,11 @@
     <insert id="addRole">
         insert into  sys_role(id,name,remark)  values
             (#{roleBean.id},#{roleBean.name},#{roleBean.remark})
+    </insert>
+
+    <insert id="insertErrorUserLog">
+        insert into  sys_user_error_log(longin_number,longin_time)  values
+            (#{loginNumber},now())
     </insert>
 
 
