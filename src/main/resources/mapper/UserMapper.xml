@@ -214,7 +214,7 @@
     </insert>
 
     <insert id="insertErrorUserLog">
-        insert into  sys_user_error_log(longin_number,longin_time)  values
+        insert into  sys_user_error_log(login_number,login_time)  values
             (#{loginNumber},now())
     </insert>
 

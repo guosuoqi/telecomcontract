@@ -120,9 +120,15 @@ public class ContractServiceImpl implements ContractService {
             contract.setContractNum(department);
             contract.setContractFirst(contractFirst);
             contract.setPayee(payee);
-            contract.setStartTime(startTime);
-            contract.setEndTime(endTime);
-            contract.setPayEndTime(payEndTim);
+            if(StringUtils.isNotBlank(startTime)){
+                contract.setStartTime(startTime);
+            }
+            if(StringUtils.isNotBlank(endTime)){
+                contract.setEndTime(endTime);
+            }
+            if(StringUtils.isNotBlank(payEndTim)){
+                contract.setPayEndTime(payEndTim);
+            }
             contract.setRoomType(roomType);
             contract.setRoomTypeName(roomTypeName);
             contract.setTowerTypeName(towerTypeName);
