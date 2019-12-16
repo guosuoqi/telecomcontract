@@ -141,14 +141,14 @@
     <!-- 用户页面批量删除 -->
     <delete id="delUser">
 		delete from sys_user where id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
 	</delete>
   <!-- 角色页面批量删除 -->
     <delete id="delRole">
 		delete from sys_role where id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
 	</delete>
@@ -162,14 +162,14 @@
     <!-- 角色_权限批量删除 -->
     <delete id="delRoleNav">
         delete from sys_role_power where nav_id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </delete>
     <!-- 用户_角色批量删除 -->
     <delete id="delUserRoleByRoleId">
         delete from sys_user_role where role_id in
-        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </delete>
