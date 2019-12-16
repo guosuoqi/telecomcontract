@@ -18,7 +18,7 @@
     <script src="/static/bootstrap/bootstrap-treeview/bootstrap-treeview.min.js"></script>
     <link href="/static/bootstrap/bootstrap-addTabs/bootstrap.addtabs.css" rel="stylesheet">
     <script src="/static/bootstrap/bootstrap-addTabs/bootstrap.addtabs.min.js"></script>
-    <title>合同及机房管理系统</title>
+    <title>基站机房费用提醒及风险防范系统</title>
 </head>
 
 
@@ -43,7 +43,7 @@
 <nav class="navbar  navbar-inverse  navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand"  href="#"><font color="white">合同及机房管理系统</font></a>
+            <a class="navbar-brand"  href="#"><font color="white">基站机房费用提醒及风险防范系统</font></a>
 
         </div>
         <div>
