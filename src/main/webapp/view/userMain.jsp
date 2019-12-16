@@ -332,12 +332,12 @@
         var pwd = $("#password").val();
         var regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9])(?=.*[^`~!@#$%^&*()_+<>?:"{},.]).{8,30}');
         if (!regex.test(pwd)) {
-            alert("您的密码复杂度太低（密码中必须包含字母、数字、特殊字符,长度8-30），请及时改密码！");
+            alert("您的密码复杂度太低（密码中必须包含大小写字母、数字、特殊字符,长度8-30），请及时改密码！");
             return;
         }
-        var loginNumberregex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{8,30}');
+        var loginNumberregex = new RegExp('.{8,30}');
         if (!loginNumberregex.test(val)) {
-            alert("您的账号复杂度太低（密码中必须包含字母、数字,长度8-30），请及时改密码！");
+            alert("您的账号应为长度8-30！");
             return;
         }
        document.getElementById('buttonAdd').disabled=true;

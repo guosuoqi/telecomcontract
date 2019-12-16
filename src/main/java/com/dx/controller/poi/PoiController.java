@@ -179,6 +179,76 @@ public class PoiController {
                 output.close();
             }
         }
+        @RequestMapping("/createExcelMoban")
+        public void createExcelMoban(HttpServletRequest request, HttpServletResponse response, String ids,Integer type) throws IOException {
+            HashMap<String, String>result = new HashMap<String, String>();
+            OutputStream output=null;
+            try {
+                String fileName=null;
+                String []sheetMerged=null;
+                if(type.equals(PoiTypeEnum.POI_TYPE_CONTRACT.getKey())){
+                    sheetMerged= conStr.split(",");
+                    fileName="合同信息_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_3G_BBU.getKey())){
+                    sheetMerged= bbuStr.split(",");
+                    fileName="3G_BBU_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_4G_BBU.getKey())){
+                   sheetMerged= bbuStr.split(",");
+                    fileName="4G_BBU_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_5G_BBU.getKey())){
+                    sheetMerged= bbuStr.split(",");
+                    fileName="5G_BBU_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_3G_RRU.getKey())){
+                   sheetMerged= TrruStr.split(",");
+                    fileName="3G_RRU_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_4G_RRU.getKey())){
+                    sheetMerged= rruStr.split(",");
+                    fileName="4G_RRU_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_5G_AAU.getKey())){
+                   sheetMerged= rruStr.split(",");
+                    fileName="5G_AAU_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_OLT.getKey())){
+                    sheetMerged= oltStr.split(",");
+                    fileName="OLT_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_IPRAN.getKey())){
+                    sheetMerged= ipranStr.split(",");
+                    fileName="IPRAN_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_SITE.getKey())){
+                    sheetMerged= siteStr.split(",");
+                    fileName="SITE_";
+                }
+
+                //创建HSSFWorkbook对象(excel的文档对象)
+                HSSFWorkbook wb = new HSSFWorkbook();
+                //建立新的sheet对象（excel的表单）
+                HSSFSheet sheet=wb.createSheet(fileName+ DateUtils.getDate());
+                //在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
+                HSSFRow row2=sheet.createRow(0);
+                for (int i = 0; i < sheetMerged.length; i++) {
+                    row2.createCell(i).setCellValue(sheetMerged[i]);
+                }
+
+                //输出Excel文件
+                output=response.getOutputStream();
+                response.reset();
+                String agent = request.getHeader("USER-AGENT").toLowerCase();
+                response.setContentType("application/vnd.ms-excel");
+                String codedFileName = java.net.URLEncoder.encode(fileName +"template", "UTF-8");
+                if (agent.contains("firefox")) {
+                    response.setCharacterEncoding("utf-8");
+                    response.setHeader("content-disposition", "attachment;filename=" + new String(codedFileName.getBytes(), "ISO8859-1") + ".xls");
+                } else {
+                    response.setHeader("content-disposition", "attachment;filename=" + codedFileName + ".xls");
+                }
+
+                wb.write(output);
+
+            }catch (Exception e){
+                System.out.println(e);
+            }finally {
+                output.close();
+            }
+        }
 
 
     @RequestMapping(value = "importContractFile", method = RequestMethod.POST)

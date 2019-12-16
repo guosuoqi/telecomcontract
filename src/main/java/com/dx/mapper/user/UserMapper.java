@@ -43,7 +43,7 @@ public interface UserMapper {
 
     int addUser(@Param("userMain")UserMain userMain);
 
-    int delUser(@Param("ids")String[] ids);
+    int delUser(String[] ids);
 
     List<NavTree> getNavList();
 
@@ -65,13 +65,13 @@ public interface UserMapper {
 
     int addRole(@Param("roleBean")RoleBean roleBean);
 
-    int delRole(@Param("ids")String[] ids);
+    int delRole(String[] ids);
 
-    void delUserRole(@Param("ids")String[] ids);
+    void delUserRole(String[] ids);
 
-    void delRoleNav(@Param("ids")String[] roleIds);
+    void delRoleNav(String[] roleIds);
 
-    void delUserRoleByRoleId(@Param("ids")String[] roleIds);
+    void delUserRoleByRoleId(String[] roleIds);
 
     int getErrorUserLog(UserMain user);
 

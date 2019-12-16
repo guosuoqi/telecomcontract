@@ -83,6 +83,7 @@
 <button type="button" onclick="openAddOlt()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delOlt()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" onclick="EXPmoban()" class="btn btn-danger glyphicon">模板</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 
 <!-- daoruDialog弹框 -->
@@ -346,6 +347,10 @@
                 location.href="/poi/createExcel?ids="+ids+"&&type=8"
             }
         })
+    }
+    //导出模板
+    function EXPmoban(){
+        location.href="/poi/createExcelMoban?type=8"
     }
     /**
      * 文件上传

@@ -113,6 +113,7 @@
 <button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" onclick="EXPmoban()" class="btn btn-danger glyphicon">模板</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 <!-- daoruDialog弹框 -->
 <div class="modal fade" id="daoruDialog" tabindex="-1" role="dialog" aria-labelledby="importModal">
@@ -333,6 +334,10 @@
                     location.href="/poi/createExcel?ids="+ids+"&&type=10"
                 }
         })
+    }
+    //导出模板
+    function EXPmoban(){
+        location.href="/poi/createExcelMoban?type=10"
     }
     //打开导入弹框
     $("#daoru").click(function(){

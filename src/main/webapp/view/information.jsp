@@ -201,6 +201,7 @@
 <button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" onclick="EXPmoban()" class="btn btn-danger glyphicon">模板</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 
 <!-- daoruDialog弹框 -->
@@ -259,7 +260,7 @@
             pagination: true, //是否展示分页
             pageList: [50, 99, 500, 1000],//分页组件
             pageNumber: 1,
-            pageSize: 20,//默认每页条数
+            pageSize: 50,//默认每页条数
             //search:true,//是否显示搜索框
             //searchText:'试试',//初始化搜索文字
             showColumns: false,//是否显示 内容列下拉框
@@ -561,7 +562,10 @@
             }
         })
     }
-
+    //导出模板
+    function EXPmoban(){
+        location.href="/poi/createExcelMoban?type=1"
+    }
     /**
      * 文件上传
      */

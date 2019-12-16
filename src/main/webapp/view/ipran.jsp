@@ -83,6 +83,7 @@
 <button type="button" onclick="openAddIPRAN()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delIPRAN()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPipran()" class="btn btn-danger glyphicon">导出</button>
+<button type="button" onclick="EXPmoban()" class="btn btn-danger glyphicon">模板</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
 
 <!-- daoruDialog弹框 -->
