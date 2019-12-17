@@ -7,6 +7,7 @@ import com.dx.model.site.EquipmentBBU;
 import com.dx.util.PageResult;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface ContractService {
@@ -18,7 +19,7 @@ public interface ContractService {
 
     boolean addContractList(Sheet sheet,String UserName);
 
-    int addContract(Contract contract);
+    int addContract(Contract contract) throws ParseException;
 
     int delAll(String ids);
 

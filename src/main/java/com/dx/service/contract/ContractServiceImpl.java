@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -67,8 +68,13 @@ public class ContractServiceImpl implements ContractService {
     }
     //合同管理页面新增
     @Override
-    public int addContract(Contract contract) {
+    public int addContract(Contract contract) throws ParseException {
         if(contract.getContractId()!=null){
+            if(StringUtils.isNotBlank(contract.getPayEndTime())&& DateUtils.dateSusses(contract.getPayEndTime(),3)){
+                    contract.setRenewStatus(0);
+            }else if(StringUtils.isNotBlank(contract.getEndTime())&&DateUtils.dateSusses(contract.getEndTime(),3)){
+                    contract.setExtenxionStatus(0);
+            }
             return contractMapper.updateContract(contract);
         }
         return contractMapper.addContract(contract);

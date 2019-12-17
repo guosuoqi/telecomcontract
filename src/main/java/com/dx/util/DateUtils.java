@@ -2,6 +2,7 @@ package com.dx.util;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,24 @@ public class DateUtils {
         now = calendar.getTime();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(now);
+    }
+    /**
+     * 時間与N月后时间作比较
+     */
+    public static boolean dateSusses(String date,int number) throws ParseException {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        Date parse = sdf.parse(date);
+        long time = parse.getTime();
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(calendar.MONTH, number); //设置为后3月
+        now = calendar.getTime();
+        long time1 = now.getTime();
+        if(time>time1){
+            return true;
+        }
+        return false;
     }
     /**
      * 得到前四个小时的时间 默认格式 HH:mm:ss

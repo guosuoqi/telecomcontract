@@ -57,7 +57,7 @@
                 <div class="row">
                     <div class="col-xs-2">续约截止日期:</div>
                     <div class="col-xs-4">
-                        <input class="form-control date" name="payEndTime"  id="payEndTime" type="text"/>
+                        <input class="form-control date" name="endTime"  id="endTime" type="text"/>
                     </div>
                     <div class="col-xs-2">经办人:</div>
                     <div class="col-xs-4">
@@ -82,50 +82,6 @@
     </div>
 </div>
 
-
-<div class="panel">
-    <div class="panel-body" style="padding-bottom: 1px;">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-12 "> <%--<td>--%>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractName">合同</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <input type="text" name="contractName" id="contractName"  class="form-control" placeholder="请输入合同名称">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="startTime">开始时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="startTime"></label>
-                            <input type="text" class="form-control date" id="startTime" placeholder="请输入开始时间">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="endTime">结束时间</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <label for="endTime"></label>
-                            <input type="text" class="form-control date" id="endTime" placeholder="请输入结束时间">
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <button type="button" class="btn btn-primary btn-w-m" onclick="initContract()" id="queryBtn" style="float: right;margin-right:20px;">
-                            <span class="glyphicon glyphicon-search"></span> 搜索
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 <button type="button" onclick="delContractExtension()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 
 </div>
@@ -190,7 +146,7 @@
                 {field:'renewOperator',title:'经办人'},
                 {field:'remark',title:'备注'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editContractExtendion(\'' + row.contractId + '\',\'' + row.contractNum + '\',\'' + row.contractName + '\',\'' + row.payEndTime + '\',\'' + row.renewOperator + '\',\'' + row.remark + '\')">修改</a>  ';
+                        return  ' <a href="javascript:editContractExtendion(\'' + row.contractId + '\',\'' + row.contractNum + '\',\'' + row.jifangName + '\',\'' + row.endTime + '\',\'' + row.renewOperator + '\',\'' + row.remark + '\')">修改</a>  ';
                     }}
             ]
         })
@@ -200,7 +156,7 @@
         $("#contractId").val(contractId);
         $("#contractNum").val(contractNum);
         $("#contractNameEdit").val(contractName);
-        $("#payEndTime").val(payEndTime);
+        $("#endTime").val(payEndTime);
         if(renewOperator==null || renewOperator==""){
             alert(1)
             $("#renewOperator").val("-");
@@ -225,7 +181,7 @@
                 contractId:$("#contractId").val(),
                 contractNum:$("#contractNum").val(),
                 jifangName:$("#contractNameEdit").val(),
-                payEndTime:$("#payEndTime").val(),
+                endTime:$("#endTime").val(),
                 renewOperator:$("#renewOperator").val(),
                 remark:$("#remark").val(),
             },

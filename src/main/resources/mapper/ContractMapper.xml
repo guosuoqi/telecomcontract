@@ -279,11 +279,11 @@
 			<if test="contract.contractTypeName != null and contract.contractTypeName != ''">
 				contract_type_name = #{contract.contractTypeName},
 			</if>
-			<if test="contract.extenxionStatus != null and contract.extenxionStatus != ''">
-				extenxion_status = 0,
+			<if test="contract.extenxionStatus != null">
+				extenxion_status =  #{contract.extenxionStatus},
 			</if>
-			<if test="contract.renewStatus != null and contract.renewStatus != ''">
-				renew_status = 0,
+			<if test="contract.renewStatus != null">
+				renew_status = #{contract.renewStatus},
 			</if>
 			<if test="contract.renewOperator != null and contract.renewOperator != ''">
 				renew_operator = #{contract.renewOperator},
