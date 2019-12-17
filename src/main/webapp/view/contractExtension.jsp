@@ -46,7 +46,7 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="contractId" id="contractId" type="hidden"/>
                         <input class="form-control" name="renewStatus" id="renewStatus" type="hidden"/>
-                        <input class="form-control" name="contractName"  id="contractNameEdit" type="text"/>
+                        <input class="form-control" name="jifangName"  id="contractNameEdit" type="text"/>
                     </div>
                     <div class="col-xs-2">续费截止日期:</div>
                     <div class="col-xs-4">

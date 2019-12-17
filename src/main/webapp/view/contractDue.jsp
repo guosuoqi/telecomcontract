@@ -46,7 +46,7 @@
                     <div class="col-xs-4">
                         <input class="form-control" name="contractId" id="contractId" type="hidden"/>
                         <input class="form-control" name="renewStatus" id="renewStatus" type="hidden"/>
-                        <input class="form-control" name="contractName"  id="contractNameEdit" type="text"/>
+                        <input class="form-control" name="jifangName"  id="contractNameEdit" type="text"/>
                     </div>
                     <div class="col-xs-2">合同编码:</div>
                     <div class="col-xs-4">
@@ -126,8 +126,6 @@
         </form>
     </div>
 </div>
-
-<button type="button" onclick="openAddDialogExtension()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
 <button type="button" onclick="delContractExtension()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 
 </div>
@@ -226,7 +224,7 @@
             data : {
                 contractId:$("#contractId").val(),
                 contractNum:$("#contractNum").val(),
-                contractName:$("#contractNameEdit").val(),
+                jifangName:$("#contractNameEdit").val(),
                 payEndTime:$("#payEndTime").val(),
                 renewOperator:$("#renewOperator").val(),
                 remark:$("#remark").val(),
