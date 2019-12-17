@@ -319,21 +319,21 @@ public class ContractServiceImpl implements ContractService {
     private JSONObject getCommJson(UserMain user, int type,Contract con) {
         JSONObject body =new JSONObject();
         body.put("userEmail",user.getEmail());
-        String roomName=getRoomName(user,con);
+        String jifang=getRoomName(user,con);
         if(type==1){
             body.put("subject","续费待处理通知");
-            body.put("content",XU_YUE_Content.replace("NAME",roomName).replace("YYYYMMDD",con.getPayEndTime()));
+            body.put("content",XU_YUE_Content.replace("NAME",jifang).replace("YYYYMMDD",con.getPayEndTime()));
 
         }else {
             body.put("subject","续约待处理通知");
-            body.put("content",XU_FEI_Content.replace("NAME",roomName).replace("YYYYMMDD",con.getEndTime()));
+            body.put("content",XU_FEI_Content.replace("NAME",jifang).replace("YYYYMMDD",con.getEndTime()));
         }
         return body;
     }
 
     private String getRoomName(UserMain user, Contract con) {
-       if(con.getRoomName()!=null){
-            return con.getRoomName();
+       if(StringUtils.isNotBlank(con.getJifangName())){
+            return con.getJifangName();
         }else {
             return "未知机房，合同编码为："+con.getContractNum();
         }

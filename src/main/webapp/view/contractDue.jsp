@@ -179,14 +179,14 @@
                     towerTypeName:$('#towerType1').text(),
                     contractTypeName:$('#contractType1').text(),
                     roomTypeName:$('#contractType1').text(),
-                    renewStatus:1
+                    extenxionStatus:1
                 }
             },
             columns:[
                 {field:'111',checkbox:true},
                 {field:'contractId',title:'合同id',visible:false},
                 {field:'contractNum',title:'合同編碼'},
-                {field:'contractName',title:'合同名字'},
+                {field:'jifangName',title:'机房名称'},
                 {field:'yearRental',title:'年租金'},
                 {field:'endTime',title:'续约截止日期'},
                 {field:'renewOperator',title:'经办人'},

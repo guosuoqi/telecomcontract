@@ -60,7 +60,7 @@ public class EmailUtil {
                 //transport.sendMessage(msg, new Address[]{new InternetAddress("xxx@qq.com")});
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println( "1"+e.getMessage());
                 return false;
             }finally {
                 //5、关闭邮件连接
@@ -68,6 +68,7 @@ public class EmailUtil {
                     transport.close();
                 } catch (MessagingException e) {
                     e.printStackTrace();
+                    System.out.println( "2"+e.getMessage());
                     return false;
                 }
             }

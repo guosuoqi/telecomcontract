@@ -296,6 +296,10 @@
             }
         })
     }
+    //导出模板
+    function EXPmoban(){
+        location.href="/poi/createExcelMoban?type=9"
+    }
     /**
      * 文件上传
      */

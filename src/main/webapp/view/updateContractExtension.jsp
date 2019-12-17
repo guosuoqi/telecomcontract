@@ -36,7 +36,7 @@
             <div class="col-xs-2">合同名称:</div>
             <div class="col-xs-4">
                 <input class="form-control" name="contractId" value="${contract.contractId}" id="contractId" type="hidden"/>
-                <input class="form-control" name="renewStatus" value="${contract.extenxionStatus}" id="renewStatus" type="hidden"/>
+                <input class="form-control" name="renewStatus" value="${contract.renewStatus}" id="renewStatus" type="hidden"/>
                 <input class="form-control" name="contractName" value="${contract.contractName}" id="contractName" type="text"/>
             </div>
             <div class="col-xs-2">续费截止日期:</div>
