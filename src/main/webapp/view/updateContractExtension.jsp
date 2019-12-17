@@ -33,11 +33,11 @@
 <div class="container-fluid">
     <form id="contractFormExtension" class="form-horizontal">
         <div class="row">
-            <div class="col-xs-2">合同名称:</div>
+            <div class="col-xs-2">机房名称:</div>
             <div class="col-xs-4">
                 <input class="form-control" name="contractId" value="${contract.contractId}" id="contractId" type="hidden"/>
                 <input class="form-control" name="renewStatus" value="${contract.renewStatus}" id="renewStatus" type="hidden"/>
-                <input class="form-control" name="contractName" value="${contract.contractName}" id="contractName" type="text"/>
+                <input class="form-control" name="jifangName" value="${contract.jifangName}" id="jifangName" type="text"/>
             </div>
             <div class="col-xs-2">续费截止日期:</div>
             <div class="col-xs-4">

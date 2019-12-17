@@ -51,10 +51,6 @@
         </form>
     </div>
 </div>
-
-<button type="button" onclick="openAddDialogExtension()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
-<button type="button" onclick="delContractExtension()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
-
 </div>
 <table id="contractRenew"></table>
 </body>

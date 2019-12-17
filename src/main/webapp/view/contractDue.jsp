@@ -42,7 +42,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-2">合同名称:</div>
+                    <div class="col-xs-2">机房名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="contractId" id="contractId" type="hidden"/>
                         <input class="form-control" name="renewStatus" id="renewStatus" type="hidden"/>

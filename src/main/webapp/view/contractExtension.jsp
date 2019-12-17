@@ -42,7 +42,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-2">合同名称:</div>
+                    <div class="col-xs-2">机房名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="contractId" id="contractId" type="hidden"/>
                         <input class="form-control" name="renewStatus" id="renewStatus" type="hidden"/>
@@ -164,7 +164,7 @@
                 {field:'extenxionOperator',title:'经办人'},
                 {field:'remark',title:'备注'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.contractName + '\',\'' + row.payEndTime + '\',\'' + row.extenxionOperator + '\',\'' + row.remark + '\')">修改</a>  ';
+                        return  ' <a href="javascript:editContract(\'' + row.contractId + '\',\'' + row.jifangName + '\',\'' + row.payEndTime + '\',\'' + row.extenxionOperator + '\',\'' + row.remark + '\')">修改</a>  ';
                     }}
             ]
         })
@@ -172,9 +172,9 @@
 
 
 
-    function editContract(contractId,contractName,payEndTime,extenxionOperator,remark){
+    function editContract(contractId,jifangName,payEndTime,extenxionOperator,remark){
         $("#contractId").val(contractId);
-        $("#contractNameEdit").val(contractName);
+        $("#contractNameEdit").val(jifangName);
         $("#payEndTime").val(payEndTime);
         $("#extenxionOperator").val(extenxionOperator);
         $("#remark").val(remark);
@@ -188,7 +188,7 @@
             type: "post",
             data : {
                 contractId:$("#contractId").val(),
-                contractName:$("#contractNameEdit").val(),
+                jifangName:$("#contractNameEdit").val(),
                 payEndTime:$("#payEndTime").val(),
                 extenxionOperator:$("#extenxionOperator").val(),
                 remark:$("#remark").val(),
