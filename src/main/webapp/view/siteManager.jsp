@@ -197,7 +197,7 @@
                 {field:'threeBbuCount',title:'3GBBU个数',align: 'center',valign: 'middle'},
                 {field:'fourBbuCount',title:'4GBBU个数',align: 'center',valign: 'middle'},
                 {field:'fiveBbuCount',title:'5GBBU个数',align: 'center',valign: 'middle'},
-                {field:'threeRruCount',title:'CI个数',align: 'center',valign: 'middle'},
+                {field:'threeRruCount',title:'3GRRU个数',align: 'center',valign: 'middle'},
                 {field:'fourRruCount',title:'4GRRU个数',align: 'center',valign: 'middle'},
                 {field:'fiveAauCount',title:'5GAAU个数',align: 'center',valign: 'middle'},
                 {field:'oltCount',title:'OLT个数',align: 'center',valign: 'middle'},

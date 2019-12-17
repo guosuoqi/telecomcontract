@@ -173,20 +173,15 @@
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
              insert into t_equipment_olt (
                    dx_code,olt_code,olt_name,power)
-            values (#{item.dxCode},#{item.oltCode},#{item.oltName},#{item.power},
+            values (#{item.dxCode},#{item.oltCode},#{item.oltName},#{item.power}
               )
 		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-			<if test="dxCode != null and dxCode != ''">
-				dx_code=#{item.dxCode},
-			</if>
-			<if test="oltName != null and oltName != ''">
-				olt_name=#{item.oltName},
-			</if>
-			<if test="power != null and power != ''">
-				power=#{item.power},
-			</if>
-			olt_code=#{oltCode}
+			dx_code=#{item.dxCode},
+			olt_name=#{item.oltName},
+			power=#{item.power},
+			olt_code=#{item.oltCode}
 		</trim>
+
 		</foreach>
 	</insert>
 
@@ -459,15 +454,15 @@ update t_equipment_olt
 
 	<!--OLT页面新增-->
 	<insert id="addIPRAN" >
-		<foreach collection="list" item="equipmentIPRAN" index="index" open="" close="" separator=";">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
 			insert into t_equipment_ipran (
 			dx_code,ipran_code,ipran_name,power)
-			values (#{equipmentIPRAN.dxCode},#{equipmentIPRAN.ipranCode},#{equipmentIPRAN.ipranName},#{equipmentIPRAN.power}
+			values (#{item.dxCode},#{item.ipranCode},#{item.ipranName},#{item.power}
 			)
 			<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
-				dx_code=#{dxCode},
-				ipran_name=#{ipranName},
-				power=#{power},
+				dx_code=#{item.dxCode},
+				ipran_name=#{item.ipranName},
+				power=#{item.power}
 			</trim>
 		</foreach>
 	</insert>

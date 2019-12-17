@@ -55,7 +55,7 @@ public class ScheduledJob {
     }
   @Scheduled(cron ="0 0 1 * * ?")
     public void updageRevisedDade() {
-        logger.info("检查合同是否到期！");
+        logger.info("站点信息规整！");
         siteServiceImpl.updageRevisedDade();
     }
 
