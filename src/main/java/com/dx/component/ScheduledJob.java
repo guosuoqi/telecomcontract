@@ -27,7 +27,7 @@ public class ScheduledJob {
     private EmailUtil emailUtil ;
 
 
-    @Scheduled(cron ="0 30 8 * * ?")
+    @Scheduled(cron ="0 30 8 ? * MON")
     public void sendEmail() {
         logger.info("开始定时发送邮件！");
         TaskModel model = new TaskModel();
@@ -58,6 +58,10 @@ public class ScheduledJob {
     public void updateContractStart() {
         logger.info("检查合同是否到期！");
         contractServiceImpl.updateContractStatus();
+    }
+    @Scheduled(cron ="0 0 2 ? * MON")
+    public void sendContractTaskToEmail() {
+        logger.info("扫描需处理的合同信息！");
         contractServiceImpl.sendContractTaskToEmail();
     }
   @Scheduled(cron ="0 0 1 * * ?")

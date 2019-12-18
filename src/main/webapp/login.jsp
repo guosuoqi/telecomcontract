@@ -17,7 +17,7 @@
 		<div class="container demo-1">
 			<div class="content">
 				<div id="large-header" class="large-header">
-					<h1 >中国电信</h1>
+
 					<canvas id="demo-canvas"></canvas>
 					<div class="logo_box">
 						<h2 style="font-family:楷体">基站机房费用提醒及风险防范系统</h2>
@@ -35,7 +35,8 @@
 								<a class="act-but submit"   href="javascript:login();" style="color: #FFFFFF">登录</a>
 							</div>
 						</form>
-						<h5 style="font-family:楷体">雄安电信网络建设维护部</h5>
+						<br>
+						<center><h4 style="font-family:楷体">雄安电信网络建设维护部</h4></center>
 					</div>
 				</div>
 			</div>

@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-xs-2">站点名称:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="baseName" id="baseCode" type="text"/>
+                        <input class="form-control" name="baseName" id="baseName" type="text"/>
                     </div>
                     <div class="col-xs-2">机房产权:</div>
                     <div class="col-xs-4">
@@ -225,7 +225,7 @@
 //打开新增合同的弹框
     function openAddDialog(){
         $("#id").val("");
-        $("#baseCode").val("");
+        $("#baseName").val("");
         $("#baseProperty").val("");
         $("#dxCode").val("");
         $("#ttCode").val("");
