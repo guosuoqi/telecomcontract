@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="/static/bootstrap/jquery-1.9.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/bootstrapDengLu/css/normalize.css" />
-<link rel="stylesheet" type="text/css" href="/static/bootstrapDengLu/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="/static/bootstrapDengLu/css/normalize.css" /><%--
+<link rel="stylesheet" type="text/css" href="/static/bootstrapDengLu/css/demo.css" />--%>
 <!--必要样式-->
 <link rel="stylesheet" type="text/css" href="/static/bootstrapDengLu/css/component.css" />
 <!--[if IE]>
@@ -17,9 +17,10 @@
 		<div class="container demo-1">
 			<div class="content">
 				<div id="large-header" class="large-header">
+					<h1 >中国电信</h1>
 					<canvas id="demo-canvas"></canvas>
 					<div class="logo_box">
-						<h3>基站机房费用提醒及风险防范系统</h3>
+						<h2 style="font-family:楷体">基站机房费用提醒及风险防范系统</h2>
 						<form action="#" name="f" method="post">
 							<div class="input_outer">
 								<span class="u_user"></span>
@@ -34,6 +35,7 @@
 								<a class="act-but submit"   href="javascript:login();" style="color: #FFFFFF">登录</a>
 							</div>
 						</form>
+						<h5 style="font-family:楷体">雄安电信网络建设维护部</h5>
 					</div>
 				</div>
 			</div>

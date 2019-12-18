@@ -23,6 +23,8 @@ public class ScheduledJob {
     private TaskServeceImpl taskServeceImpl ;
     @Autowired
     private SiteServiceImpl siteServiceImpl ;
+    @Autowired
+    private EmailUtil emailUtil ;
 
 
     @Scheduled(cron ="0 30 8 * * ?")
@@ -36,14 +38,19 @@ public class ScheduledJob {
             logger.info("没有待发送邮件任务！");
             return;
         }
-        for (TaskModel task:taskList) {
-            String content = task.getContent();
-            if(EmailUtil.sendEmail(JSONObject.fromObject(content))){
-                task.setStatus(1);
-                taskServeceImpl.updateTask(task);
-            }else {
-                logger.info("{}此条任务执行失败",task.getId());
+        try {
+            for (TaskModel task:taskList) {
+                String content = task.getContent();
+                JSONObject jsonObject = JSONObject.fromObject(content);
+                if(emailUtil.sendEmail(jsonObject)){
+                    task.setStatus(1);
+                    taskServeceImpl.updateTask(task);
+                }else {
+                    logger.info("{}此条任务执行失败",task.getId());
+                }
             }
+        } catch (Exception e) {
+            logger.info("邮件发送异常："+e.getMessage());
         }
 
     }

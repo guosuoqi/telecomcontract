@@ -1,6 +1,10 @@
 package com.dx.util;
 
+import com.alibaba.fastjson.JSON;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -11,8 +15,9 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+@Service
 public class EmailUtil {
+    private Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 
     //发件人地址
     public static String senderAddress = "18931217605@189.cn";
@@ -31,7 +36,7 @@ public class EmailUtil {
         body.put("content","郭欣欣"+"您好：<br/> &nbsp;&nbsp;&nbsp; &nbsp;有"+2+"笔合同已进入续费阶段，请尽快进行处理！！！<br/> <br/> <br/>&nbsp; &nbsp;本条信息为系统信息，请勿回复！");
         sendEmail(body);
     }*/
-    public static Boolean sendEmail(JSONObject content){
+    public Boolean sendEmail(JSONObject content) throws Exception {
 
             //1、连接邮件服务器的参数配置
             Properties props = new Properties();
@@ -41,6 +46,9 @@ public class EmailUtil {
             props.setProperty("mail.transport.protocol", "smtp");
             //设置发件人的SMTP服务器地址
             props.setProperty("mail.smtp.host","smtp.189.cn");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.port", "465");
             //2、创建定义整个应用程序所需的环境信息的 Session 对象
             Session session = Session.getInstance(props);
             //设置调试信息在控制台打印出来
@@ -54,22 +62,20 @@ public class EmailUtil {
                 transport = session.getTransport();
                 //设置发件人的账户名和密码
                 transport.connect(senderAccount, senderPassword);
+                //transport.connect("smtp.189.cn",465,senderAccount,senderPassword);
                 //发送邮件，并发送到所有收件人地址，message.getAllRecipients() 获取到的是在创建邮件对象时添加的所有收件人, 抄送人, 密送人
                 transport.sendMessage(msg,msg.getAllRecipients());
                 //如果只想发送给指定的人，可以如下写法
                 //transport.sendMessage(msg, new Address[]{new InternetAddress("xxx@qq.com")});
                 return true;
             } catch (Exception e) {
-                System.out.println( "1"+e.getMessage());
-                return false;
+                throw e;
             }finally {
                 //5、关闭邮件连接
                 try {
                     transport.close();
                 } catch (MessagingException e) {
-                    e.printStackTrace();
-                    System.out.println( "2"+e.getMessage());
-                    return false;
+                    throw e;
                 }
             }
         }

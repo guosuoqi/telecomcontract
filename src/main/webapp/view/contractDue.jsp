@@ -82,7 +82,9 @@
     </div>
 </div>
 
+<%--
 <button type="button" onclick="delContractExtension()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+--%>
 
 </div>
 <table id="myTable"></table>

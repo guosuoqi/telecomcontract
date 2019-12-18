@@ -55,7 +55,6 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		for (String url : powerList) {
 			//判断是否包含
 			if (requestURI.equals(url)) {
-				System.out.println(url);
 				return true;
 			}
 		}
