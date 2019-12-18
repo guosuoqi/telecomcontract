@@ -196,8 +196,6 @@
         $("#dxCode").val(dxCode);
         $("#oltCode").val(oltCode);
         $("#oltName").val(oltName);
-        $("#netCareId").val(netCareId);
-        $("#netCareName").val(netCareName);
         $("#power").val(power);
         $('#myModal').modal();
     }
