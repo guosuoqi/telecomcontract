@@ -1,8 +1,4 @@
-/**
- * @author 张小雪 <张小雪2010@gmail.com>
- * version: 1.11.1
- * https://github.com/wenzhixin/bootstrap-table/
- */
+
 
 (function ($) {
     'use strict';

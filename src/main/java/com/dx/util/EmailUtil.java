@@ -21,8 +21,6 @@ public class EmailUtil {
 
     //发件人地址
     public static String senderAddress = "18931217605@189.cn";
-    //收件人地址
-    private static String recipientAddress = "17319260809@163.com";
     //发件人账户名
     private static String senderAccount = "18931217605@189.cn";
     //发件人账户密码
@@ -33,7 +31,7 @@ public class EmailUtil {
         JSONObject body = new JSONObject();
         body.put("userEmail","guoxxbd.he@chinatelecom.cn");
         body.put("subject","续费待处理通知");
-        body.put("content","郭欣欣"+"您好：<br/> &nbsp;&nbsp;&nbsp; &nbsp;有"+2+"笔合同已进入续费阶段，请尽快进行处理！！！<br/> <br/> <br/>&nbsp; &nbsp;本条信息为系统信息，请勿回复！");
+        body.put("content",""+"您好：<br/> &nbsp;&nbsp;&nbsp; &nbsp;有"+2+"笔合同已进入续费阶段，请尽快进行处理！！！<br/> <br/> <br/>&nbsp; &nbsp;本条信息为系统信息，请勿回复！");
         sendEmail(body);
     }*/
     public Boolean sendEmail(JSONObject content) throws Exception {
@@ -46,9 +44,9 @@ public class EmailUtil {
             props.setProperty("mail.transport.protocol", "smtp");
             //设置发件人的SMTP服务器地址
             props.setProperty("mail.smtp.host","smtp.189.cn");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+           /* props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
             props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.port", "465");
+            props.put("mail.smtp.port", "465");*/
             //2、创建定义整个应用程序所需的环境信息的 Session 对象
             Session session = Session.getInstance(props);
             //设置调试信息在控制台打印出来

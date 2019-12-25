@@ -26,17 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-/** 
- * <pre>项目名称：stu_bootcar    
- * 类名称：PageController    
- * 类描述：    
- * 创建人：张小雪
- * 创建时间：2019年6月17日 上午11:05:46
- * 修改人：张小雪
- * 修改时间：2019年6月17日 上午11:05:46
- * 修改备注：       
- * @version </pre>    
- */
 @Controller
 @RequestMapping("page")
 public class PageController {

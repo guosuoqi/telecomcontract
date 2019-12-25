@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * 分页返回工具类
- * @author 张小雪
  *
  */
 public class PageResult {
