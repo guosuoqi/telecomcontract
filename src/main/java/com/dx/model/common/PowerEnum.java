@@ -12,6 +12,7 @@ public enum PowerEnum {
     F_RRU_POWER(129.6,"4GRRu耗电量"),
     FIVE_AAU_POWER(518.4,"5GAAU耗电量"),
     T_OLT_POWER(518.4,"OLT耗电量"),
+    T_BOFEN_POWER(0.0,"波分耗电量"),
     T_IPRAN_POWER(68.25,"IPRAN耗电量");
     private Double key;
 

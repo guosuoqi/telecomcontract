@@ -27,6 +27,26 @@
 </head>
 
 <body>
+
+<div class="panel">
+    <div class="panel-body" style="padding-bottom: 1px;">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-4 "> <%--占4格--%>
+                    <label for="oltNameTc">olt名称</label>
+                    <input type="text"  id="oltNameTc" class="form-control"
+                           placeholder="请输入olt名称">
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-primary btn-w-m" onclick="initOlt()"
+                        style="float: right;margin-right:20px;">
+                    <span class="glyphicon glyphicon-search"></span> 搜索
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- 按钮触发模态框 -->
 <%--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
     开始演示模态框
@@ -153,6 +173,7 @@
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
+                    oltName: $('#oltNameTc').val(),
                 }
             },
             columns:[

@@ -20,14 +20,14 @@ public class EmailUtil {
     private Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 
     //发件人地址
-    public static String senderAddress = "18931217605@189.cn";
+    public static String senderAddress = "19933349924@189.cn";
     //发件人账户名
-    private static String senderAccount = "18931217605@189.cn";
+    private static String senderAccount = "19933349924@189.cn";
     //发件人账户密码
-    private static String senderPassword = "BD123.abc";
+    private static String senderPassword = "xash9924!";
     //合同内容模板
-
-   /* public static void main(String[] args) {
+/*
+    public static void main(String[] args) {
         JSONObject body = new JSONObject();
         body.put("userEmail","guoxxbd.he@chinatelecom.cn");
         body.put("subject","续费待处理通知");
@@ -45,8 +45,8 @@ public class EmailUtil {
             //设置发件人的SMTP服务器地址
             props.setProperty("mail.smtp.host","smtp.189.cn");
            /* props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.port", "465");*/
+            props.put("mail.smtp.socketFactory.port", "465");*/
+            props.put("mail.smtp.port", "25");
             //2、创建定义整个应用程序所需的环境信息的 Session 对象
             Session session = Session.getInstance(props);
             //设置调试信息在控制台打印出来
@@ -63,8 +63,6 @@ public class EmailUtil {
                 //transport.connect("smtp.189.cn",465,senderAccount,senderPassword);
                 //发送邮件，并发送到所有收件人地址，message.getAllRecipients() 获取到的是在创建邮件对象时添加的所有收件人, 抄送人, 密送人
                 transport.sendMessage(msg,msg.getAllRecipients());
-                //如果只想发送给指定的人，可以如下写法
-                //transport.sendMessage(msg, new Address[]{new InternetAddress("xxx@qq.com")});
                 return true;
             } catch (Exception e) {
                 throw e;

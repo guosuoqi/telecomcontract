@@ -14,7 +14,8 @@ public enum PoiTypeEnum {
     POI_TYPE_5G_AAU(7,5,"5GAAU"),
     POI_TYPE_OLT(8,0,"OLT"),
     POI_TYPE_IPRAN(9,5,"ipran"),
-    POI_TYPE_SITE(10,0,"site");
+    POI_TYPE_SITE(10,0,"site"),
+    POI_TYPE_BoFen(11,0,"波分");
 
     private Integer key;
 

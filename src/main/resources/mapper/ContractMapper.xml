@@ -33,8 +33,8 @@
 			<if test="contract.towerTypeName != null and contract.towerTypeName != '' and contract.towerTypeName != '-1'">
 				and tower_type_name = #{contract.towerTypeName}
 			</if>
-			<if test="contract.contractName != null and contract.contractName != '' ">
-				and contract_name like  '${contract.contractName}%'
+			<if test="contract.jifangName != null and contract.jifangName != '' ">
+				and jifangName like  '%${contract.jifangName}%'
 			</if>
 			<if test="contract.county != null and contract.county != '' ">
 				and county in( #{contract.county})
@@ -68,8 +68,8 @@
 			<if test="contract.towerTypeName != null and contract.towerTypeName != '' and contract.towerTypeName != '-1'">
 				and tower_type_name = #{contract.towerTypeName}
 			</if>
-			<if test="contract.contractName != null and contract.contractName != '' ">
-				and contract_name like  '${contract.contractName}%'
+			<if test="contract.jifangName != null and contract.jifangName != '' ">
+				and jifangName like  '%${contract.jifangName}%'
 			</if>
 			<if test="contract.county != null and contract.county != '' ">
 				and county in( #{contract.county})

@@ -67,7 +67,10 @@ public class SitManager {
     /**
      *olt 个数
      */
-    private Integer oltCount;
+    private Integer oltCount;  /**
+     *olt 个数
+     */
+    private Integer bfCount;
     /**
      *总耗电量
      */
@@ -246,6 +249,14 @@ public class SitManager {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public Integer getBfCount() {
+        return bfCount;
+    }
+
+    public void setBfCount(Integer bfCount) {
+        this.bfCount = bfCount;
     }
 
     public String getLatitude() {

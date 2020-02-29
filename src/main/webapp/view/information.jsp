@@ -145,10 +145,10 @@
                 <div class="col-sm-12 "> <%--<td>--%>
                     <div class="col-sm-4 "> <%--<td>--%>
                         <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractName1">合同名称</label>
+                            <label for="jifangNameTc">机房名称</label>
                         </div>
                         <div class="col-sm-9"> <%--占8格，充满--%>
-                            <input type="text" name="contractName" id="contractName1" class="form-control"
+                            <input type="text" name="contractName" id="jifangNameTc" class="form-control"
                                    placeholder="请输入合同名称">
                         </div>
                     </div>
@@ -277,7 +277,7 @@
                     page: this.pageNumber,
                     rows: this.pageSize,
                     county:$('#countySou').val(),
-                    contractName: $('#contractName1').val(),
+                    jifangName: $('#jifangNameTc').val(),
                     startTime: $('#startTime').val(),
                     endTime: $('#endTime1').val(),
                     towerTypeName: $("#towerType option:selected").val() == "-1" ? "-1" : $("#towerType option:selected").text(),

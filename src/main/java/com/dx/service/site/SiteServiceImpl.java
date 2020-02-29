@@ -95,6 +95,20 @@ public class SiteServiceImpl implements SiteService{
         pageResult.setRows(list);
         return pageResult;
     }
+    @Override
+    public PageResult queryBofen(Integer page, Integer rows, EquipmentBoFen equipmentBoFen) {
+        PageResult pageResult = new PageResult();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("equipmentBoFen",equipmentBoFen);
+        int  count=siteMapper.queryBoFenCount(params);
+        pageResult.setTotal(count);
+        PageUtil<EquipmentBoFen> pageUtil = new PageUtil<EquipmentBoFen>(count,page,rows);
+        params.put("startIndex", pageUtil.getStartIndex());
+        params.put("endIndex",rows);
+        List<EquipmentBoFen> list = siteMapper.queryBofen(params);
+        pageResult.setRows(list);
+        return pageResult;
+    }
 
     @Override
     public boolean add3GRRU(EquipmentRRUAAU equipmentRRUAAU) {
@@ -127,6 +141,17 @@ public class SiteServiceImpl implements SiteService{
         siteMapper.updateSite(sit);
         return siteMapper.addOlt(oltList);
     }
+    @Override
+    public boolean addBoFen(EquipmentBoFen equipmentBoFen) {
+        List<EquipmentBoFen> bfList=new ArrayList<>();
+        bfList.add(equipmentBoFen);
+        SitManager sit = new SitManager();
+        sit.setDxCode(equipmentBoFen.getDxCode());
+        sit.setPower(equipmentBoFen.getPower());
+        sit.setBfCount(1);
+        siteMapper.updateSite(sit);
+        return siteMapper.addBoFen(bfList);
+    }
 
     @Override
     public EquipmentOLT queryOltById(Integer id) {
@@ -136,6 +161,10 @@ public class SiteServiceImpl implements SiteService{
     @Override
     public void updateOlt(EquipmentOLT equipmentOLT) {
         siteMapper.updateOlt(equipmentOLT);
+    }
+    @Override
+    public void updateBoFen(EquipmentBoFen equipmentBoFen) {
+        siteMapper.updateBoFen(equipmentBoFen);
     }
 
     @Override
@@ -194,6 +223,10 @@ public class SiteServiceImpl implements SiteService{
     public int delAllRRU(String ids) {
         return siteMapper.delAllRRU(ids);
     }
+    @Override
+    public int delAllBofen(String ids) {
+        return siteMapper.delAllBofen(ids);
+    }
  @Override
     public int delAllSit(String ids) {
         return siteMapper.delAllSit(ids);
@@ -229,7 +262,7 @@ public class SiteServiceImpl implements SiteService{
         PageResult pageResult = new PageResult();
         HashMap<String, Object> params = new HashMap<>();
         params.put("equipmentOLT",equipmentOLT);
-        int  count=siteMapper.queryRRUCount(params);
+        int  count=siteMapper.queryOltCount(params);
         pageResult.setTotal(count);
         PageUtil<EquipmentOLT> pageUtil = new PageUtil<EquipmentOLT>(count,page,rows);
         params.put("startIndex", pageUtil.getStartIndex());
@@ -246,6 +279,9 @@ public class SiteServiceImpl implements SiteService{
 
     public List<EquipmentRRUAAU> queryRRByIdsAndType(String ids) {
         return siteMapper.queryRRByIdsAndType(ids);
+    }
+    public List<EquipmentBoFen> queryBFByIds(String ids) {
+        return siteMapper.queryBFByIds(ids);
     }
     @Transactional
     public boolean addRRUList(Sheet sheet) {
@@ -386,8 +422,10 @@ public class SiteServiceImpl implements SiteService{
             return PowerEnum.T_OLT_POWER.getKey();
         }else if("ipran".equals(bbu)){
             return PowerEnum.T_IPRAN_POWER.getKey();
+        }else if("bofen".equals(bbu)){
+            return PowerEnum.T_BOFEN_POWER.getKey();
         }
-        return null;
+        return 0.0;
     }
 
     /**
@@ -537,6 +575,44 @@ public class SiteServiceImpl implements SiteService{
             ipranList.add(ipr);
         }
         if(siteMapper.addIPRAN(ipranList)){
+            updageRevisedDade();
+        }
+        return true;
+    }
+  @Transactional
+    public boolean addBoFenList(Sheet sheet) {
+        List<EquipmentBoFen> ipranList = new ArrayList<>();
+        List<String> dxCodes = new ArrayList<>();
+        EquipmentBoFen ipr;
+        Double bf = getPower("0", "bofen");
+        for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // 获取每行
+            Row row = (Row) sheet.getRow(i);
+            if(row ==null){
+                continue;//整行为空，跳出
+            }
+            //错误原因
+            String reason = "";
+            //获取每个单元格
+            /**
+             * "波分编码,波分名称,电信编码,理论耗电量"
+             */
+            String bfCode = getCellVal(row.getCell(0));
+            String bfName = getCellVal(row.getCell(1));
+            String dxCode = getCellVal(row.getCell(2));
+            String power = getCellVal(row.getCell(3));
+            ipr=new EquipmentBoFen();
+            if(StringUtils.isNotBlank(power)){
+                ipr.setPower(Double.valueOf(power));
+            }else {
+                ipr.setPower(bf);
+            }
+            ipr.setPower(bf);
+            ipr.setDxCode(dxCode);
+            ipr.setBfCode(bfCode);
+            ipr.setBfName(bfName);
+            ipranList.add(ipr);
+        }
+        if(siteMapper.addBoFen(ipranList)){
             updageRevisedDade();
         }
         return true;

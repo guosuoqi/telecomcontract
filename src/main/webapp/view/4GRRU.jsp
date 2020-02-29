@@ -27,6 +27,27 @@
 </head>
 
 <body>
+<div class="panel">
+    <div class="panel-body" style="padding-bottom: 1px;">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-12 "> <%--<td>--%>
+                    <div class="col-sm-4 "> <%--<td>--%>
+                            <label for="rruNameTc">4GRRU名称</label>
+                            <input type="text"  id="rruNameTc" class="form-control"
+                                   placeholder="请输入4GRRU名称">
+                        </div>
+                    </div>
+                </div>
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-primary btn-w-m" onclick="initRRU()"
+                        style="float: right;margin-right:20px;">
+                    <span class="glyphicon glyphicon-search"></span> 搜索
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- 模态框（Modal） -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -47,14 +68,14 @@
                         <input class="form-control" name="dxCode" id="id" type="hidden"/>
                         <input class="form-control" name="dxCode" id="dxCode" type="text"/>
                     </div>
-                    <div class="col-xs-2">RRU标识:</div>
+                    <div class="col-xs-2">4GRRU标识:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="rruCode" id="rruCode" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">RRU名称:</div>
+                    <div class="col-xs-2">4GRRU名称:</div>
                     <div class="col-xs-4">
                         <input class="form-control" name="rruName" id="rruName" type="text"/>
                     </div>
@@ -150,14 +171,14 @@
                     page: this.pageNumber,
                     rows: this.pageSize,
                     networkType:4,
-                }
+                    rruName: $('#rruNameTc').val(),
             },
             columns:[
                 {field:'111',checkbox:true},
                 {field:'id',title:'4GRRUId',visible:false},
                 {field:'dxCode',title:'所属站址编码'},
-                {field:'rruCode',title:'RRU标识'},
-                {field:'rruName',title:'RRU名称'},
+                {field:'rruCode',title:'4GRRU标识'},
+                {field:'rruName',title:'4GRRU名称'},
                 {field:'power',title:'月理论耗电量'},
                 {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
                         return  ' <a href="javascript:editRRu('+row.id+',\'' + row.dxCode + '\',\'' + row.rruCode + '\',\'' + row.rruName + '\',\'' + row.power + '\');">修改</a>  ';

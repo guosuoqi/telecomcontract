@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@RequestMapping("site")
+@RequestMapping("/site")
 public class SiteController {
     @Autowired
     private SiteService siteService;
@@ -115,6 +115,13 @@ public class SiteController {
         PageResult pageResult = siteService.queryRRU(page, rows, equipmentRRUAAU);
         return pageResult;
     }
+  //查询3/4/5GRRU页面
+    @RequestMapping(value = "/queryBoFen", method = RequestMethod.POST)
+    @ResponseBody
+    public PageResult queryBoFen(Integer page, Integer rows, EquipmentBoFen equipmentBoFen) {
+        PageResult pageResult = siteService.queryBofen(page, rows, equipmentBoFen);
+        return pageResult;
+    }
 
 
     //3/4/5GRRU页面新增
@@ -177,6 +184,45 @@ public class SiteController {
         try {
             if ((ids != null || "".equals(ids))) {
                 int count =   siteService.delAllRRU(ids);;
+                if (count == 0) {
+                    result = new HashMap<String, String>();
+                    result.put("code", "1");
+                    result.put("msg", "删除失败！");
+                    logger.info(this.getClass() + "，删除失败！");
+                    return result;
+                }
+                result = new HashMap<String, String>();
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }else{
+                result = new HashMap<String, String>();
+                result.put("code", "2");
+                result.put("msg", "删除失败！");
+                logger.info(this.getClass() + "，删除失败！");
+            }
+
+        } catch (Exception e) {
+            result = new HashMap<String, String>();
+            result.put("code", "3");
+            result.put("msg", "删除失败！");
+            logger.info(this.getClass() + "，删除失败！");
+            //异常输出
+            logger.error("exception toString and track space : {}", "\r\n" + e);
+            logger.error(ExceptionPrintUtil.errorTrackSpace(e));
+            return result;
+        }
+        return result;
+    }
+
+    //波分页面批量删除
+    @RequestMapping("delAllBofen")
+    @ResponseBody
+    public  HashMap<String, String> delAllBofen(String ids){
+        HashMap<String, String> result;
+        try {
+            if ((ids != null || "".equals(ids))) {
+                int count =   siteService.delAllBofen(ids);;
                 if (count == 0) {
                     result = new HashMap<String, String>();
                     result.put("code", "1");
@@ -447,5 +493,49 @@ public class SiteController {
             return result;
         }
         return result;
+    }
+
+
+    //波分页面新增
+    @RequestMapping("/addBoFen")
+    @ResponseBody
+    public HashMap<String, String> addBoFen(EquipmentBoFen equipmentBoFen) {
+        HashMap<String, String> result= new HashMap<String, String>();
+        try {
+            if ((equipmentBoFen != null )) {
+                if (equipmentBoFen.getId()!=null){
+                    siteService.updateBoFen(equipmentBoFen);
+                    result.put("code", "3");
+                    result.put("msg", "修改成功！");
+                    logger.info(this.getClass() + "，修改成功！");
+                    return result;
+                }
+                if (!siteService.addBoFen(equipmentBoFen)) {
+                    result.put("code", "1");
+                    result.put("msg", "波分新增失败！");
+                    logger.info(this.getClass() + "，波分新增失败！");
+                    return result;
+                }
+                result = new HashMap<String, String>();
+                result.put("code", "0");
+                result.put("msg", "操作成功！");
+                return result;
+            }else{
+                result = new HashMap<String, String>();
+                result.put("code", "2");
+                result.put("msg", "波分新增失败！");
+                logger.info(this.getClass() + "，波分新增失败！");
+                return result;
+            }
+        }catch (Exception e){
+            result = new HashMap<String, String>();
+            result.put("code", "2");
+            result.put("msg", "波分新增失败！");
+            logger.info(this.getClass() + "，波分新增失败！");
+            //异常输出
+            logger.error("exception toString and track space : {}", "\r\n" + e);
+            logger.error(ExceptionPrintUtil.errorTrackSpace(e));
+            return result;
+        }
     }
 }

@@ -17,8 +17,10 @@ public interface SiteService {
     void update3GBBU(EquipmentBBU equipmentBBU);
 
     PageResult queryRRU(Integer page, Integer rows, EquipmentRRUAAU equipmentRRUAAU);
+    PageResult queryBofen(Integer page, Integer rows, EquipmentBoFen equipmentBoFen);
 
     int delAllRRU(String ids);
+    int delAllBofen(String ids);
 
     boolean add3GRRU(EquipmentRRUAAU equipmentRRUAAU);
 
@@ -31,10 +33,12 @@ public interface SiteService {
     PageResult queryOlt(Integer page, Integer rows, EquipmentOLT equipmentOLT);
 
     boolean addOlt(EquipmentOLT equipmentOLT);
+    boolean addBoFen(EquipmentBoFen equipmentBoFen);
 
     EquipmentOLT queryOltById(Integer id);
 
     void updateOlt(EquipmentOLT equipmentOLT);
+    void updateBoFen(EquipmentBoFen equipmentBoFen);
 
     int delAllOlt(String ids);
 

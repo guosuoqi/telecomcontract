@@ -6,6 +6,7 @@ import com.dx.model.contract.SysCode;
 import com.dx.model.user.UserMain;
 import org.apache.ibatis.annotations.Param;
 import org.omg.PortableInterceptor.INACTIVE;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;

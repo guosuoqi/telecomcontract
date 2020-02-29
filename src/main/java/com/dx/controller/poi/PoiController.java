@@ -37,6 +37,7 @@ public class PoiController {
     private final String bbuStr="BBU标识,BBU名称,所属站址编码,月理论耗电量,类型编码";
     private final String conStr="机房名称,区县,具体地址,年租金,总租金,合同编号,合同甲方,收款人,拟租开始年份,拟租结束时间,付费截止日期,机房类型,是否有基站";
     private final String rruStr="RRU标识,RRU名称,所属站址编码,月理论耗电量,类型编码";
+    private final String bfStr="网元标识,网元名称,所属站址编码,月理论耗电量";
     private final String TrruStr="CI,小区名称,所属站址编码,月理论耗电量,类型编码";
     private final String oltStr="OLT标识,OLT名称,所属站址编码,月理论耗电量";
     private final String ipranStr="IPRAN标识,IPRAN名称,所属站址编码,月理论耗电量";
@@ -60,6 +61,7 @@ public class PoiController {
                 List<EquipmentOLT>equipmentOLTList= null;
                 List<EquipmentIPRAN>equipmentIPRANList= null;
                 List<SitManager>siteList= null;
+                List<EquipmentBoFen>bfList= null;
 
                 String fileName=null;
                 String []sheetMerged=null;
@@ -103,6 +105,10 @@ public class PoiController {
                     sheetMerged= siteStr.split(",");
                     fileName="SITE_";
                     siteList=siteService.querySiteByIds(ids);
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_BoFen.getKey())){
+                    sheetMerged= bfStr.split(",");
+                    fileName="波分_";
+                    bfList=siteService.queryBFByIds(ids);
                 }
 
                 //创建HSSFWorkbook对象(excel的文档对象)
@@ -156,6 +162,12 @@ public class PoiController {
                         //在sheet里创建第三行
                         HSSFRow row3=sheet.createRow(2+i);
                         setSitePoi(row3,siteList.get(i));
+                    }
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_BoFen.getKey())){
+                    for (int i = 0; i <bfList.size() ; i++) {
+                        //在sheet里创建第三行
+                        HSSFRow row3=sheet.createRow(2+i);
+                        setBfPoi(row3,bfList.get(i));
                     }
                 }
                 //输出Excel文件
@@ -216,6 +228,9 @@ public class PoiController {
                 }else if(type.equals(PoiTypeEnum.POI_TYPE_SITE.getKey())){
                     sheetMerged= siteStr.split(",");
                     fileName="SITE_";
+                }else if(type.equals(PoiTypeEnum.POI_TYPE_BoFen.getKey())){
+                    sheetMerged= bfStr.split(",");
+                    fileName="波分_";
                 }
 
                 //创建HSSFWorkbook对象(excel的文档对象)
@@ -527,6 +542,50 @@ public class PoiController {
         }
         return result;
     }
+    @RequestMapping(value = "importBoFenFile", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String,String> importBoFenFile(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+        HashMap<String,String>  result = new HashMap<> ();
+        HttpSession session = request.getSession();
+        if(session.getAttribute(session.getId())==null){
+            result.put("code","1");
+            result.put("msg","请先登录！");
+            return result;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            Workbook workbook = null;
+            if (file.getOriginalFilename().toLowerCase().endsWith("xlsx")) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else if (file.getOriginalFilename().toLowerCase().endsWith("xls")) {
+                workbook = new HSSFWorkbook(new POIFSFileSystem(inputStream));
+            }
+            // 打开Excel中的第一个Sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            //操作人
+            //UserMain userMain = (UserMain) session.getAttribute(session.getId());
+            //上载表格到库中
+            if(!siteServiceImpl.addBoFenList(sheet)){
+                result.put("code","2");
+                result.put("msg","保存失败！");
+            }else {
+                result.put("code","0");
+                result.put("msg","保存成功！");
+            }
+        } catch (IOException e) {
+            //异常输出
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //异常输出
+                }
+            }
+        }
+        return result;
+    }
     private void setRRUPoi(HSSFRow row3, EquipmentRRUAAU equipmentBBU) {
         row3.createCell(0).setCellValue(equipmentBBU.getRruCode());
         row3.createCell(1).setCellValue(equipmentBBU.getRruName());
@@ -587,6 +646,12 @@ public class PoiController {
         row3.createCell(1).setCellValue(equipmentIPRAN.getIpranName());
         row3.createCell(2).setCellValue(equipmentIPRAN.getDxCode());
         row3.createCell(3).setCellValue(equipmentIPRAN.getPower());
+    }
+    private void setBfPoi(HSSFRow row3, EquipmentBoFen equipmentbf) {
+        row3.createCell(0).setCellValue(equipmentbf.getBfCode());
+        row3.createCell(1).setCellValue(equipmentbf.getBfName());
+        row3.createCell(2).setCellValue(equipmentbf.getDxCode());
+        row3.createCell(3).setCellValue(equipmentbf.getPower());
     }
     private void setSitePoi(HSSFRow row3, SitManager site) {
         row3.createCell(0).setCellValue(site.getBaseName());

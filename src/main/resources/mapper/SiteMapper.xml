@@ -7,6 +7,9 @@
 		count(1)
 		from t_equipment_bbu
         where network_type=#{equipmentBBU.networkType}
+		<if test="equipmentBBU.bbuName !=null and equipmentBBU.bbuName !=''">
+			and bbu_name like '%${equipmentBBU.bbuName}%'
+		</if>
 	</select>
 	<!--3/4/5GBBU页面查询-->
 	<select id="queryBBU"  resultType="com.dx.model.site.EquipmentBBU">
@@ -14,6 +17,9 @@
 		*
 		from t_equipment_bbu
 		where network_type=#{equipmentBBU.networkType}
+		<if test="equipmentBBU.bbuName !=null and equipmentBBU.bbuName !=''">
+			and bbu_name like '%${equipmentBBU.bbuName}%'
+		</if>
 		limit #{startIndex},#{endIndex}
 	</select>
 	<!--3/4/5GBBUpoi获取-->
@@ -28,6 +34,13 @@
 		select
 			*
 		from t_equipment_rru_aau
+		where id in (${ids})
+	</select>
+	<!--波分poi获取-->
+	<select id="queryBFByIds"  resultType="com.dx.model.site.EquipmentBoFen">
+		select
+			*
+		from t_equipment_bf
 		where id in (${ids})
 	</select>
 
@@ -85,6 +98,33 @@
 		count(1)
 		from t_equipment_rru_aau
         where network_type=#{equipmentRRUAAU.networkType}
+		<if test="equipmentRRUAAU.rruName !=null and equipmentRRUAAU.rruName !=''">
+			and rru_name like '%${equipmentRRUAAU.rruName}%'
+		</if>
+	</select>
+	<!--olt查询总条数-->
+	<select id="queryOltCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_olt
+		<where>
+			<if test=" equipmentOLT.oltName !=null and equipmentOLT.oltName !=''">
+				and olt_name like '%${equipmentOLT.oltName}%'
+			</if>
+		</where>
+
+	</select>
+	<!--波分查询总条数-->
+	<select id="queryBoFenCount"  resultType="int">
+		select
+		count(1)
+		from t_equipment_bf
+		<where>
+			<if test=" equipmentBoFen.bfName !=null and equipmentBoFen.bfName !=''">
+				and bf_name like '%${equipmentBoFen.bfName}%'
+			</if>
+		</where>
+
 	</select>
 	<!--3/4/5G 每个电信编号下的个数与耗电量-->
 	<select id="queryRruInfo"  resultType="com.dx.model.site.SitManager">
@@ -143,10 +183,26 @@
 	</select>
 	<!--3/4/5GRRU页面查询-->
 	<select id="queryRRU"  resultType="com.dx.model.site.EquipmentRRUAAU">
-		select
-		*
-		from t_equipment_rru_aau
-		where network_type=#{equipmentRRUAAU.networkType}
+		select  * from t_equipment_rru_aau
+		<where>
+			<if test="equipmentRRUAAU.networkType!=null and equipmentRRUAAU.networkType!=''">
+				and network_type=#{equipmentRRUAAU.networkType}
+			</if>
+			<if test="equipmentRRUAAU.rruName !=null and equipmentRRUAAU.rruName !=''">
+				and rru_name like '${%equipmentRRUAAU.rruName%}'
+			</if>
+		</where>
+		limit #{startIndex},#{endIndex}
+	</select>
+	<!--波分页面查询-->
+	<select id="queryBofen"  resultType="com.dx.model.site.EquipmentBoFen">
+		select *
+		from t_equipment_bf
+		<where>
+			<if test=" equipmentBoFen.bfName !=null and equipmentBoFen.bfName !=''">
+				and bf_name like '%${equipmentBoFen.bfName}%'
+			</if>
+		</where>
 		limit #{startIndex},#{endIndex}
 	</select>
 
@@ -184,10 +240,30 @@
 
 		</foreach>
 	</insert>
+	<!--波分页面新增-->
+	<insert id="addBoFen" >
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             insert into t_equipment_bf (
+                   dx_code,bf_code,bf_name,power)
+            values (#{item.dxCode},#{item.bfCode},#{item.bfName},#{item.power}
+              )
+		<trim prefix = "ON DUPLICATE KEY UPDATE " suffix = "" suffixOverrides = "," >
+			dx_code=#{item.dxCode},
+			bf_name=#{item.bfName},
+			power=#{item.power},
+			bf_code=#{item.bfCode}
+		</trim>
+
+		</foreach>
+	</insert>
 
 	<!-- 3/4/5GRRU批量删除 -->
 	<delete id="delAllRRU">
 		delete from t_equipment_rru_aau where id in(${ids})
+	</delete>
+	<!--波分批量删除 -->
+	<delete id="delAllBofen">
+		delete from t_equipment_bf where id in(${ids})
 	</delete>
 
 	<!--3/4/5GRRU页面修改回显-->
@@ -222,12 +298,22 @@
 		select
 		count(1)
 		from t_base_station
+		<where>
+			<if test=" sitManager.baseName !=null and sitManager.baseName !=''">
+				and base_name like '%${sitManager.baseName}%'
+			</if>
+		</where>
 	</select>
 	<!--3/4/5GBBU页面查询-->
 	<select id="queryStieManager"  resultType="com.dx.model.site.SitManager">
 		select
 		*
 		from t_base_station
+		<where>
+			<if test=" sitManager.baseName !=null and sitManager.baseName !=''">
+				and base_name like '%${sitManager.baseName}%'
+			</if>
+		</where>
 		limit #{startIndex},#{endIndex}
 	</select>
 	<!--站点导出查询-->
@@ -270,7 +356,11 @@
 				ipran_count = ipran_count + #{ipranCount},
 				ipran_power = ipran_power + #{power},
 			</if>
-			power_Consume =three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+olt_power+ipran_power
+			<if test="bfCount != null and bfCount != 0">
+				bf_count = ipran_count + #{bfCount},
+				bf_power = ipran_power + #{power},
+			</if>
+			power_Consume =three_bbu_power+four_bbu_power+five_bbu_power+three_rru_power+four_rru_power+five_aau_power+olt_power+ipran_power+bf_power
 		</set>
 		<where>
 			dx_code = #{dxCode}
@@ -326,17 +416,16 @@
 			</trim>
 </foreach>
 		</insert>
-		<!--olt查询总条数-->
-<select id="queryOLTCount"  resultType="int">
-		select
-		count(1)
-		from t_equipment_olt
-	</select>
 		<!--olt页面查询-->
 <select id="queryOLT"  resultType="com.dx.model.site.EquipmentOLT">
-		select
-		*
-		from t_equipment_olt
+	select
+	*
+	from t_equipment_olt
+	<where>
+		<if test=" equipmentOLT.oltName !=null and equipmentOLT.oltName !=''">
+			and olt_name like '%${equipmentOLT.oltName}%'
+		</if>
+	</where>
 		limit #{startIndex},#{endIndex}
 	</select>
 		<!--olt导出查询-->
@@ -353,27 +442,47 @@
 	</select>
 
 		<!--olt页面修改-->
-<update id="updateOlt">
-update t_equipment_olt
-<set>
-	<if test="equipmentOLT.dxCode != null and equipmentOLT.dxCode != ''">
-		dx_code = #{equipmentOLT.dxCode},
-	</if>
-	<if test="equipmentOLT.oltCode != null and equipmentOLT.oltCode != ''">
-		olt_code = #{equipmentOLT.oltCode},
-	</if>
-	<if test="equipmentOLT.oltName != null and equipmentOLT.oltName != ''">
-		olt_name = #{equipmentOLT.oltName},
-	</if>
-	<if test="equipmentOLT.power != null and equipmentOLT.power != ''">
-		power = #{equipmentOLT.power},
-	</if>
-</set>
-<where>
-	id = #{equipmentOLT.id}
-</where>
-</update>
-
+	<update id="updateOlt">
+	update t_equipment_olt
+	<set>
+		<if test="equipmentOLT.dxCode != null and equipmentOLT.dxCode != ''">
+			dx_code = #{equipmentOLT.dxCode},
+		</if>
+		<if test="equipmentOLT.oltCode != null and equipmentOLT.oltCode != ''">
+			olt_code = #{equipmentOLT.oltCode},
+		</if>
+		<if test="equipmentOLT.oltName != null and equipmentOLT.oltName != ''">
+			olt_name = #{equipmentOLT.oltName},
+		</if>
+		<if test="equipmentOLT.power != null and equipmentOLT.power != ''">
+			power = #{equipmentOLT.power},
+		</if>
+	</set>
+	<where>
+		id = #{equipmentOLT.id}
+	</where>
+	</update>
+	<!--波分页面修改-->
+	<update id="updateBoFen">
+		update t_equipment_bf
+		<set>
+			<if test="equipmentBoFen.dxCode != null and equipmentBoFen.dxCode != ''">
+				dx_code = #{equipmentBoFen.dxCode},
+			</if>
+			<if test="equipmentBoFen.bfCode != null and equipmentBoFen.bfCode != ''">
+				bf_code = #{equipmentBoFen.bfCode},
+			</if>
+			<if test="equipmentBoFen.bfName != null and equipmentBoFen.bfName != ''">
+				bf_name = #{equipmentBoFen.bfName},
+			</if>
+			<if test="equipmentBoFen.power != null and equipmentBoFen.power != ''">
+				power = #{equipmentBoFen.power},
+			</if>
+		</set>
+		<where>
+			id = #{equipmentBoFen.id}
+		</where>
+	</update>
 		<!-- olt批量删除 -->
 <delete id="delAllOlt">
 		delete from t_equipment_olt where id in (${ids})
@@ -400,12 +509,22 @@ update t_equipment_olt
 		select
 		count(1)
 		from t_equipment_ipran
+		<where>
+			<if test=" equipmentIPRAN.ipranName !=null and equipmentIPRAN.ipranName !=''">
+				and ipran_name like '%${equipmentIPRAN.ipranName}%'
+			</if>
+		</where>
 	</select>
 	<!--olt页面查询-->
 	<select id="queryIPRAN"  resultType="com.dx.model.site.EquipmentIPRAN">
 		select
 		*
 		from t_equipment_ipran
+		<where>
+			<if test=" equipmentIPRAN.ipranName !=null and equipmentIPRAN.ipranName !=''">
+				and ipran_name like '%${equipmentIPRAN.ipranName}%'
+			</if>
+		</where>
 		limit #{startIndex},#{endIndex}
 	</select>
 	<!--ipran导出查询-->
@@ -489,6 +608,9 @@ update t_equipment_olt
 		t.olt_count = (SELECT COUNT(0) FROM t_equipment_olt o WHERE t.dx_code=o.dx_code),
 		t.olt_power = (SELECT sum(power) FROM t_equipment_olt o WHERE t.dx_code=o.dx_code);
 		UPDATE t_base_station t SET
+		t.bf_count = (SELECT COUNT(0) FROM t_equipment_bf o WHERE t.dx_code=o.dx_code),
+		t.bf_power = (SELECT sum(power) FROM t_equipment_bf o WHERE t.dx_code=o.dx_code);
+		UPDATE t_base_station t SET
 	  	t.ipran_count = (SELECT COUNT(0) FROM t_equipment_ipran i WHERE t.dx_code=i.dx_code),
 		t.ipran_power = (SELECT sum(power) FROM t_equipment_ipran i WHERE t.dx_code=i.dx_code)
 	</update>
@@ -501,7 +623,8 @@ update t_equipment_olt
 		UPDATE t_base_station t SET 	t.five_aau_power=0 WHERE  t.five_aau_power is null ;
 		UPDATE t_base_station t SET 	t.olt_power=0 WHERE  t.olt_power is null ;
 		UPDATE t_base_station t SET 	t.ipran_power=0 WHERE  t.ipran_power is null ;
-		UPDATE t_base_station t SET 		t.power_Consume=(t.three_bbu_power+t.four_bbu_power+t.five_bbu_power+t.three_rru_power+t.four_rru_power+t.five_aau_power+t.olt_power+t.ipran_power);
+		UPDATE t_base_station t SET 	t.bf_power=0 WHERE  t.bf_power is null ;
+		UPDATE t_base_station t SET 	t.power_Consume=(t.three_bbu_power+t.four_bbu_power+t.five_bbu_power+t.three_rru_power+t.four_rru_power+t.five_aau_power+t.olt_power+t.ipran_power+t.bf_power);
 
 	</update>
 </mapper>

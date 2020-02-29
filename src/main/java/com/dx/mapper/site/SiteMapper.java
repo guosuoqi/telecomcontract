@@ -2,6 +2,7 @@ package com.dx.mapper.site;
 
 import com.dx.model.site.*;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,12 +22,16 @@ public interface SiteMapper {
     void update3GBBU(@Param("equipmentBBU") EquipmentBBU equipmentBBU);
 
     int queryRRUCount(HashMap<String, Object> params);
+    int queryOltCount(HashMap<String, Object> params);
+    int queryBoFenCount(HashMap<String, Object> params);
 
     List<EquipmentRRUAAU> queryRRU(HashMap<String, Object> params);
+    List<EquipmentBoFen> queryBofen(HashMap<String, Object> params);
 
     boolean add3GRRU(List<EquipmentRRUAAU> rruList);
 
     int delAllRRU(@Param("ids")String ids);
+    int delAllBofen(@Param("ids")String ids);
 
     void updateRRU(@Param("equipmentRRUAAU")EquipmentRRUAAU equipmentRRUAAU);
 
@@ -35,6 +40,7 @@ public interface SiteMapper {
     List<EquipmentBBU> queryBBUByIdsAndType(@Param("ids")String ids);
 
     List<EquipmentRRUAAU> queryRRByIdsAndType(@Param("ids")String ids);
+    List<EquipmentBoFen> queryBFByIds(@Param("ids")String ids);
 
     int queryStieManagerCount(HashMap<String, Object> params);
 
@@ -56,10 +62,12 @@ public interface SiteMapper {
     List<EquipmentOLT> queryOlt(HashMap<String, Object> params);
 
     boolean addOlt(List<EquipmentOLT> oltList);
+    boolean addBoFen(List<EquipmentBoFen> boFenList) ;
 
     EquipmentOLT queryOltById(Integer id);
 
     void updateOlt(@Param("equipmentOLT") EquipmentOLT equipmentOLT);
+    void updateBoFen(@Param("equipmentBoFen") EquipmentBoFen equipmentBoFen);
 
     int delAllOlt(@Param("ids") String ids);
 

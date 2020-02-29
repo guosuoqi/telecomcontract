@@ -39,9 +39,9 @@ public class ScheduledJob {
             return;
         }
         try {
+            JSONObject jsonObject;
             for (TaskModel task:taskList) {
-                String content = task.getContent();
-                JSONObject jsonObject = JSONObject.fromObject(content);
+                jsonObject = JSONObject.fromObject(task.getContent());
                 if(emailUtil.sendEmail(jsonObject)){
                     task.setStatus(1);
                     taskServeceImpl.updateTask(task);

@@ -27,6 +27,27 @@
 </head>
 
 <body>
+<div class="panel">
+    <div class="panel-body" style="padding-bottom: 1px;">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-12 "> <%--<td>--%>
+                    <div class="col-sm-4 "> <%--<td>--%>
+                            <label for="rruNameTc">3GRRU名称</label>
+                            <input type="text"  id="rruNameTc" class="form-control"
+                                   placeholder="请输入3GRRU名称">
+                        </div>
+                    </div>
+                </div>
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-primary btn-w-m" onclick="initRRU()"
+                        style="float: right;margin-right:20px;">
+                    <span class="glyphicon glyphicon-search"></span> 搜索
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- 模态框（Modal） -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -148,6 +169,7 @@
                     page: this.pageNumber,
                     rows: this.pageSize,
                     networkType:3,
+                    rruName: $('#rruNameTc').val(),
                 }
             },
             columns:[

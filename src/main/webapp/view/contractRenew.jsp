@@ -28,30 +28,6 @@
 
 <body>
 
-<div class="panel">
-    <div class="panel-body" style="padding-bottom: 1px;">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-12 "> <%--<td>--%>
-                    <div class="col-sm-4 "> <%--<td>--%>
-                        <div class="col-sm-3 "> <%--占4格--%>
-                            <label for="contractName">合同</label>
-                        </div>
-                        <div class="col-sm-9"> <%--占8格，充满--%>
-                            <input type="text" name="contractName" id="contractName"  class="form-control" placeholder="请输入合同名称">
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <button type="button" class="btn btn-primary btn-w-m" onclick="initExtension()" id="queryBtn" style="float: right;margin-right:20px;">
-                            <span class="glyphicon glyphicon-search"></span> 搜索
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-</div>
 <table id="contractRenew"></table>
 </body>
 <script type="text/javascript">

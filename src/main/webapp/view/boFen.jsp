@@ -10,6 +10,7 @@
     <link href="/static/bootstrap/bootstrap-select-1.13.7/dist/css/bootstrap-select.css" rel="stylesheet">
     <link href="/static/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
     <link href="/static/css/menuList.css" rel="stylesheet">
+    <script src="/static/js/chat.js"></script>
     <script src="/static/bootstrap/bootstrap3/js/bootstrap.js"></script>
     <script src="/static/bootstrap/bootstrap-table/bootstrap-table.js"></script>
     <script src="/static/bootstrap/bootstrap-select-1.13.7/js/bootstrap-select.js"></script>
@@ -22,38 +23,32 @@
     <script src="/static/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <link rel="stylesheet" href="/static/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
     <script src="/static/bootstrap/bootstrap-bootbox/bootbox.js"></script>
-    <%--<script src="/static/js/select.js"></script>--%>
-    <title>信息管理</title>
+    <title>合同续约</title>
 </head>
 
 <body>
-<style type="text/css">
-    table {
-        table-layout:auto;
-
-    }
-</style>
 <div class="panel">
     <div class="panel-body" style="padding-bottom: 1px;">
         <form class="form-horizontal">
             <div class="form-group">
                 <div class="col-sm-12 "> <%--<td>--%>
                     <div class="col-sm-4 "> <%--<td>--%>
-                        <label for="baseName">站点名称</label>
-                        <input type="text" id="baseNameTc" class="form-control"
-                               placeholder="请输入站点名称">
+                            <label for="boFenId">网元名称</label>
+                            <input type="text" name="contractName" id="bofenId" class="form-control"
+                                   placeholder="请输入网元名称">
+                        </div>
                     </div>
                 </div>
-            </div>
             <div class="col-xs-12">
-                <button type="button" class="btn btn-primary btn-w-m" onclick="initSiteManager()"
+                <button type="button" class="btn btn-primary btn-w-m" onclick="initBoFen()"
                         style="float: right;margin-right:20px;">
                     <span class="glyphicon glyphicon-search"></span> 搜索
                 </button>
             </div>
-    </form>
+        </form>
+    </div>
 </div>
-</div>
+
 <!-- 模态框（Modal） -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none">开始演示模态框</button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -64,63 +59,37 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    新增站点
+                    新增波分
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-2">站点名称:</div>
+                    <div class="col-xs-2">所属站址编码:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="baseName" id="baseName" type="text"/>
+                        <input class="form-control" name="dxCode" id="id" type="hidden"/>
+                        <input class="form-control" name="dxCode" id="dxCode" type="text"/>
                     </div>
-                    <div class="col-xs-2">机房产权:</div>
+                    <div class="col-xs-2">网元标识:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="baseProperty" id="baseProperty" type="text"/>
+                        <input class="form-control" name="bfCode" id="bfCode" type="text"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-2">所属站址编码:</div>
+                    <div class="col-xs-2">网元名称:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="id" id="id" type="hidden"/>
-                        <input class="form-control" name="dxCode" id="dxCode" type="text"/>
+                        <input class="form-control" name="bfName" id="bfName" type="text"/>
                     </div>
-                    <div class="col-xs-2">铁塔站址编码:</div>
+                    <div class="col-xs-2">月理论耗电量:</div>
                     <div class="col-xs-4">
-                        <input class="form-control" name="ttCode"id="ttCode" type="text"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-2">电费缴纳方:</div>
-                    <div class="col-xs-4">
-                        <input class="form-control" name="powerMan" id="powerMan" type="text"/>
-                    </div>
-                    <div class="col-xs-2">租赁费缴纳方:</div>
-                    <div class="col-xs-4">
-                        <input class="form-control" name="rentPayer"id="rentPayer" type="text"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-2">站址经度:</div>
-                    <div class="col-xs-4">
-                        <input class="form-control" name="dxCode" id="longitude" type="text"/>
-                    </div>
-                    <div class="col-xs-2">站址纬度:</div>
-                    <div class="col-xs-4">
-                        <input class="form-control" name="ttCode"id="latitude" type="text"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-2">备注:</div>
-                    <div class="col-xs-8">
-                        <input class="form-control" name="remark" id="remark" type="text"/>
+                        <input class="form-control" name="power"id="power" type="text"/>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button"  class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitSit()">
+                <button type="button" id="buttonAdd" class="btn btn-primary" onclick="submitBoFen()">
                     提交更改
                 </button>
             </div>
@@ -129,12 +98,12 @@
 </div>
 
 
-
-<button type="button" onclick="openAddDialog()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
-<button type="button" onclick="delContract()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
+<button type="button" onclick="openAddBoFen()" class="btn btn-info glyphicon glyphicon-plus">新增</button>
+<button type="button" onclick="delBoFen()" class="btn btn-danger glyphicon glyphicon-minus">删除</button>
 <button type="button" onclick="EXPContract()" class="btn btn-danger glyphicon">导出</button>
 <button type="button" onclick="EXPmoban()" class="btn btn-danger glyphicon">模板</button>
 <button type="button" id="daoru" class="btn btn-info btn-sm" style="width: 90px">导入</button>
+
 <!-- daoruDialog弹框 -->
 <div class="modal fade" id="daoruDialog" tabindex="-1" role="dialog" aria-labelledby="importModal">
     <div class="modal-dialog" role="document">
@@ -157,14 +126,14 @@
         </div>
     </div>
 </div>
-<table id="myTable"></table>
+<table id="bfTable"></table>
 </body>
 <script type="text/javascript">
     <!--初始化加载页面-->
     $(function(){
-        initSiteManager();
+        initBoFen();
     })
-    //时间转中文
+    //事件转中文
     $('.date').datetimepicker({
         language: 'zh-CN',//显示中文
         format: 'yyyy-mm-dd',//显示格式
@@ -174,14 +143,14 @@
         todayBtn: true//显示今日按钮
     });
 
-    function initSiteManager(){
-        $('#myTable').bootstrapTable('destroy');
-        $("#myTable").bootstrapTable({
-            url:'/site/queryStieManager',//获取数据地址
+    function initBoFen(){
+        $('#bfTable').bootstrapTable('destroy');
+        $("#bfTable").bootstrapTable({
+            url:'/site/queryBoFen',//获取数据地址
             method: 'post',
             contentType:'application/x-www-form-urlencoded; charset=UTF-8',
             pagination:true, //是否展示分页
-            pageList:[100,500,1000],//分页组件
+            pageList:[50,100,500,1000],//分页组件
             pageNumber:1,
             pageSize:50,//默认每页条数
             //search:true,//是否显示搜索框
@@ -196,85 +165,73 @@
             sidePagination:'server',//分页方式：client客户端分页，server服务端分页（*
             striped:true,
             queryParams:function(){
-
                 return {
                     page: this.pageNumber,
                     rows: this.pageSize,
-                    baseName: $('#baseNameTc').val(),
+                    bfName: $('#bofenId').val(),
                 }
             },
-
             columns:[
-                {field:'333',checkbox:true,align: 'left',width:"20px",valign: 'middle'},
-                {field:'id',title:'站点id',align: 'center',width:"40px",valign: 'middle',visible:false},
-                {field:'baseName',title:'站点名称',align: 'center',valign: 'middle'},
-                {field:'baseProperty',title:'机房产权',align: 'center',valign: 'middle'},
-                {field:'dxCode',title:'所属站址编码',align: 'center',valign: 'middle'},
-                {field:'ttCode',title:'铁塔站址编码',align: 'center',valign: 'middle'},
-                {field:'powerMan',title:'电费缴纳方',align: 'center',valign: 'middle'},
-                {field:'rentPayer',title:'租赁费缴纳方',align: 'center',valign: 'middle'},
-                {field:'longitude',title:'经度',align: 'center',valign: 'middle'},
-                {field:'latitude',title:'纬度',align: 'center',valign: 'middle'},
-                {field:'threeBbuCount',title:'3GBBU个数',align: 'center',valign: 'middle'},
-                {field:'fourBbuCount',title:'4GBBU个数',align: 'center',valign: 'middle'},
-                {field:'fiveBbuCount',title:'5GBBU个数',align: 'center',valign: 'middle'},
-                {field:'threeRruCount',title:'3GRRU个数',align: 'center',valign: 'middle'},
-                {field:'fourRruCount',title:'4GRRU个数',align: 'center',valign: 'middle'},
-                {field:'fiveAauCount',title:'5GAAU个数',align: 'center',valign: 'middle'},
-                {field:'oltCount',title:'OLT个数',align: 'center',valign: 'middle'},
-                {field:'ipranCount',title:'IPRAN个数',align: 'center',valign: 'middle'},
-                {field:'powerConsume',title:'机房总耗电量',align: 'center',valign: 'middle'},
-                {field:'remark',title:'备注',align: 'center',valign: 'middle'},
-                {field:'111',title:' 操作 ' ,class:'table-width',valign: 'middle',formatter:function(value,row,index){
-                        return  ' <a href="javascript:editSite(\'' + row.id + '\',\'' + row.baseName + '\',\'' + row.baseProperty + '\',\'' + row.dxCode + '\',\'' + row.ttCode + '\',\'' + row.powerMan + '\',\'' + row.rentPayer + '\',\'' + row.longitude + '\',\'' + row.latitude + '\',\'' + row.remark + '\')">修改</a>  ';
+                {field:'111',checkbox:true},
+                {field:'id',title:'波分Id',visible:false},
+                {field:'dxCode',title:'所属站址编码'},
+                {field:'bfCode',title:'网元标识'},
+                {field:'bfName',title:'网元名称'},
+                {field:'power',title:'月理论耗电量'},
+                {field:'sign',title:'操作' ,class:'table-width',width:'10%',formatter:function(value,row,index){
+                        return  ' <a href="javascript:editBofen('+row.id+',\'' + row.dxCode + '\',\'' + row.bfCode + '\',\'' + row.bfName + '\',\'' + row.power + '\');">修改</a>  ';
                     }}
             ]
         })
     }
 
-    var res;
-    function createAddContent(url){
-        $.ajax({
-            url:url,
-            async:false,
-            success:function(data){
-                res = data;
-            }
-        });
-        return res;
-    }
-//打开新增合同的弹框
-    function openAddDialog(){
+    function openAddBoFen(){
         $("#id").val("");
-        $("#baseName").val("");
-        $("#baseProperty").val("");
         $("#dxCode").val("");
-        $("#ttCode").val("");
-        $("#powerMan").val("");
-        $("#rentPayer").val("");
-        $("#longitude").val("");
-        $("#latitude").val("");
-        $("#remark").val("");
+        $("#bfCode").val("");
+        $("#bfName").val("");
+        $("#power").val("");
         $('#myModal').modal();
     }
 
-    //打开修改框
-    function editSite(id,baseName,baseProperty,dxCode,ttCode,powerMan,rentPayer,longitude,latitude,remark) {
+    function editBofen(id,dxCode,bfCode,bfName,power){
         $("#id").val(id);
-        $("#baseName").val(baseName);
-        $("#baseProperty").val(baseProperty);
         $("#dxCode").val(dxCode);
-        $("#ttCode").val(ttCode);
-        $("#powerMan").val(powerMan);
-        $("#rentPayer").val(rentPayer);
-        $("#longitude").val(longitude);
-        $("#latitude").val(latitude);
-        $("#remark").val(remark);
+        $("#bfCode").val(bfCode);
+        $("#bfName").val(bfName);
+        $("#power").val(power);
         $('#myModal').modal();
     }
+
+    //提交用户
+    function submitBoFen(){
+        document.getElementById('buttonAdd').disabled=true;
+        $.ajax({
+            url: '/site/addBoFen',
+            type: "post",
+            data : {
+                id:$("#id").val(),
+                dxCode:$("#dxCode").val(),
+                bfCode:$("#bfCode").val(),
+                bfName:$("#bfName").val(),
+                power:$("#power").val()
+            },
+            success:function (data){
+                initBoFen();
+                alert(data.msg)
+                $("#myModal").modal('hide');
+                document.getElementById('buttonAdd').disabled=false;
+            },
+            error:function (){
+                alert("新增失败");
+            }
+        })
+    }
+
+
     //批量删除
-    function delContract(){
-        var arr = $('#myTable').bootstrapTable('getSelections');
+    function delBoFen(){
+        var arr = $('#bfTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -305,13 +262,14 @@
                         ids += ids == "" ? arr[i].id : ","+arr[i].id;
                     }
                     $.ajax({
-                        url:"/site/delAllSit",
+                        url:"/site/delAllBofen",
                         data:{ids:ids},
                         success:function(result){
                             alert(result.msg);
                             if(result.code == '0'){
-                                initSiteManager();
+                                $('#bfTable').bootstrapTable('refresh');
                             }
+
                         },
                         error:function(data){
                             alert("检查后台代码")
@@ -323,7 +281,7 @@
     }
     //导出数据
     function EXPContract(){
-        var arr = $('#myTable').bootstrapTable('getSelections');
+        var arr = $('#bfTable').bootstrapTable('getSelections');
         if (arr.length <= 0) {
             bootbox.alert({
                 size: "small",
@@ -348,17 +306,17 @@
                 }
             },
             callback: function(result){
-                    var ids = "";
-                    for (var i = 0; i < arr.length; i++) {
-                        ids += ids == "" ? arr[i].id : ","+arr[i].id;
-                    }
-                    location.href="/poi/createExcel?ids="+ids+"&&type=10"
+                var ids = "";
+                for (var i = 0; i < arr.length; i++) {
+                    ids += ids == "" ? arr[i].id : ","+arr[i].id;
                 }
+                location.href="/poi/createExcel?ids="+ids+"&&type=11"
+            }
         })
     }
     //导出模板
     function EXPmoban(){
-        location.href="/poi/createExcelMoban?type=10"
+        location.href="/poi/createExcelMoban?type=11"
     }
     //打开导入弹框
     $("#daoru").click(function(){
@@ -367,7 +325,7 @@
     function doUpload() {
         var formData = new FormData($( "#uploadForm" )[0]);
         $.ajax({
-            url: '/poi/importSite',
+            url: '/poi/importBoFenFile',
             type: 'post',
             data: formData,
             async: false,
@@ -375,42 +333,14 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                $('#myTable').bootstrapTable('refresh');
+                $('#bfTable').bootstrapTable('refresh');
             },
             error: function () {
                 alert(result.msg);
             }
         });
     }
-    //提交用户
-    function submitSit(){
-        document.getElementById('buttonAdd').disabled=true;
-        $.ajax({
-            url: '/site/insertStation',
-            type: "post",
-            data : {
-                id:$("#id").val(),
-                dxCode:$("#dxCode").val(),
-                baseName:$("#baseName").val(),
-                baseProperty:$("#baseProperty").val(),
-                ttCode:$("#ttCode").val(),
-                latitude:$("#latitude").val(),
-                longitude:$("#longitude").val(),
-                rentPayer:$("#rentPayer").val(),
-                powerMan:$("#powerMan").val(),
-                remark:$("#remark").val()
-            },
-            success:function (data){
-                initSiteManager();
-                alert(data.msg)
-                $("#myModal").modal('hide');
-                document.getElementById('buttonAdd').disabled=false;
-            },
-            error:function (){
-                alert("新增失败");
-            }
-        })
-    }
+
 </script>
 </html>
 

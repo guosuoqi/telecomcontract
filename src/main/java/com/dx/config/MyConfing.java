@@ -51,7 +51,7 @@ public class MyConfing implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**","/user/tologin","/ops/**");
+        registry.addInterceptor(LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login","/static/**","/user/tologin","/ops/**","/error");
 
     }
 
